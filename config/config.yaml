@@ -1,0 +1,11 @@
+#------------------------------------------------------------------------------#
+#
+# Configuration file
+#
+# 
+
+
+samples: {
+  "sample1": "/path/to/sample1_file_L1"
+  "sample2": "/path/to/sample2_file_L1"
+}
