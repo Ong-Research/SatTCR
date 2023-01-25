@@ -1,0 +1,63 @@
+#------------------------------------------------------------------------------#
+# 
+#   Snakefile to assemble clonotypes from repertoire data
+#
+#     Author: Rene Welch rwelch2@wisc.edu
+#
+#------------------------------------------------------------------------------#
+
+configfile: "config/config.yaml"
+
+samples = config["samples"]
+sample_names = list(samples.keys())
+seeds = config["seed"]
+suffix = config["suffix"]
+
+sample_dict = {}
+for sample in sample_names:
+  mini_dict = {}
+  mini_dict["end1"] = samples[sample] + "_R1" + suffix
+  mini_dict["end2"] = samples[sample] + "_R2" + suffix
+  sample_dict[sample] = mini_dict
+
+targets = []
+
+if config["saturation"]:
+  saturation_frequencies = config["saturation"]["freq"]
+  r1_ends = expand("output/saturation/{seed}/{perc}/fastq/{sample}_R1.fastq.gz",
+    seed = config["seed"], perc = saturation_frequencies,
+    sample = sample_names)
+  r2_ends = expand("output/saturation/{seed}/{perc}/fastq/{sample}_R2.fastq.gz",
+    seed = config["seed"], perc = saturation_frequencies,
+    sample = sample_names)
+  targets.extend(r1_ends)
+  targets.extend(r2_ends)
+
+if config["trust4"]:
+  annots = expand("output/trust4/imgt_annots/{specie}/imgt.fa",
+    specie = config["species"])
+  targets.extend(annots)
+  trust4 = expand("output/clonotypes/trust4/{specie}/{sample}/",
+    specie = config["species"], sample = sample_names)
+  targets.extend(trust4)
+
+  if config["saturation"]:
+    saturation_trust4 = expand("output/saturation/{seed}/{perc}/trust4/{specie}/{sample}/", seed = seeds, perc = saturation_frequencies,
+    specie = config["species"], sample = sample_names)
+    targets.extend(saturation_trust4)
+
+
+
+
+rule all:
+  input: targets
+
+rule clean:
+  shell:
+    """rm -fr output logs"""
+
+
+
+
+include: "rules/sampling_saturation.smk"
+include: "rules/trust4_clonotype_assembly.smk"

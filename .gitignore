@@ -1,0 +1,6 @@
+logs/
+data/
+output/
+.snakemake/
+.gitignore
+.bashrc

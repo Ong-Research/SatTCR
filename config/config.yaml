@@ -1,11 +1,22 @@
-#------------------------------------------------------------------------------#
-#
-# Configuration file
-#
-# 
 
+threads: 16
+seed: [54232]
+species: "Homo_sapien"
 
+# The repertoire_assembly pipeline assumes that for a sample
+# both end files have names of the form
+# dict[sample] + "_R1" + {suffix}
+# dict[sample] + "_R2" + {suffix}
+suffix: ".fastq.gz"
 samples: {
-  "sample1": "/path/to/sample1_file_L1"
-  "sample2": "/path/to/sample2_file_L1"
-}
+  "OSC49V1": "/path/to/sample1_file",
+  "OSC49V2": "/path/to/sample1_file",
+  }
+
+saturation:
+  freq: [.25, .5] # values in the (0, 1)
+
+trust4:
+  barcode_range: 21
+  read1_range: 22
+  read2_range: 22
