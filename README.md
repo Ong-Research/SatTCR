@@ -6,7 +6,7 @@ At the moment it contains rules to:
 
 - Download `TRUST4` IMGT reference
 - Down-sample a proportion of the sequences in a paired `fastq.gz` files into another pair of `fastq.gz` files
-- Use `TRUST4` to assembly clonotypes based on paired compressed `fastq.gz` files
+- Use `TRUST4` / `MIXCR` to assembly clonotypes based on paired compressed `fastq.gz` files
 
 ## References
 
