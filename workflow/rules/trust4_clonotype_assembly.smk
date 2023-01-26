@@ -5,7 +5,7 @@
 #
 #     Author: Rene Welch rwelch2@wisc.edu
 #
-#------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------
 
 rule get_imgt_annot:
   """
@@ -71,7 +71,3 @@ rule process_saturation_trust4:
       --read2Range {params.r2} -1 \
       -t {threads} --od {output.outdir}
     """
-
-# # import yaml
-# # with open('config.yml', 'r') as file
-# # ...    prime_service = yaml.safe_load(file)
