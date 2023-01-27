@@ -4,6 +4,7 @@
 
 At the moment it contains rules to:
 
+- Calculate QC indicators with `FASTQC` and `MULTIQC`
 - Download `TRUST4` IMGT reference
 - Down-sample a proportion of the sequences in a paired `fastq.gz` files into another pair of `fastq.gz` files
 - Use `TRUST4` / `MIXCR` to assembly clonotypes based on paired compressed `fastq.gz` files
