@@ -46,8 +46,15 @@ if config["trust4"]:
     specie = config["species"], sample = sample_names)
     targets.extend(saturation_trust4)
 
+if config["mixcr"]:
+  mixcr = expand("output/clonotypes/mixcr/{specie}/{sample}/{sample}.assemble.report.json",
+    specie = config["species"], sample = sample_names)
+  targets.extend(mixcr)
 
-
+  if config["saturation"]:
+    saturation_mixcr = expand("output/saturation/{seed}/{perc}/mixcr/{specie}/{sample}/{sample}.assemble.report.json", seed = seeds, perc = saturation_frequencies,
+    specie = config["species"], sample = sample_names)
+    targets.extend(saturation_mixcr)
 
 rule all:
   input: targets
@@ -56,8 +63,15 @@ rule clean:
   shell:
     """rm -fr output logs"""
 
+rule clean_trust4:
+  shell:
+    """rm -fr output/trust4 output/clonotypes/trust4 output/saturation/*/*/trust4"""
 
+rule clean_mixcr:
+  shell:
+    """rm -fr output/mixcr output/clonotypes/mixcr output/saturation/*/*/mixcr"""
 
 
 include: "rules/sampling_saturation.smk"
 include: "rules/trust4_clonotype_assembly.smk"
+include: "rules/mixcr_clonotype_assembly.smk"
