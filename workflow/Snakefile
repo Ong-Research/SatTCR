@@ -20,7 +20,7 @@ for sample in sample_names:
   mini_dict["end2"] = samples[sample] + "_R2" + suffix
   sample_dict[sample] = mini_dict
 
-targets = []
+targets = ["output/qc/multiqc/multiqc_report.html"]
 
 if config["saturation"]:
   saturation_frequencies = config["saturation"]["freq"]
@@ -63,15 +63,19 @@ rule clean:
   shell:
     """rm -fr output logs"""
 
+rule clean_qc:
+  shell:
+    """rm -fr output/qc"""
+
 rule clean_trust4:
   shell:
-    """rm -fr output/trust4 output/clonotypes/trust4 output/saturation/*/*/trust4"""
+    """rm -fr output/trust4 output/clonotypes/trust4 output/saturation/*/*/trust4 logs/trust4 logs/saturation/trust4"""
 
 rule clean_mixcr:
   shell:
-    """rm -fr output/mixcr output/clonotypes/mixcr output/saturation/*/*/mixcr"""
-
+    """rm -fr output/mixcr output/clonotypes/mixcr output/saturation/*/*/mixcr logs/mixcr logs/saturation/mixcr"""
 
 include: "rules/sampling_saturation.smk"
 include: "rules/trust4_clonotype_assembly.smk"
 include: "rules/mixcr_clonotype_assembly.smk"
+include: "rules/quality_control.smk"
