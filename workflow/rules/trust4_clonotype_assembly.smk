@@ -25,8 +25,8 @@ rule process_sample_trust4:
   Process a sample with trust4
   """
   input:
-    r1= lambda wc: sample_dict[wc.sample]["end1"],
-    r2= lambda wc: sample_dict[wc.sample]["end2"],
+    r1 = "output/trimmed/{sample}_R1.fastq.gz",
+    r2 = "output/trimmed/{sample}_R2.fastq.gz",
     imgt="output/trust4/imgt_annots/{species}/imgt.fa"
   output:
     outdir=directory("output/clonotypes/trust4/{species}/{sample}/")

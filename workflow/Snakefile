@@ -20,7 +20,14 @@ for sample in sample_names:
   mini_dict["end2"] = samples[sample] + "_R2" + suffix
   sample_dict[sample] = mini_dict
 
-targets = ["output/qc/multiqc/multiqc_report.html"]
+
+qc_targets = ["output/qc/multiqc/multiqc_report.html"]
+qc_targets.extend(
+  expand("output/qc/figs/{sample}_qc_profile.png", sample = sample_names)
+)
+
+targets = []
+targets.extend(qc_targets)
 
 if config["saturation"]:
   saturation_frequencies = config["saturation"]["freq"]
@@ -40,21 +47,25 @@ if config["trust4"]:
   trust4 = expand("output/clonotypes/trust4/{specie}/{sample}/",
     specie = config["species"], sample = sample_names)
   targets.extend(trust4)
+  targets.append("output/gather/trust4/gathered_report.qs")
 
   if config["saturation"]:
     saturation_trust4 = expand("output/saturation/{seed}/{perc}/trust4/{specie}/{sample}/", seed = seeds, perc = saturation_frequencies,
     specie = config["species"], sample = sample_names)
     targets.extend(saturation_trust4)
+    targets.append("output/gather/trust4/gathered_report_saturation.qs")
 
 if config["mixcr"]:
   mixcr = expand("output/clonotypes/mixcr/{specie}/{sample}/{sample}.assemble.report.json",
     specie = config["species"], sample = sample_names)
   targets.extend(mixcr)
+  targets.append("output/gather/mixcr/gathered_report.qs")
 
   if config["saturation"]:
     saturation_mixcr = expand("output/saturation/{seed}/{perc}/mixcr/{specie}/{sample}/{sample}.assemble.report.json", seed = seeds, perc = saturation_frequencies,
     specie = config["species"], sample = sample_names)
     targets.extend(saturation_mixcr)
+    targets.append("output/gather/mixcr/gathered_report_saturation.qs")
 
 rule all:
   input: targets
@@ -63,9 +74,18 @@ rule clean:
   shell:
     """rm -fr output logs"""
 
+rule qc:
+  input: qc_targets
+
 rule clean_qc:
   shell:
     """rm -fr output/qc"""
+
+rule trim:
+  input:
+    expand("output/trimmed/{sample}_R1.fastq.gz", sample = sample_names),
+    expand("output/trimmed/{sample}_R2.fastq.gz", sample = sample_names),
+    expand("output/qc/{sample}_trimmed.tsv", sample = sample_names)
 
 rule clean_trust4:
   shell:
@@ -75,7 +95,8 @@ rule clean_mixcr:
   shell:
     """rm -fr output/mixcr output/clonotypes/mixcr output/saturation/*/*/mixcr logs/mixcr logs/saturation/mixcr"""
 
+include: "rules/quality_control.smk"
 include: "rules/sampling_saturation.smk"
 include: "rules/trust4_clonotype_assembly.smk"
 include: "rules/mixcr_clonotype_assembly.smk"
-include: "rules/quality_control.smk"
+include: "rules/gather_clonotype_results.smk"

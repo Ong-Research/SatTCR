@@ -12,11 +12,11 @@ rule sample_sequences:
   TRB loci
   """
   input:
-    r1= lambda wc: sample_dict[wc.sample]["end1"],
-    r2= lambda wc: sample_dict[wc.sample]["end2"]
+    r1 = "output/trimmed/{sample}_R1.fastq.gz",
+    r2 = "output/trimmed/{sample}_R2.fastq.gz"
   output:
-    r1="output/saturation/{seed}/{perc}/fastq/{sample}_R1.fastq.gz",
-    r2="output/saturation/{seed}/{perc}/fastq/{sample}_R2.fastq.gz"
+    r1 = "output/saturation/{seed}/{perc}/fastq/{sample}_R1.fastq.gz",
+    r2 = "output/saturation/{seed}/{perc}/fastq/{sample}_R2.fastq.gz"
   log: "logs/saturation/subsample/{sample}_{perc}_{seed}.log"
   params:
     sample_perc="{perc}",

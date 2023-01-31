@@ -18,8 +18,8 @@ rule process_sample_mixcr:
   Process a sample with mixcr
   """
   input:
-    r1= lambda wc: sample_dict[wc.sample]["end1"],
-    r2= lambda wc: sample_dict[wc.sample]["end2"],
+    r1 = "output/trimmed/{sample}_R1.fastq.gz",
+    r2 = "output/trimmed/{sample}_R2.fastq.gz",
   output:
     outdir=directory("output/clonotypes/mixcr/{species}/{sample}/"),
     file = "output/clonotypes/mixcr/{species}/{sample}/{sample}.assemble.report.json"
