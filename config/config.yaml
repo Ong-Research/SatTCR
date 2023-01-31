@@ -9,14 +9,34 @@ species: "Homo_sapien"
 # dict[sample] + "_R2" + {suffix}
 suffix: ".fastq.gz"
 samples: {
-  "OSC49V1": "/path/to/sample1_file",
-  "OSC49V2": "/path/to/sample1_file",
+  "OSC49v1": "data/OSC49v1",
+  "OSC49v2": "data/OSC49v2",
+  "OSC49v3": "data/OSC49v3",
+  "OSC49v4": "data/OSC49v4",
+  "OSC49v5": "data/OSC49v5",
+  "OSC56v1": "data/OSC56v1",
+  "OSC56v2": "data/OSC56v2",
+  "OSC56v3": "data/OSC56v3",
+  "OSC56v4": "data/OSC56v4",
+  "OSC56v5": "data/OSC56v5",
+  "OVCA9v1": "data/OVCA9v1",
+  "OVCA9v2": "data/OVCA9v2",
+  "OVCA9v3": "data/OVCA9v3",
+  "OVCA9v4": "data/OVCA9v4",
+  "OVCA9v5": "data/OVCA9v5"
   }
 
+qc:
+  trimmer: ["TRAILING:20", "MINLEN:250"]
+
+
 saturation:
-  freq: [.25, .5] # values in the (0, 1)
+  freq: [.25, .5, .75, .9] # values in the (0, 1)
 
 trust4:
   barcode_range: 21
   read1_range: 22
   read2_range: 22
+
+mixcr:
+  ref: "ampliseq-tcrb-plus-cdr3" # more presets can be seen https://docs.milaboratories.com/mixcr/reference/overview-built-in-presets/
