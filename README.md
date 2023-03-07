@@ -9,6 +9,10 @@ At the moment it contains rules to:
 - Down-sample a proportion of the sequences in a paired `fastq.gz` files into another pair of `fastq.gz` files
 - Use `TRUST4` / `MIXCR` to assembly clonotypes based on paired compressed `fastq.gz` files
 
+# Pipeline
+
+![](repertoire.png)
+
 ## References
 
 - [Song L, Cohen D, Ouyang Z, Cao Y, Hu X, Liu XS. _"TRUST4: immune repertoire reconstruction from bulk and single-cell RNA-seq data_". Nature Methods (2021)](https://www.nature.com/articles/s41592-021-01142-2)

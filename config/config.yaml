@@ -31,7 +31,7 @@ qc:
 
 
 saturation:
-  freq: [.25, .5, .75, .9] # values in the (0, 1)
+  freq: [.25, .5, .75, .9, .95] # values in the (0, 1)
 
 trust4:
   barcode_range: 21
