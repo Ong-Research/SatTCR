@@ -18,10 +18,20 @@ rule fastqc:
     multiext("output/qc/fastqc/{sample}_",
       "R1_fastqc.zip", "R2_fastqc.zip",
       "R1_fastqc.html", "R2_fastqc.html")
+  params:
+    sample = "{sample}",
+    prefix1 = lambda wc: os.path.basename(sample_dict[wc.sample]["end1"].replace(".fastq.gz", "")),
+    prefix2 = lambda wc: os.path.basename(sample_dict[wc.sample]["end2"].replace(".fastq.gz", "")),
   log: "logs/qc/{sample}_fastqc.txt"
   shell:
-    """fastqc -o output/qc/fastqc -t {threads} {input.r1} {input.r2}"""
-    
+    """
+    fastqc -o output/qc/fastqc -t {threads} {input.r1} {input.r2}
+    mv output/qc/fastqc/{params.prefix1}_fastqc.zip output/qc/fastqc/{params.sample}_R1_fastqc.zip
+    mv output/qc/fastqc/{params.prefix2}_fastqc.zip output/qc/fastqc/{params.sample}_R2_fastqc.zip
+    mv output/qc/fastqc/{params.prefix1}_fastqc.html output/qc/fastqc/{params.sample}_R1_fastqc.html
+    mv output/qc/fastqc/{params.prefix2}_fastqc.html output/qc/fastqc/{params.sample}_R2_fastqc.html
+    """
+
 rule multiqc:
   input:
     expand("output/qc/fastqc/{sample}_R1_fastqc.zip", sample = sample_names),
