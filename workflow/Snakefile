@@ -6,10 +6,16 @@
 #
 #------------------------------------------------------------------------------#
 
+import os
+
 configfile: "config/config.yaml"
 
 samples = config["samples"]
 sample_names = list(samples.keys())
+
+mixcr_samples = config["mixcr_samples"]
+mixcr_sample_names = list(mixcr_samples.keys())
+
 seeds = config["seed"]
 suffix = config["suffix"]
 
@@ -20,72 +26,144 @@ for sample in sample_names:
   mini_dict["end2"] = samples[sample] + "_R2" + suffix
   sample_dict[sample] = mini_dict
 
-
+# QC targets
 qc_targets = ["output/qc/multiqc/multiqc_report.html"]
-qc_targets.extend(
-  expand("output/qc/figs/{sample}_qc_profile.png", sample = sample_names)
-)
+qc_targets.extend(expand("output/qc/figs/{sample}_qc_profile.png",
+  sample = sample_names))
+
+# Trim targets
+trim_targets = []
+trim_targets.extend(
+  expand("output/trimmed/{sample}_R1.fastq.gz", sample = sample_names))
+trim_targets.extend(
+  expand("output/trimmed/{sample}_R2.fastq.gz", sample = sample_names))
+trim_targets.extend(
+  expand("output/qc/{sample}_trimmed.tsv", sample = sample_names))
+
+# TRUST4 targets with optional alignment
+trust4_targets = []
+if config["run_trust4"]:
+  trust4_targets.extend(
+    expand("output/trust4/imgt_annots/{species}.bam", species = config["species"]))
+  trust4_targets.extend(
+    expand("output/aligned/{sample}.bam", sample = sample_names))
+  trust4_targets.extend(
+    expand("output/aligned_reads/{sample}.tsv", sample = sample_names))
+  trust4_targets.extend(
+    expand("output/aligned/{sample}.bam.bai", sample = sample_names))
+  trust4_targets.extend(
+    expand("output/clonotypes/trust4/{species}/{sample}/",
+      species = config["species"], sample = sample_names))
+  trust4_targets.extend(
+    expand("output/clonotypes/trust4/{species}/{sample}/TRUST_{sample}_R1_report.tsv", species = config["species"], sample = sample_names))
+  trust4_targets.extend(
+    expand("output/clonotypes/trust4/{species}/{sample}/TRUST_{sample}_R1_cdr3.out", species = config["species"], sample = sample_names))
+  trust4_targets.extend(
+    expand("output/clonotypes/trust4/{species}/TRUST_{sample}_simple_report.tsv",
+      species = config["species"], sample = sample_names))
+
+trust4_bam_targets = []
+if config["run_trust4_bam"]:
+  trust4_bam_targets.extend(
+    expand("output/trust4_bam/imgt_annots/{species}.bam", species = config["species"]))
+  trust4_bam_targets.extend(
+    expand("output/trust4_bam/imgt_annots/{species}_bcrtcr.fa", species = config["species"]))
+  trust4_bam_targets.extend(
+    expand("output/trust4_bam/imgt_annots/{species}_names.list", species = config["species"]))
+  trust4_bam_targets.extend(
+    expand("output/trust4_bam/aligned/{sample}.bam", sample = sample_names))
+  trust4_bam_targets.extend(
+    expand("output/trust4_bam/aligned/{sample}.bam.bai", sample = sample_names))
+  trust4_bam_targets.extend(
+    expand("output/clonotypes/trust4_bam/{species}/{sample}/TRUST_{sample}_R1_report.tsv", species = config["species"], sample = sample_names))
+  trust4_bam_targets.extend(
+    expand("output/clonotypes/trust4_bam/{species}/{sample}/TRUST_{sample}_R1_cdr3.out", species = config["species"], sample = sample_names))
+
+mixcr_targets = []
+if config["run_mixcr"]:
+  mixcr_targets.extend(
+    expand("output/clonotypes/mixcr/{species}/{sample}/{sample}.assemble.report.json",
+    species = config["species"], sample = mixcr_sample_names))
 
 targets = []
 targets.extend(qc_targets)
 
-if config["saturation"]:
-  saturation_frequencies = config["saturation"]["freq"]
-  r1_ends = expand("output/saturation/{seed}/{perc}/fastq/{sample}_R1.fastq.gz",
-    seed = config["seed"], perc = saturation_frequencies,
-    sample = sample_names)
-  r2_ends = expand("output/saturation/{seed}/{perc}/fastq/{sample}_R2.fastq.gz",
-    seed = config["seed"], perc = saturation_frequencies,
-    sample = sample_names)
-  targets.extend(r1_ends)
-  targets.extend(r2_ends)
+if config["trim_sequences"]:
+  targets.extend(trim_targets)
 
-if config["trust4"]:
-  annots = expand("output/trust4/imgt_annots/{specie}/imgt.fa",
-    specie = config["species"])
-  targets.extend(annots)
-  trust4 = expand("output/clonotypes/trust4/{specie}/{sample}/",
-    specie = config["species"], sample = sample_names)
-  targets.extend(trust4)
-  targets.append("output/gather/trust4/gathered_report.qs")
+if config["run_trust4"]:
+  targets.extend(trust4_targets)
 
-  if config["saturation"]:
-    saturation_trust4 = expand("output/saturation/{seed}/{perc}/trust4/{specie}/{sample}/", seed = seeds, perc = saturation_frequencies,
-    specie = config["species"], sample = sample_names)
-    targets.extend(saturation_trust4)
-    targets.append("output/gather/trust4/gathered_report_saturation.qs")
+saturation_targets = []
 
-if config["mixcr"]:
-  mixcr = expand("output/clonotypes/mixcr/{specie}/{sample}/{sample}.assemble.report.json",
-    specie = config["species"], sample = sample_names)
-  targets.extend(mixcr)
-  targets.append("output/gather/mixcr/gathered_report.qs")
+if config["run_saturation"]:
+  saturation_targets.extend(
+    expand("output/seq_bootstrap/{seed}/{sample}/", seed = config["seed"],
+      sample = config["saturation"]["samples"]))
+  seed, samples, subsamples = glob_wildcards("output/seq_bootstrap/{seed}/{sample}/{subsample}_R1.fastq.gz")
+  trust4_sat = []
+  simple_report = []
+  saturation_stats = []
+  saturation_nseqs = []
+  for zip_words in zip(seed, samples, subsamples):
+    zip_words = list(zip_words)
+    seed = zip_words[0]
+    sample = zip_words[1]
+    subsample = zip_words[2]
+    trust4_sat.append(
+      "output/seq_bootstrap/" + seed + "/clonotypes/trust4/" +
+        config["species"] + "/" + sample + "/TRUST_" +
+        subsample + "_R1_cdr3.out")
+    simple_report.append(
+      "output/seq_bootstrap/" + seed + "/clonotypes/trust4/" +
+        config["species"] + "/" + sample + "/TRUST_" +
+        subsample + "_simple_report.tsv")    
+    saturation_nseqs.append(
+      "output/seq_bootstrap/nseqs/" + seed + "/" +
+        sample + "/" + subsample + "_nseqs.tsv")
+    saturation_stats.append(
+      "output/seq_bootstrap/stats/" + config["species"] + "/" +
+        seed + "/" + sample + "/" + subsample + "_stats.qs")
 
-  if config["saturation"]:
-    saturation_mixcr = expand("output/saturation/{seed}/{perc}/mixcr/{specie}/{sample}/{sample}.assemble.report.json", seed = seeds, perc = saturation_frequencies,
-    specie = config["species"], sample = sample_names)
-    targets.extend(saturation_mixcr)
-    targets.append("output/gather/mixcr/gathered_report_saturation.qs")
+  saturation_targets.extend(trust4_sat)
+  saturation_targets.extend(simple_report)
+  saturation_targets.extend(saturation_nseqs)
+  saturation_targets.extend(saturation_stats)
+  saturation_targets.append("output/seq_bootstrap/summary_stats.qs")
+
 
 rule all:
   input: targets
+
+rule qc:
+  input: qc_targets
+
+rule trim:
+  input: trim_targets
+
+rule trust4:
+  input: trust4_targets
+
+rule trust4_bam:
+  input: trust4_bam_targets
+
+rule saturation:
+  input: saturation_targets
+
+rule mixcr:
+  input: mixcr_targets
 
 rule clean:
   shell:
     """rm -fr output logs"""
 
-rule qc:
-  input: qc_targets
-
 rule clean_qc:
   shell:
     """rm -fr output/qc"""
 
-rule trim:
-  input:
-    expand("output/trimmed/{sample}_R1.fastq.gz", sample = sample_names),
-    expand("output/trimmed/{sample}_R2.fastq.gz", sample = sample_names),
-    expand("output/qc/{sample}_trimmed.tsv", sample = sample_names)
+rule clean_trimmed:
+  shell:
+    """rm -fr output/trimmed output/qc/*trimmed.tsv"""
 
 rule clean_trust4:
   shell:
@@ -96,7 +174,9 @@ rule clean_mixcr:
     """rm -fr output/mixcr output/clonotypes/mixcr output/saturation/*/*/mixcr logs/mixcr logs/saturation/mixcr"""
 
 include: "rules/quality_control.smk"
+include: "rules/alignments.smk"
 include: "rules/sampling_saturation.smk"
 include: "rules/trust4_clonotype_assembly.smk"
+include: "rules/trust4_clonotype_assembly_from_bam.smk"
 include: "rules/mixcr_clonotype_assembly.smk"
-include: "rules/gather_clonotype_results.smk"
+# include: "rules/gather_clonotype_results.smk"

@@ -1,42 +1,76 @@
 
 threads: 16
 seed: [54232]
-species: "Homo_sapien"
+window: 1000
+trim_sequences: true
+pre_align: true
+run_trust4: true
+run_trust4_bam: true
+run_mixcr: true
+run_saturation: true
+
+species: "Canis_lupus_familiaris"
+index: "data/refs/canfam4/canfam4"
+index_bam: "data/refs/ensembl/bowtie2/genome_cfam1_ensembl"
 
 # The repertoire_assembly pipeline assumes that for a sample
 # both end files have names of the form
 # dict[sample] + "_R1" + {suffix}
 # dict[sample] + "_R2" + {suffix}
-suffix: ".fastq.gz"
+suffix: "_001.fastq.gz"
 samples: {
-  "OSC49v1": "data/OSC49v1",
-  "OSC49v2": "data/OSC49v2",
-  "OSC49v3": "data/OSC49v3",
-  "OSC49v4": "data/OSC49v4",
-  "OSC49v5": "data/OSC49v5",
-  "OSC56v1": "data/OSC56v1",
-  "OSC56v2": "data/OSC56v2",
-  "OSC56v3": "data/OSC56v3",
-  "OSC56v4": "data/OSC56v4",
-  "OSC56v5": "data/OSC56v5",
-  "OVCA9v1": "data/OVCA9v1",
-  "OVCA9v2": "data/OVCA9v2",
-  "OVCA9v3": "data/OVCA9v3",
-  "OVCA9v4": "data/OVCA9v4",
-  "OVCA9v5": "data/OVCA9v5"
-  }
+  "run1_bio1_tech1": "data/run1/K9013v01-rxn1_S425_L003",
+  "run1_bio1_tech2": "data/run1/K9013v01-rxn2_S426_L003",
+  "run1_bio2_tech1": "data/run1/K9013rcc-rxn3_S423_L003",
+  "run1_bio2_tech2": "data/run1/K9013rcc-rxn4_S424_L003",
+  "run2_bio1_tech1": "data/run2/K9013v01-rxn1_S164_L001",
+  "run2_bio1_tech2": "data/run2/K9013v01-rxn2_S165_L001",
+  "run2_bio2_tech1": "data/run2/K9013rcc-rxn3_S162_L001",
+  "run2_bio2_tech2": "data/run2/K9013rcc-rxn4_S163_L001",
+  "run3_bio1_tech1": "data/run3/K9013v01-rxn1_S202_L001",
+  "run3_bio1_tech2": "data/run3/K9013v01-rxn2_S203_L001",
+  "run3_bio2_tech1": "data/run3/K9013rcc-rxn3_S200_L001",
+  "run3_bio2_tech2": "data/run3/K9013rcc-rxn4_S201_L001",
+  "merged_bio1_tech1": "data/merged/K9013v01-rxn1",
+  "merged_bio1_tech2": "data/merged/K9013v01-rxn2",
+  "merged_bio2_tech1": "data/merged/K9013rcc-rxn3",
+  "merged_bio2_tech2": "data/merged/K9013rcc-rxn4",
+  "prev_run1": "data/previous/K9013-01",
+  "prev_run2": "data/previous/K9013-02_S112_L002"}
 
+mixcr_samples: {
+  "run1_bio1_tech1": "data/run1/K9013v01-rxn1_S425_L003",
+  "run1_bio1_tech2": "data/run1/K9013v01-rxn2_S426_L003",
+  "run1_bio2_tech1": "data/run1/K9013rcc-rxn3_S423_L003",
+  "run1_bio2_tech2": "data/run1/K9013rcc-rxn4_S424_L003",
+  "run2_bio1_tech1": "data/run2/K9013v01-rxn1_S164_L001",
+  "run2_bio1_tech2": "data/run2/K9013v01-rxn2_S165_L001",
+  "run2_bio2_tech1": "data/run2/K9013rcc-rxn3_S162_L001",
+  "run2_bio2_tech2": "data/run2/K9013rcc-rxn4_S163_L001",
+  "run3_bio1_tech1": "data/run3/K9013v01-rxn1_S202_L001",
+  "run3_bio1_tech2": "data/run3/K9013v01-rxn2_S203_L001",
+  "run3_bio2_tech1": "data/run3/K9013rcc-rxn3_S200_L001",
+  "run3_bio2_tech2": "data/run3/K9013rcc-rxn4_S201_L001"}
+
+
+# trimmomatic parameters
 qc:
-  trimmer: ["TRAILING:20", "MINLEN:250"]
+  trimmer: ["TRAILING:20", "MINLEN:100"]
 
 
 saturation:
-  freq: [.25, .5, .75, .9, .95] # values in the (0, 1)
+  bootstrap_replicates: 100 # 200
+  samples: ["run3_bio1_tech1", "run3_bio1_tech2"]
+  seq_depth_blocks: 100000 # pairs of sequences
+  perc_med_width: 0.5
+  perc_overlap_width: 0.25
 
 trust4:
-  barcode_range: 21
+  barcode_range: 59
   read1_range: 22
   read2_range: 22
+  filter_tcr_error: 0.01
 
 mixcr:
-  ref: "ampliseq-tcrb-plus-cdr3" # more presets can be seen https://docs.milaboratories.com/mixcr/reference/overview-built-in-presets/
+  # params: "rnaseq-cdr3 --species dog -b imgt.202214-2 --rna" # more presets can be seen https://docs.milaboratories.com/mixcr/reference/overview-built-in-presets/
+  params: "rnaseq-cdr3 --species dog -b imgt.202214-2 --rna --floating-left-alignment-boundary --floating-right-alignment-boundary C"

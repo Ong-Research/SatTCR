@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 #
-#   Script to sample without replacement a proportion of the totall of the
+#   Script to sample without replacement a proportion of the total of the
 #   # of sequences in a pair of FASTQ files
 #
 #     Author: Rene Welch rwelch2@wisc.edu

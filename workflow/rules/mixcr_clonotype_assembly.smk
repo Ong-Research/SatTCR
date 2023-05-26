@@ -22,18 +22,36 @@ rule process_sample_mixcr:
     r2 = "output/trimmed/{sample}_R2.fastq.gz",
   output:
     outdir=directory("output/clonotypes/mixcr/{species}/{sample}/"),
-    file = "output/clonotypes/mixcr/{species}/{sample}/{sample}.assemble.report.json"
+    files = multiext("output/clonotypes/mixcr/{species}/{sample}/{sample}",
+      ".clones_TRB.tsv",
+      ".assemble.report.json",
+      ".assemble.report.txt",
+      ".clns",
+      ".extended.vdjca",
+      ".extend.report.json",
+      ".extend.report.txt",
+      ".passembled.2.vdjca",
+      ".assemblePartial.report.json",
+      ".assemblePartial.report.txt",
+      ".passembled.1.vdjca",
+      ".vdjca",
+      ".align.report.json",
+      ".align.report.txt")
   params:
-    ref=config["mixcr"]["ref"],
+    mixcr=config["mixcr"]["params"],
     sample="{sample}"
-  threads: 1
+  threads: 12
+  resources:
+    mem_mb = lambda wildcards, threads: 1200 * threads
   log: "logs/mixcr/{species}/{sample}_run.log"
   shell:
     """
-    mixcr analyze {params.ref} \
+    mixcr analyze {params.mixcr} \
+      -t {threads} \
       {input.r1} {input.r2} \
       {output.outdir}/{params.sample}
     """
+
 
 rule process_saturation_mixcr:
   """
@@ -46,13 +64,16 @@ rule process_saturation_mixcr:
     outdir=directory("output/saturation/{seed}/{perc}/mixcr/{species}/{sample}/"),
     file = "output/saturation/{seed}/{perc}/mixcr/{species}/{sample}/{sample}.assemble.report.json"
   params:
-    ref=config["mixcr"]["ref"],
+    mixcr=config["mixcr"]["params"],
     sample="{sample}"
-  threads: 1
+  threads: 12
+  resources:
+    mem_bm = lambda wildcards, threads: 200 * threads
   log: "logs/saturation/mixcr/{species}/{seed}/{perc}/{sample}_run.log"
   shell:
     """
-    mixcr analyze {params.ref} \
+    mixcr analyze {params.mixcr} \
+      -t {threads} \
       {input.r1} {input.r2} \
       {output.outdir}/{params.sample}
     """

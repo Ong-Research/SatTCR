@@ -13,6 +13,11 @@ At the moment it contains rules to:
 
 ![](repertoire.png)
 
+## Pre-align steps
+
+
+
+
 ## References
 
 - [Song L, Cohen D, Ouyang Z, Cao Y, Hu X, Liu XS. _"TRUST4: immune repertoire reconstruction from bulk and single-cell RNA-seq data_". Nature Methods (2021)](https://www.nature.com/articles/s41592-021-01142-2)
