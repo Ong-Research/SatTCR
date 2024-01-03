@@ -52,6 +52,23 @@ rule process_sample_mixcr:
       {output.outdir}/{params.sample}
     """
 
+rule generate_airr:
+  """
+  Generates the AIRR format file from MIXCR report
+  """
+  input:
+    clono = "output/clonotypes/mixcr/{species}/{sample}/{sample}.clns"
+  output:
+    airr = "output/clonotypes/mixcr/{species}/{sample}/{sample}_airr.tsv"
+  threads: 4
+  resources:
+    mem_mb = lambda wildcards, threads: 1200 * threads
+  log: "logs/mixcr/{species}/{sample}_airr.log"
+  shell:
+    """
+    mixcr exportAirr {input.clono} {output.airr} -f
+    """
+
 
 rule process_saturation_mixcr:
   """

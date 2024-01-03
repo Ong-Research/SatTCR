@@ -84,6 +84,9 @@ if config["run_mixcr"]:
   mixcr_targets.extend(
     expand("output/clonotypes/mixcr/{species}/{sample}/{sample}.assemble.report.json",
     species = config["species"], sample = mixcr_sample_names))
+  mixcr_targets.extend(
+    expand("output/clonotypes/mixcr/{species}/{sample}/{sample}_airr.tsv",
+      species = config["species"], sample = mixcr_sample_names))
 
 targets = []
 targets.extend(qc_targets)
