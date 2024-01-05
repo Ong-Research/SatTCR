@@ -30,10 +30,11 @@ rule sequential_saturation:
   TRB loci
   """
   input:
-    r1 = "output/fastq_corrected/{sample}_R1.fastq.gz",
-    r2 = "output/fastq_corrected/{sample}_R2.fastq.gz"
+    r1 = "output/trimmed/{sample}_R1.fastq.gz",
+    r2 = "output/trimmed/{sample}_R2.fastq.gz"
   output:
-    outdir = directory("output/seq_bootstrap/{seed}/{sample}/")
+    outdir = directory("output/seq_bootstrap/{seed}/{sample}/"),
+    summary_file = "output/seq_bootstrap/{seed}/{sample}/bootstrap_summary.qs"
   log: "logs/seq_bootstrap/{sample}_{seed}.log"
   params:
     seed = "{seed}",

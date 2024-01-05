@@ -13,7 +13,6 @@ At the moment it contains rules to:
 
 ![](repertoire.png)
 
-## Pre-align steps
 
 
 
