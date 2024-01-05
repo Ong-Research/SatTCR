@@ -112,7 +112,16 @@ if config["run_saturation"]:
 
 seed, samples, subsamples = glob_wildcards("output/seq_bootstrap/{seed}/{sample}/{subsample}_R1.fastq.gz")
 
-# if config["run_saturation"] & config["run_mixcr"]:
+saturation_mixcr_targets = []
+if config["run_saturation"] & config["run_mixcr"]:
+  for zip_words in zip(seed, samples, subsamples):
+    zip_words = list(zip_words)
+    seed = zip_words[0]
+    sample = zip_words[1]
+    subsample = zip_words[2]
+    saturation_mixcr_targets.append(
+      "output/seq_bootstrap/mixcr/" + seed + "/" +
+        sample + "/" + subsample + "/" + subsample + ".clns")
 
 
 
@@ -146,7 +155,6 @@ seed, samples, subsamples = glob_wildcards("output/seq_bootstrap/{seed}/{sample}
 #   saturation_targets.extend(saturation_stats)
 #   saturation_targets.append("output/seq_bootstrap/summary_stats.qs")
 
-
 rule all:
   input: targets
 
@@ -167,6 +175,9 @@ rule saturation:
 
 rule mixcr:
   input: mixcr_targets
+
+rule saturation_mixcr:
+  input: saturation_mixcr_targets
 
 rule clean:
   shell:

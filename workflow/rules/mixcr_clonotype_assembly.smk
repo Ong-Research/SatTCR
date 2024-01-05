@@ -36,7 +36,9 @@ rule process_sample_mixcr:
       ".passembled.1.vdjca",
       ".vdjca",
       ".align.report.json",
-      ".align.report.txt")
+      ".align.report.txt"),
+    clns = "output/clonotypes/mixcr/{species}/{sample}/{sample}.clns",
+    airr = "output/clonotypes/mixcr/{species}/{sample}/{sample}_airr.tsv"
   params:
     mixcr=config["mixcr"]["params"],
     sample="{sample}"
@@ -50,49 +52,46 @@ rule process_sample_mixcr:
       -t {threads} \
       {input.r1} {input.r2} \
       {output.outdir}/{params.sample}
-    """
-
-rule generate_airr:
-  """
-  Generates the AIRR format file from MIXCR report
-  """
-  input:
-    clono = "output/clonotypes/mixcr/{species}/{sample}/{sample}.clns"
-  output:
-    airr = "output/clonotypes/mixcr/{species}/{sample}/{sample}_airr.tsv"
-  threads: 4
-  resources:
-    mem_mb = lambda wildcards, threads: 1200 * threads
-  log: "logs/mixcr/{species}/{sample}_airr.log"
-  shell:
-    """
     mixcr exportAirr {input.clono} {output.airr} -f
     """
 
-
 rule process_saturation_mixcr:
   """
-  Process a sample with mixcr
+  Process a saturation sample with mixcr
   """
   input:
-    r1="output/saturation/{seed}/{perc}/fastq/{sample}_R1.fastq.gz",
-    r2="output/saturation/{seed}/{perc}/fastq/{sample}_R2.fastq.gz",
+    r1 = "output/seq_bootstrap/{seed}/{sample}/{subsample}_R1.fastq.gz",
+    r2 = "output/seq_bootstrap/{seed}/{sample}/{subsample}_R2.fastq.gz"
   output:
-    outdir=directory("output/saturation/{seed}/{perc}/mixcr/{species}/{sample}/"),
-    file = "output/saturation/{seed}/{perc}/mixcr/{species}/{sample}/{sample}.assemble.report.json"
+    outdir = directory("output/seq_bootstrap/mixcr/{seed}/{sample}/{subsample}"),
+    files = multiext("output/seq_bootstrap/mixcr/{seed}/{sample}/{subsample}/{subsample}",
+      ".clones_TRB.tsv",
+      ".assemble.report.json",
+      ".assemble.report.txt",
+      ".extended.vdjca",
+      ".extend.report.json",
+      ".extend.report.txt",
+      ".passembled.2.vdjca",
+      ".assemblePartial.report.json",
+      ".assemblePartial.report.txt",
+      ".passembled.1.vdjca",
+      ".vdjca",
+      ".align.report.json",
+      ".align.report.txt"),
+    clns = "output/seq_bootstrap/mixcr/{seed}/{sample}/{subsample}/{subsample}.clns",
+    airr = "output/seq_bootstrap/mixcr/{seed}/{sample}/{subsample}/{subsample}_airr.tsv"
   params:
     mixcr=config["mixcr"]["params"],
-    sample="{sample}"
-  threads: 12
+    subsample="{subsample}"
+  threads: 4
   resources:
-    mem_bm = lambda wildcards, threads: 200 * threads
-  log: "logs/saturation/mixcr/{species}/{seed}/{perc}/{sample}_run.log"
+    mem_mb = lambda wildcards, threads: 1200 * threads
   shell:
     """
     mixcr analyze {params.mixcr} \
       -t {threads} \
       {input.r1} {input.r2} \
-      {output.outdir}/{params.sample}
+      {output.outdir}/{params.subsample}
+    mixcr exportAirr {output.clns} {output.airr}
     """
-
 
