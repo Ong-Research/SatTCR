@@ -35,6 +35,7 @@ rule sequential_saturation:
   output:
     outdir = directory("output/seq_bootstrap/{seed}/{sample}/"),
     summary_file = "output/seq_bootstrap/{seed}/{sample}/bootstrap_summary.qs"
+  threads: 1
   log: "logs/seq_bootstrap/{sample}_{seed}.log"
   params:
     seed = "{seed}",

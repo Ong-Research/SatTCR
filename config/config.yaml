@@ -27,7 +27,7 @@ qc:
 
 saturation:
   bootstrap_replicates: 10 # 200
-  samples: ["run3_bio1_tech1", "run3_bio1_tech2"]
+  samples: ["run3_bio1_tech1", "run3_bio1_tech2", "run1_bio1_tech1", "run1_bio1_tech2"]
   seq_depth_blocks: 250000 # pairs of sequences
   perc_med_width: 0.5
   perc_overlap_width: 0.25

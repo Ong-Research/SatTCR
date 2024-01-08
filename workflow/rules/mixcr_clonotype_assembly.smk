@@ -37,7 +37,7 @@ rule process_sample_mixcr:
       ".vdjca",
       ".align.report.json",
       ".align.report.txt"),
-    clns = "output/clonotypes/mixcr/{species}/{sample}/{sample}.clns",
+    clono = "output/clonotypes/mixcr/{species}/{sample}/{sample}.clns",
     airr = "output/clonotypes/mixcr/{species}/{sample}/{sample}_airr.tsv"
   params:
     mixcr=config["mixcr"]["params"],
@@ -52,7 +52,7 @@ rule process_sample_mixcr:
       -t {threads} \
       {input.r1} {input.r2} \
       {output.outdir}/{params.sample}
-    mixcr exportAirr {input.clono} {output.airr} -f
+    mixcr exportAirr {output.clono} {output.airr} -f
     """
 
 rule process_saturation_mixcr:
@@ -95,3 +95,15 @@ rule process_saturation_mixcr:
     mixcr exportAirr {output.clns} {output.airr}
     """
 
+rule gather_results_saturation_mixcr:
+  input:
+    airr = "output/clonotypes/mixcr/{species}/{sample}/{sample}_airr.tsv",
+    summary = "output/seq_bootstrap/{seed}/{sample}/bootstrap_summary.qs",
+  output:
+    out = "output/seq_bootstrap/results/mixcr/{species}/{seed}/{sample}.qs"
+  params:
+    sample = "{sample}",
+    bootdir = "output/seq_bootstrap/mixcr/{seed}/{sample}"
+  threads: 24
+  script:
+    "../scripts/gather_results/gather_mixcr_airr.R"

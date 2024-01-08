@@ -99,13 +99,13 @@ if config["trim_sequences"]:
 # if config["run_trust4"]:
 #   targets.extend(trust4_targets)
 
-saturation_targets = []
+sample_targets = []
 
 if config["run_saturation"]:
-  saturation_targets.extend(
+  sample_targets.extend(
     expand("output/seq_bootstrap/{seed}/{sample}/", seed = config["seed"],
       sample = config["saturation"]["samples"]))
-  saturation_targets.extend(
+  sample_targets.extend(
     expand("output/seq_bootstrap/{seed}/{sample}/bootstrap_summary.qs",
       seed = config["seed"],
       sample = config["saturation"]["samples"]))
@@ -171,13 +171,23 @@ rule trim:
 #   input: trust4_bam_targets
 
 rule saturation:
-  input: saturation_targets
+  input: sample_targets
 
 rule mixcr:
   input: mixcr_targets
 
 rule saturation_mixcr:
-  input: saturation_mixcr_targets
+  input:
+    sample_targets,
+    saturation_mixcr_targets
+
+rule gather_saturation_mixcr:
+  input:
+    expand(
+      "output/seq_bootstrap/results/mixcr/{species}/{seed}/{sample}.qs",
+      species = config["species"],
+      seed = config["seed"],
+      sample = config["saturation"]["samples"])
 
 rule clean:
   shell:
