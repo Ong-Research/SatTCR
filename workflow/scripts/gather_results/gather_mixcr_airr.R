@@ -1,4 +1,7 @@
 
+save(snakemake, file = "zz.RData")
+
+load("zz.RData")
 
 library(magrittr)
 library(tidyverse)
@@ -37,13 +40,14 @@ boot_summary %<>%
 clean_clono <- function(clono) {
 
   clono %<>%
-    select(-ends_with("score"), -contains("alignment"),
+    select(-contains("alignment"),
       -contains("germline"), -ends_with("cigar"),
       -starts_with("fwr"), -ends_with("end"), -ends_with("start"),
       -starts_with("cdr1"), -starts_with("cdr2"), -starts_with("np1"),
       -starts_with("np2"), -rev_comp, -complete_vdj)
 
   clono %>%
+    select(-c_score) %>%
     rename(complete = productive, count = duplicate_count)
 
 }
@@ -111,10 +115,11 @@ calculate_shannon <- function(clono, filter_complete = TRUE) {
 boot_summary %<>%
   mutate(
     clono = furrr::future_map(clono, clean_clono)) %>%
-  crossing(filter_complete = c(TRUE, FALSE), min_count = c(1, 5, 10)) %>%
+  crossing(filter_complete = c(TRUE), min_count = c(1, 5, 10)) %>%
   mutate(
     clono = furrr::future_map2(clono, min_count, ~ filter(.x, count >= .y),
       .progress = TRUE),
+    nrows = map_dbl(clono, nrow),
     nclonotypes = furrr::future_map2_dbl(clono, filter_complete,
       count_clonotypes, .progress = TRUE),
     d50 = furrr::future_map2_dbl(clono, filter_complete, calculate_d50),

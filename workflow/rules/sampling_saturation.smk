@@ -24,24 +24,43 @@ rule sample_sequences:
   script:
     "../scripts/sequences/sample_sequences.R"
 
-rule sequential_saturation:
-  """
-  Samples sequences from the trimmed fastq files that were subsetted to overlap the
-  TRB loci
-  """
-  input:
-    r1 = "output/trimmed/{sample}_R1.fastq.gz",
-    r2 = "output/trimmed/{sample}_R2.fastq.gz"
-  output:
-    outdir = directory("output/seq_bootstrap/{seed}/{sample}/"),
-    summary_file = "output/seq_bootstrap/{seed}/{sample}/bootstrap_summary.qs"
-  threads: 1
-  log: "logs/seq_bootstrap/{sample}_{seed}.log"
-  params:
-    seed = "{seed}",
-    sample = "{sample}"
-  script:
-    "../scripts/sequences/sample_saturation.R"
+# rule sequential_saturation:
+#   """
+#   Samples sequences from the trimmed fastq files that were subsetted to overlap the
+#   TRB loci
+#   """
+#   input:
+#     r1 = "output/trimmed/{sample}_R1.fastq.gz",
+#     r2 = "output/trimmed/{sample}_R2.fastq.gz"
+#   output:
+#     outdir = directory("output/seq_bootstrap/{seed}/{sample}/"),
+#     summary_file = "output/seq_bootstrap/{seed}/{sample}/bootstrap_summary.qs"
+#   threads: 1
+#   log: "logs/seq_bootstrap/{sample}_{seed}.log"
+#   params:
+#     seed = "{seed}",
+#     sample = "{sample}"
+#   script:
+#     "../scripts/sequences/sample_saturation.R"
+
+# rule sequential_saturation_perc:
+#   """
+#   Samples % of sequences from the trimmed fastq files that were subsetted to overlap the TRB loci
+#   """
+#   input:
+#     r1 = "output/trimmed/{sample}_R1.fastq.gz",
+#     r2 = "output/trimmed/{sample}_R2.fastq.gz"
+#   output:
+#     outdir = directory("output/seq_bootstrap_perc/{seed}/{sample}/"),
+#     summary_file = "output/seq_bootstrap_perc/{seed}/{sample}/bootstrap_summary.qs"
+#   threads: 1
+#   log: "logs/seq_bootstrap_perc/{sample}_{seed}.log"
+#   params:
+#     seed = "{seed}",
+#     sample = "{sample}"
+#   script:
+#     "../scripts/sequences/sample_saturation_perc.R"
+
 
 rule number_of_sequences_seq_saturation:
   """
