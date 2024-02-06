@@ -180,7 +180,22 @@ if config["run_saturation"] & config["run_mixcr"]:
 #   saturation_targets.append("output/seq_bootstrap/summary_stats.qs")
 
 rule all:
-  input: targets
+  input:
+    targets,
+    mixcr_targets,
+    saturation_mixcr_targets,
+    saturation_mixcr_perc_targets,
+    expand(
+      "output/seq_bootstrap/results/mixcr/{species}/{seed}/{sample}.qs",
+      species = config["species"],
+      seed = config["seed"],
+      sample = config["saturation"]["samples"]),
+    expand(
+      "output/seq_bootstrap_perc/results/mixcr/{species}/{seed}/{sample}.qs",
+      species = config["species"],
+      seed = config["seed"],
+      sample = config["saturation"]["samples"])
+
 
 rule qc:
   input: qc_targets
@@ -205,11 +220,9 @@ rule mixcr:
 
 rule saturation_mixcr:
   input:
+    mixcr_targets,
     saturation_mixcr_targets,
-    saturation_mixcr_perc_targets
-
-rule gather_saturation_mixcr:
-  input:
+    saturation_mixcr_perc_targets,
     expand(
       "output/seq_bootstrap/results/mixcr/{species}/{seed}/{sample}.qs",
       species = config["species"],
