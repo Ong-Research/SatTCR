@@ -14,6 +14,12 @@ species: "Canis_lupus_familiaris"
 index: "data/refs/canfam4/canfam4"
 index_bam: "data/refs/ensembl/bowtie2/genome_cfam1_ensembl"
 
+# docker images
+docker:
+  fastqc: "staphb/fastqc"
+  multiqc: "staphb/multiqc"
+
+
 # The repertoire_assembly pipeline assumes that for a sample
 # both end files have names of the form
 # dict[sample] + "_R1" + {suffix}

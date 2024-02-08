@@ -25,7 +25,7 @@ rule fastqc:
   log: "logs/qc/{sample}_fastqc.txt"
   shell:
     """
-    fastqc -o output/qc/fastqc -t {threads} {input.r1} {input.r2}
+    fastqc -o output/qc/fastqc -t {threads} {input.r1} {input.r2} > {log}
     mv output/qc/fastqc/{params.prefix1}_fastqc.zip output/qc/fastqc/{params.sample}_R1_fastqc.zip
     mv output/qc/fastqc/{params.prefix2}_fastqc.zip output/qc/fastqc/{params.sample}_R2_fastqc.zip
     mv output/qc/fastqc/{params.prefix1}_fastqc.html output/qc/fastqc/{params.sample}_R1_fastqc.html
@@ -33,13 +33,20 @@ rule fastqc:
     """
 
 rule multiqc:
+  """
+  Builds a MultiQC report based on the FASTQC ones
+  """  
   input:
     expand("output/qc/fastqc/{sample}_R1_fastqc.zip", sample = sample_names),
     expand("output/qc/fastqc/{sample}_R2_fastqc.zip", sample = sample_names),
   output:
     "output/qc/multiqc/multiqc_report.html"
+  params:
+    docker_run = "docker run -v $(pwd):$(pwd) -w $(pwd) -u $(id -u):$(id -g)",
+    image = config["docker"]["multiqc"]
   shell:
-    """multiqc output/qc/fastqc -o output/qc/multiqc"""
+    """{params.docker_run} {params.image} \
+      multiqc -f output/qc/fastqc -o output/qc/multiqc/"""
 
 rule dada2_qc_profiles:
   """
