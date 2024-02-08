@@ -22,9 +22,11 @@ rule fastqc:
     sample = "{sample}",
     prefix1 = lambda wc: os.path.basename(sample_dict[wc.sample]["end1"].replace(".fastq.gz", "")),
     prefix2 = lambda wc: os.path.basename(sample_dict[wc.sample]["end2"].replace(".fastq.gz", "")),
+    docker_run = config["docker"]["run_line"],
+    image = config["docker"]["fastqc"]
   log: "logs/qc/{sample}_fastqc.txt"
   shell:
-    """
+    """{params.docker_run} {params.image} \
     fastqc -o output/qc/fastqc -t {threads} {input.r1} {input.r2} > {log}
     mv output/qc/fastqc/{params.prefix1}_fastqc.zip output/qc/fastqc/{params.sample}_R1_fastqc.zip
     mv output/qc/fastqc/{params.prefix2}_fastqc.zip output/qc/fastqc/{params.sample}_R2_fastqc.zip
@@ -42,7 +44,7 @@ rule multiqc:
   output:
     "output/qc/multiqc/multiqc_report.html"
   params:
-    docker_run = "docker run -v $(pwd):$(pwd) -w $(pwd) -u $(id -u):$(id -g)",
+    docker_run = config["docker"]["run_line"],
     image = config["docker"]["multiqc"]
   shell:
     """{params.docker_run} {params.image} \

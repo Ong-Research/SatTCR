@@ -16,6 +16,7 @@ index_bam: "data/refs/ensembl/bowtie2/genome_cfam1_ensembl"
 
 # docker images
 docker:
+  run_line: "docker run -v $(pwd):$(pwd) -w $(pwd) -u $(id -u):$(id -g)"
   fastqc: "staphb/fastqc"
   multiqc: "staphb/multiqc"
 
