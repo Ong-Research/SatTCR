@@ -19,6 +19,8 @@ docker:
   run_line: "docker run -v $(pwd):$(pwd) -w $(pwd) -u $(id -u):$(id -g)"
   fastqc: "staphb/fastqc"
   multiqc: "staphb/multiqc"
+  rquarto: "tcr/satcr"
+  # mixcr: "ghcr.io/milaboratory/mixcr/mixcr"
 
 
 # The repertoire_assembly pipeline assumes that for a sample

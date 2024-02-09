@@ -58,14 +58,19 @@ rule dada2_qc_profiles:
     r1 = lambda wc: sample_dict[wc.sample]["end1"],
     r2 = lambda wc: sample_dict[wc.sample]["end2"],
   output:
-    plot = "output/qc/figs/{sample}_qc_profile.png"
+    "output/qc/figs/{sample}_qc_profile.png"
   params:
+    docker_run = config["docker"]["run_line"],
+    image = config["docker"]["rquarto"],
     width = 7,
     height = 3.2,
     units = "in"
   threads: 1
-  script:
-    """../scripts/qc/plot_qc_profiles.R"""
+  shell:
+    """{params.docker_run} {params.image} \
+      Rscript workflow/scripts/qc/plot_qc_profiles.R {output} \
+        --end1={input.r1} --end2={input.r2} \
+        --width={params.width} --height={params.height} > {log}"""
 
 rule trimmomatic_pe:
     input:
