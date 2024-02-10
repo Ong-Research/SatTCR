@@ -19,6 +19,7 @@ docker:
   run_line: "docker run -v $(pwd):$(pwd) -w $(pwd) -u $(id -u):$(id -g)"
   fastqc: "staphb/fastqc"
   multiqc: "staphb/multiqc"
+  trimmomatic: "staphb/trimmomatic"
   rquarto: "tcr/satcr"
   # mixcr: "ghcr.io/milaboratory/mixcr/mixcr"
 

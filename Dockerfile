@@ -14,6 +14,9 @@ RUN install.r \
     ggplot2 \
     cowplot \
     htmltools \
+    future \
+    furrr \
+    fuzzyjoin \
     remotes \
     renv \
     knitr \

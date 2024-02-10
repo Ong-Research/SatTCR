@@ -3,6 +3,7 @@
 #   Quality control rules
 #
 #     Author: Rene Welch rwelch2@wisc.edu
+#     Date: 2024-02-09
 #
 #------------------------------------------------------------------------------#
 
@@ -84,32 +85,38 @@ rule trimmomatic_pe:
       r2_unpaired = "output/trimmed/{sample}_R2.unpaired.fastq.gz"
     log: "logs/trimmomatic/{sample}.log"
     params:
+      # docker parameters
+      docker_run = config["docker"]["run_line"],
+      image = config["docker"]["trimmomatic"],
       # list of trimmers (see manual)
-      trimmer=config["qc"]["trimmer"],
-      # optional parameters
-      extra="",
+      trimmer=" ".join(config["qc"]["trimmer"]),
       compression_level="-9"
     threads: config["threads"]
-    # optional specification of memory usage of the JVM that snakemake will respect with global
-    # resource restrictions (https://snakemake.readthedocs.io/en/latest/snakefiles/rules.html#resources)
-    # and which can be used to request RAM during cluster job submission as `{resources.mem_mb}`:
-    # https://snakemake.readthedocs.io/en/latest/executing/cluster.html#job-properties
     resources:
       mem_mb = 1024
-    wrapper:
-      "v1.21.6/bio/trimmomatic/pe"
+    shell:
+      """{params.docker_run} {params.image} \
+      trimmomatic PE {input.r1} {input.r2} \
+      {output.r1} {output.r1_unpaired} \
+      {output.r2} {output.r2_unpaired} \
+      {params.trimmer}"""
+
 
 rule count_sequences:
   """
-  Count the number of sequences in the main and trimmed sequenced file
+  Count the number of sequences in the raw and trimmed sequenced file
   """
   input:
-    original = lambda wc: sample_dict[wc.sample]["end1"],
+    raw = lambda wc: sample_dict[wc.sample]["end1"],
     trimmed = "output/trimmed/{sample}_R1.fastq.gz"
   output:
     summary = "output/qc/{sample}_trimmed.tsv"
   params:
+    docker_run = config["docker"]["run_line"],
+    image = config["docker"]["rquarto"],
     sample = "{sample}"
-  script:
-    """../scripts/qc/count_sequences.R"""
-
+  shell:
+    """{params.docker_run} {params.image} \
+      Rscript workflow/scripts/qc/count_sequences.R {output} \
+        --input={input.raw} --trimmed={input.trimmed} \
+        --sample={params.sample}"""
