@@ -5,3 +5,5 @@ output/
 .gitignore
 .bashrc
 samples.csv
+imgt.202214-2.sv8.json
+license_mixcr
