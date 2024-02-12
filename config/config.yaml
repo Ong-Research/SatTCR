@@ -23,7 +23,6 @@ docker:
   rquarto: "tcr/satcr"
   # mixcr: "ghcr.io/milaboratory/mixcr/mixcr"
 
-
 # The repertoire_assembly pipeline assumes that for a sample
 # both end files have names of the form
 # dict[sample] + "_R1" + {suffix}
@@ -31,8 +30,13 @@ docker:
 suffix: "_001.fastq.gz"
 
 # trimmomatic parameters
-qc:
+trim:
   trimmer: ["TRAILING:20", "MINLEN:100"]
+
+mixcr:
+  params: "rnaseq-cdr3 --species dog -b imgt.202214-2 --rna" # more presets can be seen https://docs.milaboratories.com/mixcr/reference/overview-built-in-presets/
+  # params: "rnaseq-cdr3 --species dog -b imgt.202214-2 --rna --floating-left-alignment-boundary --floating-right-alignment-boundary C"
+  license_file: "/path/to/license/file"
 
 saturation:
   bootstrap_replicates: 10 # 200
@@ -52,6 +56,3 @@ trust4:
   read2_range: 22
   filter_tcr_error: 0.01
 
-mixcr:
-  params: "rnaseq-cdr3 --species dog -b imgt.202214-2 --rna" # more presets can be seen https://docs.milaboratories.com/mixcr/reference/overview-built-in-presets/
-  # params: "rnaseq-cdr3 --species dog -b imgt.202214-2 --rna --floating-left-alignment-boundary --floating-right-alignment-boundary C"
