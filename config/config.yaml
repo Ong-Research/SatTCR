@@ -1,18 +1,17 @@
 
+# general configuration files
 threads: 16
 samplefile: "samples.csv"
 seed: [54232]
-window: 1000
 trim_sequences: true
-pre_align: true
-run_trust4: true
-run_trust4_bam: true
 run_mixcr: true
 run_saturation: true
 
-species: "Canis_lupus_familiaris"
-index: "data/refs/canfam4/canfam4"
-index_bam: "data/refs/ensembl/bowtie2/genome_cfam1_ensembl"
+# The repertoire_assembly pipeline assumes that for a sample
+# both end files have names of the form
+# dict[sample] + "_R1" + {suffix}
+# dict[sample] + "_R2" + {suffix}
+suffix: "_001.fastq.gz"
 
 # docker images
 docker:
@@ -21,23 +20,18 @@ docker:
   multiqc: "staphb/multiqc"
   trimmomatic: "staphb/trimmomatic"
   rquarto: "tcr/satcr"
-  # mixcr: "ghcr.io/milaboratory/mixcr/mixcr"
+  mixcr: "ghcr.io/milaboratory/mixcr/mixcr:latest"
 
-# The repertoire_assembly pipeline assumes that for a sample
-# both end files have names of the form
-# dict[sample] + "_R1" + {suffix}
-# dict[sample] + "_R2" + {suffix}
-suffix: "_001.fastq.gz"
 
 # trimmomatic parameters
 trim:
   trimmer: ["TRAILING:20", "MINLEN:100"]
 
 mixcr:
-  params: "rnaseq-cdr3 --species dog -b imgt.202214-2 --rna" # more presets can be seen https://docs.milaboratories.com/mixcr/reference/overview-built-in-presets/
+  params: "rna-seq --species dog -b imgt.202214-2 --rna" # more presets can be seen https://docs.milaboratories.com/mixcr/reference/overview-built-in-presets/
   # params: "rnaseq-cdr3 --species dog -b imgt.202214-2 --rna --floating-left-alignment-boundary --floating-right-alignment-boundary C"
   license_file: "/path/to/license/file"
-
+  
 saturation:
   bootstrap_replicates: 10 # 200
   samples: ["run3_bio1_tech1", "run3_bio1_tech2", "run1_bio1_tech1", "run1_bio1_tech2"]

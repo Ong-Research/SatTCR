@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # 
-#   Snakefile to assemble clonotypes from repertoire data / RNA-seq using
+#   Snakefile rule to assemble clonotypes from repertoire data / RNA-seq using
 #    MIXCR
 #
 #   Note:
@@ -9,6 +9,7 @@
 #     to work
 #
 #     Author: Rene Welch rwelch2@wisc.edu
+#     Date: 2024-02-12
 #
 #-------------------------------------------------------------------------------
 
@@ -21,39 +22,35 @@ rule process_sample_mixcr:
     r1 = "output/trimmed/{sample}_R1.fastq.gz",
     r2 = "output/trimmed/{sample}_R2.fastq.gz",
   output:
-    outdir=directory("output/clonotypes/mixcr/{species}/{sample}/"),
-    files = multiext("output/clonotypes/mixcr/{species}/{sample}/{sample}",
-      ".clones_TRB.tsv",
-      ".assemble.report.json",
-      ".assemble.report.txt",
-      ".clns",
-      ".extended.vdjca",
-      ".extend.report.json",
-      ".extend.report.txt",
-      ".passembled.2.vdjca",
-      ".assemblePartial.report.json",
-      ".assemblePartial.report.txt",
-      ".passembled.1.vdjca",
-      ".vdjca",
-      ".align.report.json",
-      ".align.report.txt"),
-    clono = "output/clonotypes/mixcr/{species}/{sample}/{sample}.clns",
-    airr = "output/clonotypes/mixcr/{species}/{sample}/{sample}_airr.tsv"
+    outdir=directory("output/clonotypes/mixcr/{sample}/"),
+    clono = "output/clonotypes/mixcr/{sample}/{sample}.contigs.clns",
+    airr = "output/clonotypes/mixcr/{sample}/{sample}_airr.tsv"
   params:
+    docker_run = config["docker"]["run_line"],
+    image = config["docker"]["mixcr"],
+    mixcr_license_file = config["mixcr"]["license_file"],
     mixcr=config["mixcr"]["params"],
     sample="{sample}"
   threads: 12
   resources:
     mem_mb = lambda wildcards, threads: 1200 * threads
-  log: "logs/mixcr/{species}/{sample}_run.log"
+  log: "logs/mixcr/{sample}_run.log"
   shell:
     """
+    {params.docker_run} \
+    -v ./license_mixcr:/opt/mixcr/mi.license:ro \
+    {params.image} \
     mixcr analyze {params.mixcr} \
-      -t {threads} \
+      -t {threads} -f \
       {input.r1} {input.r2} \
       {output.outdir}/{params.sample}
-    mixcr exportAirr {output.clono} {output.airr} -f
+    {params.docker_run} \
+      -v ./license_mixcr:/opt/mixcr/mi.license:ro \
+      {params.image} \
+    mixcr exportAirr -f {output.clono} {output.airr}
     """
+
+
 
 rule process_saturation_mixcr:
   """

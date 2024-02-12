@@ -89,7 +89,7 @@ rule trimmomatic_pe:
       docker_run = config["docker"]["run_line"],
       image = config["docker"]["trimmomatic"],
       # list of trimmers (see manual)
-      trimmer=" ".join(config["qc"]["trimmer"]),
+      trimmer=" ".join(config["trim"]["trimmer"]),
       compression_level="-9"
     threads: config["threads"]
     resources:

@@ -84,11 +84,8 @@ trim_targets.extend(
 mixcr_targets = []
 if config["run_mixcr"]:
   mixcr_targets.extend(
-    expand("output/clonotypes/mixcr/{species}/{sample}/{sample}.assemble.report.json",
-    species = config["species"], sample = sample_names))
-  mixcr_targets.extend(
-    expand("output/clonotypes/mixcr/{species}/{sample}/{sample}_airr.tsv",
-      species = config["species"], sample = sample_names))
+    expand("output/clonotypes/mixcr/{sample}/{sample}_airr.tsv",
+      sample = sample_names))
 
 targets = []
 targets.extend(qc_targets)
@@ -183,18 +180,16 @@ rule all:
   input:
     targets,
     mixcr_targets,
-    saturation_mixcr_targets,
-    saturation_mixcr_perc_targets,
-    expand(
-      "output/seq_bootstrap/results/mixcr/{species}/{seed}/{sample}.qs",
-      species = config["species"],
-      seed = config["seed"],
-      sample = config["saturation"]["samples"]),
-    expand(
-      "output/seq_bootstrap_perc/results/mixcr/{species}/{seed}/{sample}.qs",
-      species = config["species"],
-      seed = config["seed"],
-      sample = config["saturation"]["samples"])
+    # saturation_mixcr_targets,
+    # saturation_mixcr_perc_targets,
+    # expand(
+    #   "output/seq_bootstrap/results/mixcr/{species}/{seed}/{sample}.qs",
+    #   seed = config["seed"],
+    #   sample = config["saturation"]["samples"]),
+    # expand(
+    #   "output/seq_bootstrap_perc/results/mixcr/{species}/{seed}/{sample}.qs",
+    #   seed = config["seed"],
+    #   sample = config["saturation"]["samples"])
 
 
 rule qc:
@@ -218,21 +213,21 @@ rule saturation_perc:
 rule mixcr:
   input: mixcr_targets
 
-rule saturation_mixcr:
-  input:
-    mixcr_targets,
-    saturation_mixcr_targets,
-    saturation_mixcr_perc_targets,
-    expand(
-      "output/seq_bootstrap/results/mixcr/{species}/{seed}/{sample}.qs",
-      species = config["species"],
-      seed = config["seed"],
-      sample = config["saturation"]["samples"]),
-    expand(
-      "output/seq_bootstrap_perc/results/mixcr/{species}/{seed}/{sample}.qs",
-      species = config["species"],
-      seed = config["seed"],
-      sample = config["saturation"]["samples"])
+# rule saturation_mixcr:
+#   input:
+#     mixcr_targets,
+#     saturation_mixcr_targets,
+#     saturation_mixcr_perc_targets,
+#     expand(
+#       "output/seq_bootstrap/results/mixcr/{species}/{seed}/{sample}.qs",
+#       species = config["species"],
+#       seed = config["seed"],
+#       sample = config["saturation"]["samples"]),
+#     expand(
+#       "output/seq_bootstrap_perc/results/mixcr/{species}/{seed}/{sample}.qs",
+#       species = config["species"],
+#       seed = config["seed"],
+#       sample = config["saturation"]["samples"])
 
 
 rule clean:
@@ -242,6 +237,10 @@ rule clean:
 rule clean_qc:
   shell:
     """rm -fr output/qc"""
+
+rule clean_mixcr:
+  shell:
+    """rm -fr output/clonotypes/mixcr"""
 
 # rule clean_trimmed:
 #   shell:
@@ -256,7 +255,7 @@ rule clean_qc:
 #     """rm -fr output/mixcr output/clonotypes/mixcr output/saturation/*/*/mixcr logs/mixcr logs/saturation/mixcr"""
 
 include: "rules/quality_control.smk"
-include: "rules/alignments.smk"
+# include: "rules/alignments.smk"
 include: "rules/sampling_saturation.smk"
 # include: "rules/trust4_clonotype_assembly.smk"
 # include: "rules/trust4_clonotype_assembly_from_bam.smk"
