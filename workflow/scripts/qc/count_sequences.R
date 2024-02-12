@@ -1,6 +1,6 @@
 #!/usr/bin/Rscript
 
- options(bspm.sudo = TRUE)
+options(bspm.sudo = TRUE)
 
 "Count # of sequences in raw and trimmed sequence files
 
