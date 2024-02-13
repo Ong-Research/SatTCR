@@ -8,23 +8,39 @@
 
 ## Instructions
 
-Setting up the SATCR pipeline to analyze TCR repertoire data:
+To download from the command line using the command:
 
+```sh
+git clone git@github.com:Ong-Research/SATCR.git
+```
 
-SATCR, and to download the pipeline there are two alternatives:
-	Download from the command line using the command:
-`git clone git@github.com:Ong-Research/SATCR.git`
-	Manually download the repository from a released link.
-	The SATCR ensures reproducibility by using Docker (Merkel 2014) containers and Snakemake (Mölder et al. 2021), and to install them, the instructions are available in their sites:
-	Docker: https://www.docker.com/ 
-	Snakemake: https://snakemake.readthedocs.io/en/stable/ 
-	Pull Docker images that are going to be utilized by the pipeline, using the commands after changing  to the SATCR directory using `cd SATCR`
-	FastQC: `docker pull staphb/fastqc`
-	MultiQC (Ewels et al. 2016): `docker pull  staphb/multiqc`
-	Trimmomatic (Bolger, Lohse, and Usadel 2014): `docker pull staphb/trimmomatic`.
-	R / Quarto: `docker build -t tcr/satcr - < Dockerfile`
-	MIXCR: `docker pull ghcr.io/milaboratory/mixcr/mixcr:latest`, additional MIXCR images are available in https://github.com/milaboratory/mixcr/pkgs/container/mixcr%2Fmixcr
-	Get MIXCR license from https://mixcr.com/mixcr/getting-started/milm/ and save it into a file, and download an IMGT library file from https://github.com/repseqio/library-imgt/releases.
+The SATCR pipeline requires:
+
+1. Docker: <https://www.docker.com/>
+2. Snakemake: <https://snakemake.readthedocs.io/en/stable/>
+
+It uses Snakemake to schedule the jobs to run the pipeline, and every job is run in a different container. 
+
+### Getting Docker images
+
+To pull Docker images that are going to be utilized by the pipeline, using the following commands:
+
+```sh
+cd SATCR
+
+docker pull staphb/fastqc # FastQC image
+docker pull  staphb/multiqc # MultiQC image
+docker pull staphb/trimmomatic # Trimmomatic image
+docker build -t tcr/satcr - < Dockerfile # R and Quarto image
+docker pull ghcr.io/milaboratory/mixcr/mixcr:latest # MIXCR image
+```
+
+For MIXCR to work, it is necessary to get a license from <https://mixcr.com/mixcr/getting-started/milm/> and save it into a file.
+
+### Configuring the SATCR pipeline
+
+###
+
 	Create a comma-separated value (csv) with 2 columns:
 	`sample_name` : The name of the sample
 	`sample_file`: The prefix of the files until before the `_R1` and `_R2` parts, e.g. if the pair of RNA-seq files are data/sample1_R1_L001.fastq.gz and data/sample1_R2_L001.fastq.gz, then this column is `data/sample1`.
