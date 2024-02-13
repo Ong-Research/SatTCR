@@ -17,6 +17,7 @@ RUN install.r \
     future \
     furrr \
     fuzzyjoin \
+    qs \
     remotes \
     renv \
     knitr \

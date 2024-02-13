@@ -30,6 +30,9 @@ boots_replicates <- snakemake@config[["saturation"]][["bootstrap_replicates"]]
 stopifnot(identical(n, length(r2_seqs)))
 block_size <- snakemake@config[["saturation"]][["seq_depth_blocks"]]
 
+
+
+
 nblocks <- floor(n / block_size) + 1
 
 set.seed(as.numeric(seed))

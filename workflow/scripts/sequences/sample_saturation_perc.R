@@ -111,3 +111,6 @@ summary_tibble %<>%
 summary_tibble %>%
   qs::qsave(
     snakemake@output[["summary_file"]])
+
+
+

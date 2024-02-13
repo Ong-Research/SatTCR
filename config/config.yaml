@@ -3,9 +3,9 @@
 threads: 16
 samplefile: "samples.csv"
 seed: [54232]
-trim_sequences: true
 run_mixcr: true
 run_saturation: true
+run_report: false
 
 # The repertoire_assembly pipeline assumes that for a sample
 # both end files have names of the form
@@ -33,20 +33,8 @@ mixcr:
   license_file: "/path/to/license/file"
   
 saturation:
-  bootstrap_replicates: 10 # 200
-  samples: ["run3_bio1_tech1", "run3_bio1_tech2", "run1_bio1_tech1", "run1_bio1_tech2"]
-  seq_depth_blocks: 250000 # pairs of sequences
-  perc_med_width: 0.5
-  perc_overlap_width: 0.25
-
-saturation_perc:
-  bootstrap_replicates: 10
-  samples: ["run3_bio1_tech1", "run3_bio1_tech2", "run1_bio1_tech1", "run1_bio1_tech2"]
+  bootstrap_replicates: 3 # 200
+  samples: ["run1_bio1_tech1", "run1_bio1_tech2"]
+  # only one of block_size or nblocks is supposed to be Null
+  block_size: Null
   nblocks: 10
-
-trust4:
-  barcode_range: 59
-  read1_range: 22
-  read2_range: 22
-  filter_tcr_error: 0.01
-
