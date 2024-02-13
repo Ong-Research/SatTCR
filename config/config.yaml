@@ -29,12 +29,11 @@ trim:
 
 mixcr:
   params: "rna-seq --species dog -b imgt.202214-2 --rna" # more presets can be seen https://docs.milaboratories.com/mixcr/reference/overview-built-in-presets/
-  # params: "rnaseq-cdr3 --species dog -b imgt.202214-2 --rna --floating-left-alignment-boundary --floating-right-alignment-boundary C"
   license_file: "/path/to/license/file"
   
 saturation:
-  bootstrap_replicates: 3 # 200
   samples: ["run1_bio1_tech1", "run1_bio1_tech2"]
+  bootstrap_replicates: 10 # 200  
   # only one of block_size or nblocks is supposed to be Null
   block_size: Null
   nblocks: 10

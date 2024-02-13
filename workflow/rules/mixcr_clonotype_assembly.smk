@@ -61,23 +61,12 @@ rule process_saturation_mixcr:
     r2 = "output/seq_bootstrap/{seed}/{sample}/{subsample}_R2.fastq.gz"
   output:
     outdir = directory("output/seq_bootstrap/mixcr/{seed}/{sample}/{subsample}"),
-    files = multiext("output/seq_bootstrap/mixcr/{seed}/{sample}/{subsample}/{subsample}",
-      ".clones_TRB.tsv",
-      ".assemble.report.json",
-      ".assemble.report.txt",
-      ".extended.vdjca",
-      ".extend.report.json",
-      ".extend.report.txt",
-      ".passembled.2.vdjca",
-      ".assemblePartial.report.json",
-      ".assemblePartial.report.txt",
-      ".passembled.1.vdjca",
-      ".vdjca",
-      ".align.report.json",
-      ".align.report.txt"),
-    clns = "output/seq_bootstrap/mixcr/{seed}/{sample}/{subsample}/{subsample}.clns",
+    clns = "output/seq_bootstrap/mixcr/{seed}/{sample}/{subsample}/{subsample}.contigs.clns",
     airr = "output/seq_bootstrap/mixcr/{seed}/{sample}/{subsample}/{subsample}_airr.tsv"
   params:
+    docker_run = config["docker"]["run_line"],
+    image = config["docker"]["mixcr"],
+    mixcr_license_file = config["mixcr"]["license_file"],
     mixcr=config["mixcr"]["params"],
     subsample="{subsample}"
   threads: 4
@@ -85,50 +74,16 @@ rule process_saturation_mixcr:
     mem_mb = lambda wildcards, threads: 1200 * threads
   shell:
     """
+    {params.docker_run} \
+    -v ./license_mixcr:/opt/mixcr/mi.license:ro \
+    {params.image} \
     mixcr analyze {params.mixcr} \
       -t {threads} \
       {input.r1} {input.r2} \
       {output.outdir}/{params.subsample}
-    mixcr exportAirr {output.clns} {output.airr}
-    """
-
-rule process_saturation_mixcr_perc:
-  """
-  Process a saturation sample with mixcr
-  """
-  input:
-    r1 = "output/seq_bootstrap_perc/{seed}/{sample}/{subsample}_R1.fastq.gz",
-    r2 = "output/seq_bootstrap_perc/{seed}/{sample}/{subsample}_R2.fastq.gz"
-  output:
-    outdir = directory("output/seq_bootstrap_perc/mixcr/{seed}/{sample}/{subsample}"),
-    files = multiext("output/seq_bootstrap_perc/mixcr/{seed}/{sample}/{subsample}/{subsample}",
-      ".clones_TRB.tsv",
-      ".assemble.report.json",
-      ".assemble.report.txt",
-      ".extended.vdjca",
-      ".extend.report.json",
-      ".extend.report.txt",
-      ".passembled.2.vdjca",
-      ".assemblePartial.report.json",
-      ".assemblePartial.report.txt",
-      ".passembled.1.vdjca",
-      ".vdjca",
-      ".align.report.json",
-      ".align.report.txt"),
-    clns = "output/seq_bootstrap_perc/mixcr/{seed}/{sample}/{subsample}/{subsample}.clns",
-    airr = "output/seq_bootstrap_perc/mixcr/{seed}/{sample}/{subsample}/{subsample}_airr.tsv"
-  params:
-    mixcr=config["mixcr"]["params"],
-    subsample="{subsample}"
-  threads: 4
-  resources:
-    mem_mb = lambda wildcards, threads: 1200 * threads
-  shell:
-    """
-    mixcr analyze {params.mixcr} \
-      -t {threads} \
-      {input.r1} {input.r2} \
-      {output.outdir}/{params.subsample}
+    {params.docker_run} \
+      -v ./license_mixcr:/opt/mixcr/mi.license:ro \
+      {params.image} \
     mixcr exportAirr {output.clns} {output.airr}
     """
 
