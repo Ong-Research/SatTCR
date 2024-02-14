@@ -131,3 +131,4 @@ rule clean_report:
 include: "rules/quality_control.smk"
 include: "rules/sampling_saturation.smk"
 include: "rules/mixcr_clonotype_assembly.smk"
+include: "rules/report.smk"

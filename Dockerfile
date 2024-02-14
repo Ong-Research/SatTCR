@@ -24,6 +24,9 @@ RUN install.r \
     rmarkdown \
     quarto
 
+ENV QUARTO_PRINT_STACK=true
+ENV XDG_RUNTIME_DIR=./tmp
+
 ARG QUARTO_VERSION="1.4.549"
 RUN curl -o quarto-linux-amd64.deb -L https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.deb
 RUN gdebi --non-interactive quarto-linux-amd64.deb

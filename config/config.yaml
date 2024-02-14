@@ -29,7 +29,8 @@ trim:
 
 mixcr:
   params: "rna-seq --species dog -b imgt.202214-2 --rna" # more presets can be seen https://docs.milaboratories.com/mixcr/reference/overview-built-in-presets/
-  license_file: "/path/to/license/file"
+  # license_file: "/path/to/license/file"
+  license_file: "./license_mixcr"
   
 saturation:
   samples: ["run1_bio1_tech1", "run1_bio1_tech2"]

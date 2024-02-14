@@ -1,0 +1,28 @@
+project:
+  type: book
+  output-dir: "../../output/report"
+
+book:
+  title: "Saturation TCR analysis report"
+  chapters:
+    - index.qmd
+    - qc.qmd
+    - repertoire.qmd
+    - saturation.qmd
+
+
+format:
+  html:
+    theme: pulse
+    page-layout: full
+    grid:
+      sidebar-width: 250px
+      margin-width: 250px
+    
+  # pdf:
+  #   documentclass: scrreprt
+
+comments:
+  hypothesis: false
+
+
