@@ -50,6 +50,25 @@ rule process_sample_mixcr:
     mixcr exportAirr -f {output.clono} {output.airr}
     """
 
+rule tcr_stats:
+  """
+  Calculate TCR statistics for MIXCR results
+  """
+  input:
+    airr = "output/clonotypes/mixcr/{sample}/{sample}_airr.tsv"
+  output:
+    stats = "output/clonotypes/mixcr/{sample}/{sample}_summary.tsv"
+  threads: 1
+  params:
+    docker_run = config["docker"]["run_line"],
+    image = config["docker"]["rquarto"],
+    min_count = config["summary"]["min_count"]
+  shell:
+    """
+    {params.docker_run} {params.image} \
+      Rscript workflow/scripts/repertoire/calculate_tcr_stats.R \
+         {output.stats} --airr={input.airr} --min_count={params.min_count}
+    """
 
 
 rule process_saturation_mixcr:
@@ -87,29 +106,22 @@ rule process_saturation_mixcr:
     mixcr exportAirr {output.clns} {output.airr}
     """
 
-
-rule gather_results_saturation_mixcr:
+rule calculate_tcr_stats_saturation:
+  """
+  Calculate TCR statistics for MIXCR saturation results
+  """
   input:
-    airr = "output/clonotypes/mixcr/{species}/{sample}/{sample}_airr.tsv",
-    summary = "output/seq_bootstrap/{seed}/{sample}/bootstrap_summary.qs",
+    airr = "output/seq_bootstrap/mixcr/{seed}/{sample}/{subsample}/{subsample}_airr.tsv"
   output:
-    out = "output/seq_bootstrap/results/mixcr/{species}/{seed}/{sample}.qs"
+    stats = "output/seq_bootstrap/mixcr/{seed}/{sample}/{subsample}/{subsample}_summary.tsv"
+  threads: 1
   params:
-    sample = "{sample}",
-    bootdir = "output/seq_bootstrap/mixcr/{seed}/{sample}"
-  threads: 24
-  script:
-    "../scripts/gather_results/gather_mixcr_airr.R"
-
-rule gather_results_saturation_mixcr_perc:
-  input:
-    airr = "output/clonotypes/mixcr/{species}/{sample}/{sample}_airr.tsv",
-    summary = "output/seq_bootstrap_perc/{seed}/{sample}/bootstrap_summary.qs",
-  output:
-    out = "output/seq_bootstrap_perc/results/mixcr/{species}/{seed}/{sample}.qs"
-  params:
-    sample = "{sample}",
-    bootdir = "output/seq_bootstrap_perc/mixcr/{seed}/{sample}"
-  threads: 24
-  script:
-    "../scripts/gather_results/gather_mixcr_airr.R"
+    docker_run = config["docker"]["run_line"],
+    image = config["docker"]["rquarto"],
+    min_count = config["summary"]["min_count"]
+  shell:
+    """
+    {params.docker_run} {params.image} \
+      Rscript workflow/scripts/repertoire/calculate_tcr_stats.R \
+         {output.stats} --airr={input.airr} --min_count={params.min_count}
+    """

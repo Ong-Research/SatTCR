@@ -23,6 +23,10 @@ RUN install.r \
     knitr \
     rmarkdown \
     gt \
+    circlize \
+    ComplexHeatmap \
+    ComplexUpset \
+    viridisLite \
     quarto
 
 ENV QUARTO_PRINT_STACK=true
