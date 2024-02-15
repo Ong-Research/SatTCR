@@ -1,0 +1,16 @@
+
+
+## {{sample}}
+
+
+```{r}
+#| include: true
+#| eval: true
+#| label: "fig-{{sample}}-qc"
+#| fig-cap: "Quality profiles for {{sample}} ends"
+
+knitr::include_graphics(
+  "{{figfile}}",
+  error = FALSE)
+
+```

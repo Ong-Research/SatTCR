@@ -71,9 +71,12 @@ rule dada2_qc_profiles:
     """{params.docker_run} {params.image} \
       Rscript workflow/scripts/qc/plot_qc_profiles.R {output} \
         --end1={input.r1} --end2={input.r2} \
-        --width={params.width} --height={params.height} > {log}"""
+        --width={params.width} --height={params.height}"""
 
 rule trimmomatic_pe:
+    """
+    Trim PE sequence files using Trimmomatic
+    """
     input:
       r1 = lambda wc: sample_dict[wc.sample]["end1"],
       r2 = lambda wc: sample_dict[wc.sample]["end2"],

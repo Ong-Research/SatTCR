@@ -21,6 +21,12 @@ rule quarto_report:
     image = config["docker"]["rquarto"],
   threads: config["threads"]
   shell:
-    """{params.docker_run} {params.image} \
-    quarto render --no-cache workflow/templates"""
+    """
+    cp output/qc/multiqc/multiqc_report.html output/report/
+    cp -r output/qc/figs output/report/
+    {params.docker_run} {params.image} \
+    quarto render workflow/templates --no-cache
+    """
+  
+
   

@@ -48,6 +48,8 @@ if config["run_mixcr"]:
   mixcr_targets.extend(
     expand("output/clonotypes/mixcr/{sample}/{sample}_airr.tsv",
       sample = sample_names))
+  mixcr_targets.extend(
+    expand("output/qc/{sample}_trimmed.tsv", sample = sample_names))
 
 targets = []
 targets.extend(qc_targets)

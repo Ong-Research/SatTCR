@@ -1,6 +1,10 @@
 logs/
 data/
 output/
+tmp/
+workflow/templates/tmp
+workflow/templates/_freeze
+workflow/templates/.quarto
 .snakemake/
 .gitignore
 .bashrc

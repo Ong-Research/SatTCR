@@ -1,0 +1,68 @@
+---
+date: last-modified
+date-format: long
+execute:
+  freeze: auto  # re-render only when source changes
+  cache: false
+warning: false
+message: false
+eval: true
+echo: false
+---
+
+# Quality control {.unnumbered}
+
+```{r}
+#| label: "setup"
+#| include: false
+#| echo: false
+
+library(magrittr)
+library(tidyverse)
+
+
+```
+
+## MultiQC report
+
+```{r}
+#| label: "multiqc"
+#| out-width: "100%"
+
+knitr::include_url("multiqc_report.html", height = "800px")
+
+```
+
+## Quality profiles
+
+::: {.panel-tabset}
+
+```{r}
+#| label: "dada2-profiles-setup"
+
+samples <- "../../samples.csv" %>%
+  vroom::vroom()
+
+samples %<>%
+  mutate(
+    fig = glue::glue("figs/{sample_name}_qc_profile.png"))
+
+render_file <- function(sample, figfile) {
+
+  res = knitr::knit_expand(
+    file = "template_qc_profile.qmd",
+    sample = sample,
+    figfile = figfile)
+  res
+
+}
+
+unparsed <- map2(samples$sample_name, samples$fig, render_file)
+parsed <- knitr::knit_child(text = unlist(unparsed))
+
+
+```
+
+`r parsed`
+
+:::

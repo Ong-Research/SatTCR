@@ -1,16 +1,46 @@
 ---
 date: last-modified
 date-format: long
+execute:
+  freeze: auto  # re-render only when source changes
+  cache: false
+warning: false
+message: false
+eval: true
+echo: false
 ---
-
-# Preface {.unnumbered}
 
 Repertoire report generated with [SATCR](https://github.com/Ong-Research/SATCR)
 
-
-aasfq
-
-aasfa
+## Analysis statistics {.unnumbered}
 
 
+```{r}
+#| label: "setup"
+
+library(magrittr)
+library(tidyverse)
+
+samples <- "../../samples.csv" %>%
+  vroom::vroom()
+
+samples %>%
+  mutate(
+    aux = glue::glue("../../output/qc/{sample_name}_trimmed.tsv",),
+    aux = map(aux, readr::read_tsv),
+    aux = map(aux, dplyr::select, -sample)) %>%
+  unnest(cols = c(aux)) %>%
+  mutate(
+    diff = original - trimmed,
+    original = scales::comma(original, 1),
+    diff = scales::comma(diff, 1)) %>%
+  select(-trimmed, -sample_file) %>%
+  gt::gt() %>%
+    gt::cols_label(
+      sample_name = "Sample",
+      original = "Seq. depth",
+      diff = "Trimmed sequences")
+      
+
+```
 
