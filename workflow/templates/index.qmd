@@ -20,11 +20,12 @@ Repertoire report generated with [SATCR](https://github.com/Ong-Research/SATCR)
 
 library(magrittr)
 library(tidyverse)
+library(gt)
 
 samples <- "../../samples.csv" %>%
   vroom::vroom()
 
-samples %>%
+samples %<>%
   mutate(
     aux = glue::glue("../../output/qc/{sample_name}_trimmed.tsv",),
     aux = map(aux, readr::read_tsv),
@@ -33,13 +34,61 @@ samples %>%
   mutate(
     diff = original - trimmed,
     original = scales::comma(original, 1),
-    diff = scales::comma(diff, 1)) %>%
-  select(-trimmed, -sample_file) %>%
-  gt::gt() %>%
-    gt::cols_label(
+    diff = scales::comma(diff, 1))
+
+# add repertoire summary statistics
+samples %<>%
+  mutate(
+    aux = glue::glue("../../output/clonotypes/mixcr/{sample_name}/{sample_name}_summary.tsv"),
+    aux = map(aux, readr::read_tsv)) %>%
+  unnest(cols = c(aux)) %>%
+  select(sample_name, original, diff, contains("complete")) %>%
+  mutate(
+    nclono_ratio_complete = nclono_complete_mc / nclono_complete)
+
+samples %>%
+  gt() %>%
+    cols_label(
       sample_name = "Sample",
-      original = "Seq. depth",
-      diff = "Trimmed sequences")
+      original = "Depth",
+      diff = "Trim") %>%
+    tab_footnote(
+      footnote = "# of trimmed sequences",
+      locations = cells_column_labels("diff")) %>%
+    tab_spanner(
+      label = "Sequencing",
+      columns = all_of(c("original", "diff"))) %>%
+    cols_label(
+      nclono_complete = "Complete",
+      nclono_complete_mc = "Complete (>= 5)",
+      nclono_ratio_complete = "Ratio") %>%
+    fmt_integer(starts_with("nclono_complete")) %>%
+    fmt_percent(one_of("nclono_ratio_complete")) %>%
+    fmt_percent(starts_with("shannon")) %>%
+    fmt_percent(starts_with("clonality")) %>%
+    tab_spanner(
+      label = "# clonotypes",
+      columns = starts_with("nclono")) %>%
+    tab_spanner(
+      label = "Shannon div",
+      columns = starts_with("shannon")) %>%
+    cols_label(
+      shannon_complete = "Complete",
+      shannon_complete_mc = "Complete (>= 5)") %>%
+    tab_spanner(
+      label = "Clonality",
+      columns = starts_with("clonality")) %>%
+    cols_label(
+      clonality_complete = "Complete",
+      clonality_complete_mc = "Complete (>= 5)") %>%
+    tab_spanner(
+      label = "D50",
+      columns = starts_with("d50")) %>%
+    cols_label(
+      d50_complete = "Complete",
+      d50_complete_mc = "Complete (>= 5)") %>%
+    fmt_integer(starts_with("d50"))
+
       
 
 ```

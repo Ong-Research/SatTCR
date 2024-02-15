@@ -134,7 +134,10 @@ rule clean_saturation:
 
 rule clean_report:
   shell:
-    """rm -fr output/report"""
+    """
+    rm -fr output/report workflow/templates/tmp workflow/templates/_freeze
+    touch workflow/templates/*qmd
+    """
 
 include: "rules/quality_control.smk"
 include: "rules/sampling_saturation.smk"
