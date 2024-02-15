@@ -34,7 +34,10 @@ mixcr:
   
 saturation:
   samples: ["run1_bio1_tech1", "run1_bio1_tech2"]
-  bootstrap_replicates: 10 # 200  
+  bootstrap_replicates: 3 # 200  
   # only one of block_size or nblocks is supposed to be Null
   block_size: Null
   nblocks: 10
+
+summary:
+  min_count: 5
