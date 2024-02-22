@@ -37,7 +37,7 @@ docker pull ghcr.io/milaboratory/mixcr/mixcr:latest # MIXCR image
 
 For MIXCR to work, it is necessary to get a license from <https://mixcr.com/mixcr/getting-started/milm/> and save it into a file.
 
-### Configuring the SATCR pipeline
+### Configuring the SaTCR pipeline
 
 Create a comma-separated value (csv) with 2 columns:
 
