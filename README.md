@@ -26,7 +26,7 @@ It uses Snakemake to schedule the jobs to run the pipeline, and every job is run
 To pull Docker images that are going to be utilized by the pipeline, using the following commands:
 
 ```sh
-cd SATCR
+cd SaTCR
 
 docker pull staphb/fastqc # FastQC image
 docker pull  staphb/multiqc # MultiQC image
