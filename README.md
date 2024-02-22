@@ -1,4 +1,4 @@
-# SATCR pipeline
+# SaTCR pipeline
 
 [Snakemake](https://snakemake.readthedocs.io/en/stable/) pipeline for assembling TCR data, and perform a saturation analysis.
 
@@ -11,7 +11,7 @@
 To download from the command line using the command:
 
 ```sh
-git clone git@github.com:Ong-Research/SATCR.git
+git clone git@github.com:Ong-Research/SaTCR.git
 ```
 
 The SATCR pipeline requires:
