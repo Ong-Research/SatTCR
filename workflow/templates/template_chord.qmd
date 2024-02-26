@@ -1,0 +1,19 @@
+
+## {{sample_name}}
+
+```{r}
+#| include: true
+#| eval: true
+#| label: "fig-chord-diagram-{{sample_name}}"
+#| fig-width: 7
+#| fig-height: 7
+#| out-width: "50%"
+#| fig-cap: "Chord diagram for {{sample_name}} sample"
+
+vj_mat <- vj_mat_list %>%
+  filter(sample == "{{sample_name}}") %>%
+  pluck("vj_mat", 1)
+
+chord_diagram(vj_mat, col_mat = col_mat, cols_v = pal_v, cols_j = pal_j)
+
+```

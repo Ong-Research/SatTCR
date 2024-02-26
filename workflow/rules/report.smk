@@ -12,7 +12,7 @@ rule quarto_report:
   """
   input:
     expand("workflow/templates/{file}.qmd",
-      file = ["index", "qc", "repertoire", "saturation"])
+      file = ["index", "qc", "repertoire", "saturation", "template_upset"])
   output:
     expand("output/report/{file}.html",
       file = ["index", "qc", "repertoire", "saturation"])

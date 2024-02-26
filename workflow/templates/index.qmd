@@ -21,9 +21,12 @@ Repertoire report generated with [SATCR](https://github.com/Ong-Research/SATCR)
 library(magrittr)
 library(tidyverse)
 library(gt)
+library(yaml)
 
 samples <- "../../samples.csv" %>%
   vroom::vroom()
+config <- "../../config/config.yaml"
+config <- read_yaml(config)
 
 samples %<>%
   mutate(
@@ -35,6 +38,10 @@ samples %<>%
     diff = original - trimmed,
     original = scales::comma(original, 1),
     diff = scales::comma(diff, 1))
+
+mc <- config[["summary"]][["min_count"]]
+complete_str <- as.character(glue::glue("Complete >= {mc})", mc = mc))
+
 
 # add repertoire summary statistics
 samples %<>%
@@ -60,7 +67,7 @@ samples %>%
       columns = all_of(c("original", "diff"))) %>%
     cols_label(
       nclono_complete = "Complete",
-      nclono_complete_mc = "Complete (>= 5)",
+      nclono_complete_mc = complete_str,
       nclono_ratio_complete = "Ratio") %>%
     fmt_integer(starts_with("nclono_complete")) %>%
     fmt_percent(one_of("nclono_ratio_complete")) %>%
@@ -74,22 +81,19 @@ samples %>%
       columns = starts_with("shannon")) %>%
     cols_label(
       shannon_complete = "Complete",
-      shannon_complete_mc = "Complete (>= 5)") %>%
+      shannon_complete_mc = complete_str) %>%
     tab_spanner(
       label = "Clonality",
       columns = starts_with("clonality")) %>%
     cols_label(
       clonality_complete = "Complete",
-      clonality_complete_mc = "Complete (>= 5)") %>%
+      clonality_complete_mc = complete_str) %>%
     tab_spanner(
       label = "D50",
       columns = starts_with("d50")) %>%
     cols_label(
       d50_complete = "Complete",
-      d50_complete_mc = "Complete (>= 5)") %>%
+      d50_complete_mc = complete_str) %>%
     fmt_integer(starts_with("d50"))
 
-      
-
 ```
-

@@ -11,6 +11,7 @@ RUN install.r \
     dada2 \
     jsonlite \
     tidyverse \
+    tidytext \
     ggplot2 \
     cowplot \
     htmltools \
@@ -27,6 +28,8 @@ RUN install.r \
     ComplexHeatmap \
     ComplexUpset \
     viridisLite \
+    Polychrome \
+    ggridges \
     quarto
 
 ENV QUARTO_PRINT_STACK=true

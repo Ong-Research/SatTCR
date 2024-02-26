@@ -1,0 +1,28 @@
+
+## {{group}}
+
+
+```{r}
+#| include: true
+#| eval: true
+#| label: "fig-{{group}}-upset"
+#| fig-cap: "UpSet plot for {{group_lb}}."
+#| fig-width: 12
+#| fig-height: 12
+#| out-width: "100%"
+
+group <- "{{group}}"
+if (group == "all") {
+
+  pdata <- samples
+
+} else {
+  pdata <- samples %>%
+    filter(group == "{{group}}")
+}
+
+pdata %>%
+  upset_wrap(c("v_call", "j_call", "cdr3"), "{{group_lb}}")
+
+
+```

@@ -29,11 +29,10 @@ trim:
 
 mixcr:
   params: "rna-seq --species dog -b imgt.202214-2 --rna" # more presets can be seen https://docs.milaboratories.com/mixcr/reference/overview-built-in-presets/
-  # license_file: "/path/to/license/file"
-  license_file: "./license_mixcr"
+  license_file: "/path/to/license/file"
   
 saturation:
-  samples: ["run1_bio1_tech1", "run1_bio1_tech2"]
+  samples: ["run3_bio1_tech1", "run3_bio1_tech2"]
   bootstrap_replicates: 3 # 200  
   # only one of block_size or nblocks is supposed to be Null
   block_size: Null
@@ -41,3 +40,8 @@ saturation:
 
 summary:
   min_count: 5
+  vj_quantile: .15
+  groups: {
+    "run1": ["run1_bio1_tech1", "run1_bio1_tech2", "run1_bio2_tech1", "run1_bio2_tech2"],
+    "run2": ["run2_bio1_tech1", "run2_bio1_tech2", "run2_bio2_tech1", "run2_bio2_tech2"],
+    "run3": ["run3_bio1_tech1", "run3_bio1_tech2", "run3_bio2_tech1", "run3_bio2_tech2"]}
