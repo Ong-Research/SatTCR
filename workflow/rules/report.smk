@@ -6,7 +6,7 @@
 #
 #------------------------------------------------------------------------------#
 
-rule quarto_report:
+rule report:
   """
   Generates a report with summarized results of the analysis
   """
