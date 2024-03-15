@@ -108,12 +108,16 @@ rule process_saturation_mixcr:
 
 rule calculate_tcr_stats_saturation:
   """
-  Calculate TCR statistics for MIXCR saturation results
+  Calculate TCR statistics for MIXCR saturation results, and calculates the 
+  overlap between the clonotypes assembled with the whole 
+  sample vs the ones assembled with a subset of all the reads
   """
   input:
-    airr = "output/seq_bootstrap/mixcr/{seed}/{sample}/{subsample}/{subsample}_airr.tsv"
+    airr = "output/seq_bootstrap/mixcr/{seed}/{sample}/{subsample}/{subsample}_airr.tsv",
+    airr_full = "output/clonotypes/mixcr/{sample}/{sample}_airr.tsv"
   output:
-    stats = "output/seq_bootstrap/mixcr/{seed}/{sample}/{subsample}/{subsample}_summary.tsv"
+    stats = "output/seq_bootstrap/mixcr/{seed}/{sample}/{subsample}/{subsample}_summary.tsv",
+    overlap = "output/seq_bootstrap/mixcr/{seed}/{sample}/{subsample}/{subsample}_overlap.tsv"    
   threads: 1
   params:
     docker_run = config["docker"]["run_line"],
@@ -124,4 +128,10 @@ rule calculate_tcr_stats_saturation:
     {params.docker_run} {params.image} \
       Rscript workflow/scripts/repertoire/calculate_tcr_stats.R \
          {output.stats} --airr={input.airr} --min_count={params.min_count}
+
+    {params.docker_run} {params.image} \
+      Rscript workflow/scripts/repertoire/calculate_tcr_overlap.R \
+        {output.overlap} \
+        --airr1={input.airr_full} --airr2={input.airr} \
+        --min_count={params.min_count}
     """

@@ -124,8 +124,7 @@ summary_tibble <- tibble(
     boot_id = rep(seq_len(boots_replicates), each = nblocks),
     block_id = rep(seq_len(nblocks), boots_replicates),
     expected_seq_depth = map_dbl(seq_blocks,
-      ~ sum(partition_counts[as.character(.)]))) %>%
-  filter(block_id < nblocks)
+      ~ sum(partition_counts[as.character(.)])))
 
 message("Generating ", nrow(summary_tibble), " pairs of files")
 

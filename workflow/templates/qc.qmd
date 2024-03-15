@@ -66,3 +66,9 @@ parsed <- knitr::knit_child(text = unlist(unparsed))
 `r parsed`
 
 :::
+
+```{r}
+#| echo: false
+#| child: "appendix.qmd"
+
+```

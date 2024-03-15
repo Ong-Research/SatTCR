@@ -30,7 +30,7 @@ config <- read_yaml(config)
 
 samples %<>%
   mutate(
-    aux = glue::glue("../../output/qc/{sample_name}_trimmed.tsv",),
+    aux = glue::glue("../../output/qc/{sample_name}_trimmed.tsv"),
     aux = map(aux, readr::read_tsv),
     aux = map(aux, dplyr::select, -sample)) %>%
   unnest(cols = c(aux)) %>%
@@ -95,5 +95,11 @@ samples %>%
       d50_complete = "Complete",
       d50_complete_mc = complete_str) %>%
     fmt_integer(starts_with("d50"))
+
+```
+
+```{r}
+#| echo: false
+#| child: "appendix.qmd"
 
 ```

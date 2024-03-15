@@ -8,19 +8,24 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN install.r \
+  devtools
+
+RUN R -e "devtools::install_version('ggplot2', version = '3.4.4', dependencies = TRUE)"
+
+RUN install.r \
     dada2 \
     jsonlite \
     tidyverse \
     tidytext \
-    ggplot2 \
     cowplot \
+    ggthemes \
     htmltools \
     future \
     furrr \
     fuzzyjoin \
     qs \
+    here \ 
     remotes \
-    renv \
     knitr \
     rmarkdown \
     gt \

@@ -6,9 +6,245 @@ execute:
   cache: false
 warning: false
 message: false
+include: true
 eval: true
 echo: false
+fig-width: 10
+fig-height: 7
+out-width: "100%"
 ---
 
 
 # Saturation analysis  {.unnumbered}
+
+
+```{r}
+#| label: "setup"
+#| eval: true
+
+library(magrittr)
+library(tidyverse)
+library(circlize)
+library(ComplexUpset)
+library(Polychrome)
+library(ggridges)
+library(ggthemes)
+library(yaml)
+
+samples <- "../../samples.csv" %>%
+  vroom::vroom()
+config <- "../../config/config.yaml"
+config <- read_yaml(config)
+
+groups <- config[["summary"]][["groups"]]
+
+theme_set(theme_bw() +
+  theme(
+    strip.background = element_blank(),
+    strip.text = element_text(colour = "navyblue", size = 14)))
+
+sat_samples <- config[["saturation"]][["samples"]]
+
+samples <- map(groups, ~ filter(samples, sample_name %in% .x)) %>%
+  map2(names(groups), ~ mutate(.x, group = .y)) %>%
+  bind_rows()
+
+
+samples %<>%
+  filter(sample_name %in% sat_samples) %>%
+  crossing(seed = config[["seed"]])
+
+samples %<>%
+  mutate(
+    sdata = glue::glue(
+      "../../output/seq_bootstrap/{seed}/{sample_name}/bootstrap_summary.qs"),
+    sdata = map(sdata, qs::qread))
+
+samples %<>%
+  unnest(cols = c(sdata)) %>%
+  group_by(sample_name, seed) %>%
+  mutate(
+    sfile = glue::glue(
+      "../../output/seq_bootstrap/mixcr/{seed}/{sample_name}/{sample_name}_{id}/{sample_name}_{id}_summary.tsv", id = row_number()),
+     map_dfr(sfile, readr::read_tsv)) %>%
+  select(-sfile, -sample_file)
+
+samples %<>%
+  mutate(
+     ofile = glue::glue(
+      "../../output/seq_bootstrap/mixcr/{seed}/{sample_name}/{sample_name}_{id}/{sample_name}_{id}_overlap.tsv", id = row_number()),
+    overlap = map(ofile, readr::read_tsv)) %>%
+  select(-ofile)
+
+
+mc <- config[["summary"]][["min_count"]]
+vj_quant <- config[["summary"]][["vj_quantile"]]
+complete_str <- as.character(glue::glue("Complete >= {mc})", mc = mc))
+
+samples %<>% ungroup()
+
+if ("group" %in% names(samples)) {
+
+  samples %<>%
+    group_by(sample_name, group)
+
+} else {
+
+  samples %<>%
+    group_by(sample_name)
+
+}
+
+compute_intersect_perc <- function(overlap, complete = FALSE, min_count = 1) {
+
+  mc <- min_count
+  min_counts <- unique(overlap$min_count)
+  stopifnot(mc %in% min_counts)
+  stopifnot(is.logical(complete))
+
+  overlap %<>% filter(min_count == mc)
+  if (complete) complete <- "complete" else complete <- "all"
+
+  overlap %<>% filter(clones == complete)
+
+  overlap$both / overlap$total1
+
+}
+
+samples %<>%
+  mutate(
+    perc_depth = file_depth / max(file_depth),
+    ov_perc = map_dbl(overlap, compute_intersect_perc, FALSE, 1),
+    ov_perc_mc = map_dbl(overlap, compute_intersect_perc, FALSE, 5),
+    ov_perc_complete = map_dbl(overlap, compute_intersect_perc, TRUE, 1),
+    ov_perc_complete_mc = map_dbl(overlap, compute_intersect_perc, TRUE, 5)) %>%
+  ungroup()
+
+samples %<>%
+  select(-seq_blocks, -r1, -r2, -seq_blocks)
+
+```
+
+
+
+```{r}
+#| label: "plot-setup"
+#| eval: true
+
+plot_saturation <- function(samples, yvar) {
+
+  stopifnot(yvar %in% c("nclono", "shannon", "clonality", "d50", "ov_perc"))
+
+  if ("group" %in% names(samples)) {
+    group <- "group"
+  } else {
+    group <- NULL
+  }
+
+  pdata <- samples %>%
+      select(sample_name, group, seed, ends_with("id"), perc_depth,
+        starts_with(yvar)) %>%
+      pivot_longer(starts_with(yvar), values_to = yvar, names_to = "category")
+
+  pdata %<>%
+    mutate(
+      min_count = if_else(str_detect(category, regex("mc$")), 1, mc),
+      complete = if_else(str_detect(category, "complete"), "yes", "no"))
+
+
+  yvar_sym <- rlang::sym(yvar)
+
+  plot <-  pdata %>%
+    ggplot(aes(x = perc_depth, y = !! rlang::sym(yvar_sym),
+      colour = sample_name, linetype = complete)) +
+      geom_smooth(method = "lm", formula = y ~ x + x^2, se = FALSE) +
+      theme(legend.position = "top") +
+      scale_colour_colorblind() +
+      scale_x_continuous(labels  = scales::percent_format())
+
+  if (! is.null(group)) {
+    plot <- plot + 
+      facet_grid(cols = vars(group), rows = vars(min_count)) 
+  } else {
+    plot <- plot + 
+      facet_grid(rows = vars(min_count)) 
+  }
+
+  plot +
+    scale_linetype_manual(values = c("no" = "dotted", "yes" = "solid")) +
+    guides(
+      colour = guide_legend(order = 1),
+      linetype = guide_legend(order = 2,
+        override.aes = list(color = "darkgray"))) +
+    labs(x = "Sequencing depth (%)") +
+    theme(
+      legend.box = "vertical",
+      axis.text = element_text(size = 12),
+      axis.title = element_text(size = 14),
+      legend.title = element_text(size = 14),
+      legend.text = element_text(size = 12))
+
+}
+
+```
+
+::: {.panel-tabset}
+
+## # clonotype
+
+```{r}
+#| label: "fig-saturation-nclones"
+#| fig-cap: "Saturation plot by run for # of clonotypes"
+
+plot_saturation(samples, "nclono") +
+  labs(y = "# clonotypes") +
+  scale_y_continuous(labels = scales::comma_format())
+
+```
+
+## % overlap
+
+```{r}
+#| label: "fig-saturation-ovperc"
+#| fig-cap: "Saturation plot by run for overlap percentage for clonotypes assembled with subsampled and all sequences"
+
+plot_saturation(samples, "ov_perc") +
+  labs(y = "% Overlap") +
+  scale_y_continuous(labels = scales::percent_format())
+
+```
+
+## Shannon diversity
+
+```{r}
+#| label: "fig-saturation-shannon"
+#| fig-cap: "Saturation plot by run for Shannon diversity"
+
+plot_saturation(samples, "shannon") +
+  labs(y = "Shannon diversity") +
+  scale_y_continuous(labels = scales::percent_format())
+
+```
+
+
+## D50
+
+```{r}
+#| label: "fig-saturation-d50"
+#| fig-cap: "Saturation plot by run for D50 index"
+
+plot_saturation(samples, "d50") +
+  labs(y = "D50") +
+  scale_y_continuous(labels = scales::comma_format())
+
+```
+
+
+:::
+
+
+```{r}
+#| echo: false
+#| child: "appendix.qmd"
+
+```

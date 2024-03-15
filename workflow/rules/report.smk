@@ -6,16 +6,20 @@
 #
 #------------------------------------------------------------------------------#
 
+quarto_vec = ["index", "qc", "repertoire", "saturation"] 
+quarto_template_vec = ["template_upset", "template_qc_profile", "template_chord",
+  "appendix"]
+
 rule report:
   """
   Generates a report with summarized results of the analysis
   """
   input:
     expand("workflow/templates/{file}.qmd",
-      file = ["index", "qc", "repertoire", "saturation", "template_upset"])
+      file = quarto_vec)
   output:
     expand("output/report/{file}.html",
-      file = ["index", "qc", "repertoire", "saturation"])
+      file = quarto_vec)
   params:
     docker_run = config["docker"]["run_line"],
     image = config["docker"]["rquarto"],
