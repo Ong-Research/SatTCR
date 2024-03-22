@@ -4,8 +4,6 @@
 
 # Pipeline
 
-![](repertoire.png)
-
 ## Instructions
 
 To download from the command line using the command:
