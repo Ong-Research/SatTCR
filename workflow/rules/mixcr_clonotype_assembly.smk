@@ -90,7 +90,7 @@ rule process_saturation_mixcr:
     subsample="{subsample}"
   threads: 4
   resources:
-    mem_mb = lambda wildcards, threads: 1200 * threads
+    mem_mb = lambda wildcards, threads: 2400 * threads
   shell:
     """
     {params.docker_run} \

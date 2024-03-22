@@ -157,7 +157,7 @@ plot_saturation <- function(samples, yvar) {
   plot <-  pdata %>%
     ggplot(aes(x = perc_depth, y = !! rlang::sym(yvar_sym),
       colour = sample_name, linetype = complete)) +
-      geom_smooth(method = "lm", formula = y ~ x + x^2, se = FALSE) +
+      geom_smooth(method = "loess", formula = y ~ x, se = FALSE) +
       theme(legend.position = "top") +
       scale_colour_colorblind() +
       scale_x_continuous(labels  = scales::percent_format())
