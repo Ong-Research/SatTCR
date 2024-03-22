@@ -124,7 +124,7 @@ out_plot +
 
 ## Shared clonotypes per group
 
-::: {.callout-note}
+::: {.callout-note collapse="true"}
 The figures below have clonotypes repeated $\geq$ `r mc` times
 :::
 
@@ -272,8 +272,7 @@ parsed <- knitr::knit_child(text = unlist(unparsed),
 
 ## Diversity analysis 
 
-::: {.callout-note icon="false" title = "Diversity definition"}
-
+::: {.callout-note icon="false" collapse="true" title="Diversity definition"}
 The diversity is generalized to the [Renyi entropy](https://en.wikipedia.org/wiki/R%C3%A9nyi_entropy) defined as:
 
 $$
@@ -284,7 +283,6 @@ where:
 
 - $n$ is the total number of unique clonotypes
 - $p_i$ is the clonotype frequency for clonotype $i$
-
 :::
 
 ```{r}
@@ -403,7 +401,7 @@ samples %>%
 ### VJ genes paired usage
 
 
-::: {.callout-note}
+::: {.callout-note collapse="true"}
 The figures use the clonotypes annotated by unique V and J genes, and ignoring the genes that portray less than `r scales::percent(vj_quant, 1)` of the total number of annotated clonotypes
 :::
 
