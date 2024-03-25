@@ -32,6 +32,8 @@ mixcr:
   # license_file: "/path/to/license/file"
   license_file: "./license_mixcr"
 
+report:
+  n_inter: 17
   
 saturation:
   samples: ["run1_bio1_tech1", "run1_bio1_tech2", "run3_bio1_tech1", "run3_bio1_tech2"]
