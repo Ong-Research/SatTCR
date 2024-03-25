@@ -22,7 +22,8 @@ if (group == "all") {
 }
 
 pdata %>%
-  upset_wrap(c("v_call", "j_call", "cdr3"), "{{group_lb}}")
+  upset_wrap(c("v_call", "j_call", "cdr3"), "{{group_lb}}",
+    n_inter = ninter)
 
 
 ```

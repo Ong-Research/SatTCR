@@ -45,10 +45,12 @@ theme_set(theme_bw() +
 
 sat_samples <- config[["saturation"]][["samples"]]
 
-samples <- map(groups, ~ filter(samples, sample_name %in% .x)) %>%
-  map2(names(groups), ~ mutate(.x, group = .y)) %>%
-  bind_rows()
+if (!is.null(groups)) {
 
+  samples <- map(groups, ~ filter(samples, sample_name %in% .x)) %>%
+    map2(names(groups), ~ mutate(.x, group = .y)) %>%
+    bind_rows()
+}
 
 samples %<>%
   filter(sample_name %in% sat_samples) %>%

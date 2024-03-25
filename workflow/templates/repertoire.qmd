@@ -52,10 +52,12 @@ complete_str <- as.character(glue::glue("Complete >= {mc})", mc = mc))
 
 
 # add repertoire summary statistics
+if (!is.null(groups)) {
 
-samples <- map(groups, ~ filter(samples, sample_name %in% .x)) %>%
-  map2(names(groups), ~ mutate(.x, group = .y)) %>%
-  bind_rows()
+  samples <- map(groups, ~ filter(samples, sample_name %in% .x)) %>%
+    map2(names(groups), ~ mutate(.x, group = .y)) %>%
+    bind_rows()
+}
 
 samples %<>%
   mutate(
@@ -80,7 +82,8 @@ if ("group" %in% names(samples)) {
 } else {
 
   samples %<>%
-    group_by(sample_name)
+    mutate(group = "all") %>%
+    group_by(sample_name, group)
 
 }
 
@@ -191,7 +194,7 @@ get_upset_pdata <- function(clono, clono_var) {
 
 }
 
-upset_wrap <- function(clono, clono_var, df_label) {
+upset_wrap <- function(clono, clono_var, df_label, n_inter = 17) {
   
   clono_enq <- syms(clono_var)
 
@@ -203,7 +206,7 @@ upset_wrap <- function(clono, clono_var, df_label) {
     names()
 
   upset(pdata, vars,
-    n_intersections = 17,
+    n_intersections = n_inter,
     sort_sets = FALSE,
     base_annotations = list(
       'Intersection size' = (
@@ -238,12 +241,13 @@ upset_wrap <- function(clono, clono_var, df_label) {
 
 
 
-render_upset <- function(group, group_lb) {
+render_upset <- function(group, group_lb, n_inter) {
 
   res = knitr::knit_expand(
     file = "template_upset.qmd",
     group = group,
-    group_lb = group_lb)
+    group_lb = group_lb,
+    ninter = ninter)
   res
 
 }
@@ -256,11 +260,13 @@ if ("group" %in% names(samples)) {
   group_lb <- "all samples"
 }
 
-unparsed <- map2(groups, group_lb, render_upset)
+ninter <- config[["report"]][["n_inter"]]
+unparsed <- map2(groups, group_lb, render_upset, ninter)
 parsed <- knitr::knit_child(text = unlist(unparsed),
   envir = rlang::env(
     samples = samples %>%
-      filter(count >= mc)))
+      filter(count >= mc),
+    ninter = ninter))
 
 ```
 
@@ -383,17 +389,27 @@ vjgene_usage_barplot <- function(clono, clono_var) {
     filter(! str_detect(gene, "\\,"))
 }
 
-samples %>%
+vj_usage_plot <- samples %>%
   vjgene_usage_barplot(c("v_call", "j_call", "cdr3")) %>%
   filter(str_detect(gene, regex("^TR"))) %>%
   ggplot(aes(y = gene, x =  freq)) +
     geom_boxplot() +
-    facet_grid(rows = vars(type), cols = vars(group),
-      scales = "free", space = "free") +
     tidytext::scale_y_reordered() +
     scale_x_continuous(labels = scales::percent) +
-    labs(x = "Percentage of annotated clonotypes")
+    labs(x = "Percentage of annotated clonotypes")    
+
+if ("group" %in% names(samples)) {
+
+  vj_usage_plot <- vj_usage_plot +
+    facet_grid(rows = vars(type), cols = vars(group),
+      scales = "free", space = "free")
+} else {
+  vj_usage_plot <- vj_usage_plot +
+    facet_grid(rows = vars(type),
+      scales = "free", space = "free")
+}
     
+vj_usage_plot   
 
 
 ```
