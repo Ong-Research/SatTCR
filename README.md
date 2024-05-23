@@ -1,4 +1,4 @@
-# SaTCR pipeline
+# SatTCR pipeline
 
 [Snakemake](https://snakemake.readthedocs.io/en/stable/) pipeline for assembling TCR data, and perform a saturation analysis.
 
@@ -9,10 +9,10 @@
 To download from the command line using the command:
 
 ```sh
-git clone git@github.com:Ong-Research/SaTCR.git
+git clone git@github.com:Ong-Research/SatTCR.git
 ```
 
-The SATCR pipeline requires:
+The SatTCR pipeline requires:
 
 1. Docker: <https://www.docker.com/>
 2. Snakemake: <https://snakemake.readthedocs.io/en/stable/>
@@ -24,18 +24,18 @@ It uses Snakemake to schedule the jobs to run the pipeline, and every job is run
 To pull Docker images that are going to be utilized by the pipeline, using the following commands:
 
 ```sh
-cd SaTCR
+cd SatTCR
 
 docker pull staphb/fastqc # FastQC image
 docker pull  staphb/multiqc # MultiQC image
 docker pull staphb/trimmomatic # Trimmomatic image
-docker build -t tcr/satcr - < Dockerfile # R and Quarto image
+docker build -t tcr/sat - < Dockerfile # R and Quarto image
 docker pull ghcr.io/milaboratory/mixcr/mixcr:latest # MIXCR image
 ```
 
 For MIXCR to work, it is necessary to get a license from <https://mixcr.com/mixcr/getting-started/milm/> and save it into a file.
 
-### Configuring the SaTCR pipeline
+### Configuring the SatTCR pipeline
 
 Create a comma-separated value (csv) with 2 columns:
 

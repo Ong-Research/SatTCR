@@ -10,7 +10,7 @@ eval: true
 echo: false
 ---
 
-Repertoire report generated with [SATCR](https://github.com/Ong-Research/SATCR)
+Repertoire report generated with [SATCR](https://github.com/Ong-Research/SatTCR)
 
 ## Analysis statistics {.unnumbered}
 
