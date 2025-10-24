@@ -1,0 +1,46 @@
+---
+title: "SatTCR pipeline"
+number-sections: true
+from: markdown+emoji
+---
+
+SatTCR is a [Snakemake](https://snakemake.readthedocs.io/en/stable/) pipeline for assembling T Cell Receptor (TCR) repertoire data by using [MIXCR](https://mixcr.com/), and perform a saturation analysis.
+
+## TCR profiling
+
+Profiling the TCR repertoire using next-generation sequencing (NGS) to quantify adaptive immune responses has become common in human and animal research. TCR counts from NGS data provide a way to quantify T cell response to vaccines, cancer, or infectious diseases for preclinical and clinical health studies. 
+
+## SatTCR modules
+
+SatTCR is composed by 4 modules described in the image below:
+
+- [Quality control](pipeline.qmd#quality-control): QC diagnostics of the sequencing data.
+
+- [Clonotype assembly](pipeline.qmd#clonotype-assembly-with-mixcr): Assembly using MIXCR
+
+- [Saturation analysis](pipeline.qmd#saturation-analysis): Sequential bootstrapping of the sequencing data to assembly clonotypes with a fixed # of sequencing reads.
+
+- [Report of SatTCR results](pipeline.qmd#reporting-sattcr-results)
+
+![](graphical_abstract.png)
+
+
+## SatTCR usage
+
+- [Downloading SatTCR](usage.qmd#downloading-sattcr)
+
+- [Installing prerequiste software](usage.qmd#installing-prerequisite-software)
+
+- [Installing docker images](usage.qmd#getting-docker-images)
+
+- [Configuring the pipeline usage](usage.qmd#configuring-the-sattcr-pipeline)
+
+- [Running SatTCR modules](usage.qmd#running-sattcr-modules)
+
+## References
+
+- [Bolotin DA, Poslavsky S, Mitrophanov I, Shugay M, Mamedov IZ, Putintseva EV, Chudakov DM. _"MiXCR: software for comprehensive adaptive immunity profiling_". Nature methods (2015)](https://www.nature.com/articles/nmeth.3364)
+
+- [Bolotin DA, Poslavsky S, Davydov AN, Frenkel FE, Fanchi L, Zolotareva OI, Hemmers S, Putintseva EV, Obraztsova AS, Shugay M, Ataullakhanov RI, Rudensky AY, Schumacher TN, Chudakov DM. _"Antigen receptor repertoire profiling from RNA-seq data"_. Nature Biotechnology 35, (2017)](https://www.nature.com/articles/nbt.3979)
+
+- [Greiff V, Miho E, Menzel U, Reddy ST. _"Bioinformatic and Statistical Analysis of Adaptive Immune Repertoires"_. Trend in Immunology (2015)](https://www.sciencedirect.com/science/article/abs/pii/S1471490615002239)

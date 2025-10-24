@@ -1,0 +1,52 @@
+project:
+  type: website
+  render:
+    - ./*.qmd
+
+website:
+  title: ""
+  navbar:
+    left:
+      - href: index.qmd
+        text: SatTCR
+      - href: usage.qmd
+        text: Getting started
+      - href: pipeline.qmd
+        text: Pipeline        
+      - text: Examples
+        menu:
+          - text: Zuleger et al 2024
+            href: example_zuleger2024.qmd
+          - text: Zuleger et al 2020
+            href: example_zuleger2020.qmd
+        
+      - text: Pre-compiled reports
+        menu:
+          - text: Zuleger et al 2024
+            href: https://biostat.wisc.edu/~rwelch/onglab/albertini/SatTCR_report/
+          - text: Zuleger et al 2020
+            href: https://biostat.wisc.edu/~rwelch/onglab/albertini/SatTCR_report_Zuleger_etal_2020/
+      # - href: news.qmd
+      #   text: News
+    right:
+    - text: '{{< fa brands github size=2x >}}'
+      href: https://github.com/Ong-Research/SatTCR
+  search:
+    keyboard-shortcut: ["?", "H"]
+  page-footer: 
+    background: dark
+    center: "Copyright (c) 2025 SMPH / Department of Biostatistics and Medical Informatics Ong Lab / UWCCC CISR"
+    
+navbar:
+  structure:
+    right: [search, github]
+
+format:
+  html:
+    theme:
+      - flatly
+    css: styles.css
+    toc: true
+
+
+
