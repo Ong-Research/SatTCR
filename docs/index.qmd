@@ -24,7 +24,7 @@ SatTCR is composed by 4 modules described in the image below:
 
 ![](graphical_abstract.png)
 
-
+<!-- 
 ## SatTCR usage
 
 - [Downloading SatTCR](usage.qmd#downloading-sattcr)
@@ -36,6 +36,8 @@ SatTCR is composed by 4 modules described in the image below:
 - [Configuring the pipeline usage](usage.qmd#configuring-the-sattcr-pipeline)
 
 - [Running SatTCR modules](usage.qmd#running-sattcr-modules)
+ -->
+
 
 ## References
 

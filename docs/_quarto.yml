@@ -11,8 +11,8 @@ website:
         text: SatTCR
       - href: usage.qmd
         text: Getting started
-      - href: pipeline.qmd
-        text: Pipeline        
+      # - href: pipeline.qmd
+      #   text: Pipeline        
       - text: Examples
         menu:
           - text: Zuleger et al 2024
