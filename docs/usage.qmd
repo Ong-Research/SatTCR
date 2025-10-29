@@ -7,7 +7,7 @@ This page provides a guide on how to install [SatTCR](https://github.com/Ong-Res
 
 ## Downloading SatTCR
 
-[SatTCR](https://github.com/Ong-Research/SatTCR) is publicly available on [GitHub](www.github.com). SatTCR can be downloaded from the command line using the command:
+[SatTCR](https://github.com/Ong-Research/SatTCR) is publicly available on [GitHub](www.github.com). SatTCT can be downloaded from the command line using the command:
 
 ```sh
 git clone git@github.com:Ong-Research/SatTCR.git
@@ -57,10 +57,9 @@ For MIXCR to work, it is necessary to get a license from <https://mixcr.com/mixc
 
 ## Configuring the SatTCR pipeline
 
-Detailed examples on how to run SatTCR are available with the datasets:
+Detailed examples on how to run SatTCR are available with the dataset:
 
-- [Zuleger et al 2024](example_zuleger2024.qmd)
-- [Zuleger et al 2020](example_zuleger2020.qmd)
+- [Zuleger et al 2024](canine_tcr.qmd)
 
 ### 1. Create a comma-separated value (csv) with 2 columns:
 
@@ -69,7 +68,7 @@ Detailed examples on how to run SatTCR are available with the datasets:
 
 ### 2. Edit the `config/config.yaml` file. This file is divided by pieces in order to easily configure running the pipeline:
 
-The configuration file is separated into the following sections:
+The configuation file is separated into the following sections:
 
 **General configuration parameters:**
 
@@ -94,7 +93,7 @@ In general, it is not necessary to modify these parameters unless a different im
 
 - `params`: The configuration line used to control MIXCR behavior. We used the line below to assemble the clonotypes analyzed used in this manuscript `rna-seq –species dog -b imgt.202214-2 –rna`. MIXCR provides a comprehensive list of preset configuration in <https://mixcr.com/mixcr/reference/overview-built-in-presets/>. The `imgt.202214-2` library file was downloaded from the [repseqio repository release page.](https://github.com/repseqio/library-imgt/releases); this file contains sequences for many species and details are available in the [IMGT website](https://www.imgt.org/vquest/refseqh.html), for example the available species for TCR $\beta$ chains are:
 
-::: {.callout-important #test}
+::: {.callout-important}
 
 ## Available species for TCR $\beta$ chain
 
