@@ -155,4 +155,3 @@ snakemake -c{k} report
 ```
 
 This rule produces an html report compiled by `quarto` summarizing the results of the analysis.
-

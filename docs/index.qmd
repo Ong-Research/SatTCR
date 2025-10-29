@@ -1,6 +1,6 @@
 ---
 title: "SatTCR pipeline"
-number-sections: true
+number-sections: false
 from: markdown+emoji
 ---
 
@@ -14,7 +14,7 @@ Profiling the TCR repertoire using next-generation sequencing (NGS) to quantify 
 
 SatTCR is composed by 4 modules described in the image below:
 
-- [Quality control](pipeline.qmd#quality-control): QC diagnostics of the sequencing data.
+- **[Quality control](pipeline.qmd#quality-control): QC diagnostics of the sequencing data.
 
 - [Clonotype assembly](pipeline.qmd#clonotype-assembly-with-mixcr): Assembly using MIXCR
 
@@ -37,7 +37,6 @@ SatTCR is composed by 4 modules described in the image below:
 
 - [Running SatTCR modules](usage.qmd#running-sattcr-modules)
  -->
-
 
 ## References
 
