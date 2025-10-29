@@ -29,7 +29,7 @@ SatTCR is composed by 4 modules described in the image below:
 
 - [Downloading SatTCR](usage.qmd#downloading-sattcr)
 
-- [Installing prerequiste software](usage.qmd#installing-prerequisite-software)
+- [Installing prerequisite software](usage.qmd#installing-prerequisite-software)
 
 - [Installing docker images](usage.qmd#getting-docker-images)
 

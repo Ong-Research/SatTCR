@@ -7,7 +7,7 @@ This page provides a guide on how to install [SatTCR](https://github.com/Ong-Res
 
 ## Downloading SatTCR
 
-[SatTCR](https://github.com/Ong-Research/SatTCR) is publicly available on [GitHub](www.github.com). SatTCT can be downloaded from the command line using the command:
+[SatTCR](https://github.com/Ong-Research/SatTCR) is publicly available on [GitHub](www.github.com). SatTCR can be downloaded from the command line using the command:
 
 ```sh
 git clone git@github.com:Ong-Research/SatTCR.git
@@ -69,7 +69,7 @@ Detailed examples on how to run SatTCR are available with the datasets:
 
 ### 2. Edit the `config/config.yaml` file. This file is divided by pieces in order to easily configure running the pipeline:
 
-The configuation file is separated into the following sections:
+The configuration file is separated into the following sections:
 
 **General configuration parameters:**
 

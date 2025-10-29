@@ -16,7 +16,7 @@ cd SatTCR
 ## Additional files to download
 
 1. MIXCR's license: This can be downloaded from their website: <https://mixcr.com/mixcr/getting-started/milm/>. We rename the file as `license_mixcr`, and the name is coded in the `mixcr/license_file` field in the config file.
-2. IMGT reference file: This can be downloaded from the `repseqio` repository release: <https://github.com/repseqio/library-imgt/releases>. In the screenshot below, we can see that the IMGT file could be `imgt.202214-2.sv8.json` after decompresssing it.
+2. IMGT reference file: This can be downloaded from the `repseqio` repository release: <https://github.com/repseqio/library-imgt/releases>. In the screenshot below, we can see that the IMGT file could be `imgt.202214-2.sv8.json` after decompressing it.
 
 ```{r}
 #| label: "repseqio-page"
@@ -86,7 +86,7 @@ Each panel in the plot correspond to one of the sequence files for the sample:
 
 2. In the background of each panel, there is a heatmap indicating the % of nucleotides at the $i$-th position among all sequences with a given quality score. The black bars at the top means that the majority of the nucleotides have a high score.
 
-3. The green line is the avg. score at each position, where the orange line are the median (full) and 25% / 75% quantiles (dashed). These lines and the grey shades below 30 indicate thath there are few sequences that need to be trimmed.
+3. The green line is the avg. score at each position, where the orange line are the median (full) and 25% / 75% quantiles (dashed). These lines and the grey shades below 30 indicate that there are few sequences that need to be trimmed.
 
 Generally we could expected:
 
@@ -97,7 +97,7 @@ Generally we could expected:
 
 ### Trim sequences
 
-This step assumes that the docker's `trimmomatic` image has been already installed. Then, following the previous section, we know now that we need to trim the sequences. The tail at the end of the R2 panel indicates that there are a few sequences with QC score < 20, so we remove the parts after that QC score is reached with the `TRAILING:20` option. There could be some remaining small fragments, and we remove the short fragments with length of 100 os less with the `MINLEN:100` option. 
+This step assumes that the docker's `trimmomatic` image has been already installed. Then, following the previous section, we know now that we need to trim the sequences. The tail at the end of the R2 panel indicates that there are a few sequences with QC score < 20, so we remove the parts after that QC score is reached with the `TRAILING:20` option. There could be some remaining small fragments, and we remove the short fragments with length of 100 of less with the `MINLEN:100` option. 
 
 ```yaml
 trim:
@@ -121,7 +121,7 @@ rna-seq --species dog -b imgt.202214-2 --rna
 
 which means that our primers look line the `rna-seq` configuration from the MIXCR's list of pre-set configurations. The species is `dog`, and the TCRB V and J gene sequences are obtained from the `imgt.202214-2` file (that we already downloaded and decompressed). MIXCR is very flexible, and [provides an extensive list of pre-set options](https://mixcr.com/mixcr/reference/overview-mixins-list/).
 
-The clonotypes are assmebled using the command:
+The clonotypes are assembled using the command:
 
 ```bash
 snakemake -c4 mixcr
@@ -166,7 +166,7 @@ This module is run using:
 snakemake -c4 sampling
 ```
 
-For this step we suggest to use few seeds, and don't divide the files into too many blocks. Then, to assembly the clonotypes of thse files, we run the saturation module using:
+For this step we suggest to use few seeds, and don't divide the files into too many blocks. Then, to assembly the clonotypes of these files, we run the saturation module using:
 
 ```bash
 snakemake -c4 saturation
