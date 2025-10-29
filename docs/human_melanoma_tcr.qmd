@@ -1,8 +1,31 @@
 ---
-title: "Analysis of Human TCR melanoma data from Zuleger et al 2020"
+title: "Analysis of Human TCR melanoma data"
 from: markdown+emoji
 ---
 
+::: {.callout-important}
+
+The compiled report can be accessed through the "Pre-compiled reports" item on the navigation bar or throught this [link](./cases/human_melanoma_tcr/)
+
+
+:::
+
+In this vignette, we use SatTCR to analyze data from Zuleger et al 2020. In that manuscript, the authors analyzed 16 TCR samples. 
+
+
+```csv
+{{< include cases/_files/human_melanoma_tcr/samples.csv >}}
+```
+
+
+
+## Complete configuration file:
+
+The complete `config.yaml` file looks like:
+
+```yaml
+{{< include cases/_files/human_melanoma_tcr/config.yaml >}}
+```
 
 ## References
 

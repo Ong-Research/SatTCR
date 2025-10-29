@@ -14,13 +14,13 @@ Profiling the TCR repertoire using next-generation sequencing (NGS) to quantify 
 
 SatTCR is composed by 4 modules described in the image below:
 
-- **[Quality control](pipeline.qmd#quality-control): QC diagnostics of the sequencing data.
+- **Quality control:** QC diagnostics of the sequencing data.
 
-- [Clonotype assembly](pipeline.qmd#clonotype-assembly-with-mixcr): Assembly using MIXCR
+- **Clonotype assembly:** Assembly of the TCR clonotypes using MIXCR
 
-- [Saturation analysis](pipeline.qmd#saturation-analysis): Sequential bootstrapping of the sequencing data to assembly clonotypes with a fixed # of sequencing reads.
+- **Saturation analysis:**: Sequential bootstrapping of the sequencing data to assembly clonotypes with a fixed # of sequencing reads.
 
-- [Report of SatTCR results](pipeline.qmd#reporting-sattcr-results)
+- **Report of SatTCR results:** The report contains data visualization of statistics summarizing the TCR repertoire assembled with the complete data and sampled version of the sequencing files.
 
 ![](graphical_abstract.png)
 

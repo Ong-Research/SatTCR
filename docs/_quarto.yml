@@ -3,8 +3,9 @@ project:
   render:
     - ./*.qmd
   resources: 
-    - ./cases/human_melanoma_tcr
     - ./cases/canine_tcr
+    - ./cases/_files/canine_tcr
+    - ./assets
 
 website:
   title: ""
@@ -20,14 +21,14 @@ website:
         menu:
           - text: Canine TCR
             href: canine_tcr.qmd
-          - text: Human melanoma TCR
-            href: human_melanoma_tcr.qmd        
+          # - text: Human melanoma TCR
+          #   href: human_melanoma_tcr.qmd        
       - text: Pre-compiled reports
         menu:
           - text: Canine TCR 
             href: cases/canine_tcr/index.html
-          - text: Human melanoma TCR
-            href: cases/human_melanoma_tcr/index.html
+          # - text: Human melanoma TCR
+          #   href: cases/human_melanoma_tcr/index.html
       # - href: news.qmd
       #   text: News
     right:
@@ -49,6 +50,6 @@ format:
       - flatly
     css: styles.css
     toc: true
-
+    page-layout: full
 
 

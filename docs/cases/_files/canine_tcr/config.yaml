@@ -1,0 +1,52 @@
+
+# general configuration files
+samplefile: "samples.csv"
+seed: [54232, 65432]
+run_mixcr: true
+run_saturation: true
+run_report: false
+
+# The repertoire_assembly pipeline assumes that for a sample
+# both end files have names of the form
+# dict[sample] + "_R1" + {suffix}
+# dict[sample] + "_R2" + {suffix}
+suffix: "_001.fastq.gz"
+
+# docker images
+docker: 
+  run_line: "docker run -v $(pwd):$(pwd) -w $(pwd) -u $(id -u):$(id -g)"
+  fastqc: "staphb/fastqc"
+  multiqc: "staphb/multiqc"
+  trimmomatic: "staphb/trimmomatic"
+  rquarto: "tcr/sat"
+  mixcr: "ghcr.io/milaboratory/mixcr/mixcr:latest"
+
+
+# trimmomatic parameters
+trim:
+  trimmer: ["TRAILING:20", "MINLEN:100"]
+
+mixcr:
+  params: "rna-seq --species dog -b imgt.202214-2 --rna" # more presets can be seen https://docs.milaboratories.com/mixcr/reference/overview-built-in-presets/
+  # license_file: "/path/to/license/file"
+  license_file: "./license_mixcr"
+
+report:
+  n_inter: 17
+  
+saturation:
+  samples: ["run1_bio1_tech1", "run1_bio1_tech2",
+  "run2_bio1_tech1", "run2_bio1_tech2",
+  "run3_bio1_tech1", "run3_bio1_tech2"]
+  bootstrap_replicates: 10 # 200  
+  # only one of block_size or nblocks is supposed to be Null
+  block_size: Null
+  nblocks: 10
+
+summary:
+  min_count: 5    # min. # of times of repeats to consider a clonotype
+  vj_quantile: .15    #  
+  groups: {
+    "run1": ["run1_bio1_tech1", "run1_bio1_tech2", "run1_bio2_tech1", "run1_bio2_tech2"],
+    "run2": ["run2_bio1_tech1", "run2_bio1_tech2", "run2_bio2_tech1", "run2_bio2_tech2"],
+    "run3": ["run3_bio1_tech1", "run3_bio1_tech2", "run3_bio2_tech1", "run3_bio2_tech2"]}
