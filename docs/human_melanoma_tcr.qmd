@@ -1,0 +1,9 @@
+---
+title: "Analysis of Human TCR melanoma data from Zuleger et al 2020"
+from: markdown+emoji
+---
+
+
+## References
+
+- [Zuleger CL, Newton MA, Xiuyu M, Ong IM, Qinglin P, Albertini MR. _"Enrichment of melanoma associated T cells in 6-thioguanine-resistant T cells from metastatic melanome patients"_ Melanoma Research (2020)](https://doi.org/10.1097/CMR.0000000000000625)

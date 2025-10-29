@@ -1,0 +1,10 @@
+---
+title: "Analysis of Canine TCR data from Zuleger et al 2024"
+from: markdown+emoji
+---
+
+
+
+## References
+
+- [Zuleger CL, Welch Schwartz R, Ong IM, Newton MA, Vail DM, Albertini MR. _"Development of a next-generation sequencing protocol for the canine T cell receptor beta chain repertoire"_. Veterinary Immunology and Immunopathology (2024)](https://doi.org/10.1016/j.vetimm.2023.110702)
