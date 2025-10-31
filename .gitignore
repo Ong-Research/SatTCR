@@ -12,3 +12,4 @@ workflow/templates/.quarto
 samples.csv
 imgt.202214-2.sv8.json
 license_mixcr
+doc_site/docs
