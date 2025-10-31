@@ -1,0 +1,114 @@
+[
+  {
+    "objectID": "usage.html",
+    "href": "usage.html",
+    "title": "Getting started",
+    "section": "",
+    "text": "This page provides a guide on how to install SatTCR, a description of the config file and a description of the modules."
+  },
+  {
+    "objectID": "usage.html#downloading-sattcr",
+    "href": "usage.html#downloading-sattcr",
+    "title": "Getting started",
+    "section": "Downloading SatTCR",
+    "text": "Downloading SatTCR\nSatTCR is publicly available on GitHub. SatTCT can be downloaded from the command line using the command:\ngit clone git@github.com:Ong-Research/SatTCR.git"
+  },
+  {
+    "objectID": "usage.html#installing-prerequisite-software",
+    "href": "usage.html#installing-prerequisite-software",
+    "title": "Getting started",
+    "section": "Installing prerequisite software",
+    "text": "Installing prerequisite software\nThe SatTCR pipeline requires:\n\nSnakemake: https://snakemake.readthedocs.io/en/stable/\nDocker: https://www.docker.com/\n\nIt uses Snakemake to schedule the jobs to run the pipeline, and every job is run in a different container.\nSnakemake can be installed in different ways:\n\nUsing pip:\npip install snakemake\nUsing conda or mamba:\nconda activate {env_name}\nconda install -c bioconda snakemake\nwhere {env_name} is the name a conda environment that was created previously."
+  },
+  {
+    "objectID": "usage.html#getting-docker-images",
+    "href": "usage.html#getting-docker-images",
+    "title": "Getting started",
+    "section": "Getting Docker images",
+    "text": "Getting Docker images\nWe curated a list of Docker containers that are utilized by SatTCR. Their images can be obtained by using:\ncd SatTCR \n\ndocker pull staphb/fastqc # FastQC image\ndocker pull  staphb/multiqc # MultiQC image\ndocker pull staphb/trimmomatic # Trimmomatic image\ndocker build -t tcr/sat - &lt; Dockerfile # R and Quarto image\ndocker pull ghcr.io/milaboratory/mixcr/mixcr:latest # MIXCR image\nFor MIXCR to work, it is necessary to get a license from https://mixcr.com/mixcr/getting-started/milm/ and save it into a file. The name of this file is required to be specified in the config/config.yaml file in the mixcr key under license_file."
+  },
+  {
+    "objectID": "usage.html#configuring-the-sattcr-pipeline",
+    "href": "usage.html#configuring-the-sattcr-pipeline",
+    "title": "Getting started",
+    "section": "Configuring the SatTCR pipeline",
+    "text": "Configuring the SatTCR pipeline\nDetailed examples on how to run SatTCR are available with the dataset:\n\nZuleger et al 2024\n\n\n1. Create a comma-separated value (csv) with 2 columns:\n\nsample_name : The name of the sample\nsample_file: The prefix of the files until before the _R1 and _R2 parts, e.g. if the pair of RNA-seq files are data/sample1_R1_L001.fastq.gz and data/sample1_R2_L001.fastq.gz, then this column is data/sample1.\n\n\n\n2. Edit the config/config.yaml file. This file is divided by pieces in order to easily configure running the pipeline:\nThe configuation file is separated into the following sections:\nGeneral configuration parameters:\n\nthreads: Max. # of parallel threads used per process.\nsamplefile: Location of the file with the samples.\nseed: Seed number for random number generation and sequence sampling during saturation analysis.\nrun_*: Logical indicators to determine if running a stage of the pipeline\nsuffix: This is regarding to the samplefile. If the pair of RNA-seq files are data/sample1_R1_L001.fastq.gz and data/sample1_R2_L001.fastq.gz. The suffix would be the remaining part after the R1/R2 parts, i.e. _L001.fastq.gz.\n\nDocker configuration parameters:  - run_line: This is the docker command used to run every rule. - fastqc, multiqc, trimmomatic, rquarto and mixcr are the names of the images that were pulled before.\nIn general, it is not necessary to modify these parameters unless a different image name is used or a specific need to configure how docker runs in the user’s system.\nTrimmomatic configuration parameters:\n\ntrimmer: A vector with the trimmomatic configuration to use. More information is available in http://www.usadellab.org/cms/?page=trimmomatic. But the general idea is to remove the low-quality nucleotides at the end of the sequences, or very short sequences.\n\nMIXCR configuration parameters:\n\nparams: The configuration line used to control MIXCR behavior. We used the line below to assemble the clonotypes analyzed used in this manuscript rna-seq –species dog -b imgt.202214-2 –rna. MIXCR provides a comprehensive list of preset configuration in https://mixcr.com/mixcr/reference/overview-built-in-presets/. The imgt.202214-2 library file was downloaded from the repseqio repository release page.; this file contains sequences for many species and details are available in the IMGT website, for example the available species for TCR \\(\\beta\\) chains are:\n\n\n\n\n\n\n\nAvailable species for TCR \\(\\beta\\) chain\n\n\n\nHuman, Mouse, Ma’s night monkey, Rhesus Monkey , Rainbow trout, Dog, Ferret, Rabbit, Pig, Cat, Sheep, Camel, Crab-eating macaque, Naked mole-rat, Bovine, Mouse C57BL/6J, Gorilla\n\n\n\nlicense_file: Location of the file with the license. The pipeline uses this file to run MIXCR in a docker container.\n\nSaturation configuration parameters:\n\nsamples: A vector with the sample keys for which the saturation analysis is going to be processed\nblock_size or nblocks: Either the # of sequences that are going to be sampled by block or the # of blocks of sequences used to split the original sequence files.\nbootstrap_replicates: The number of times that the block bootstrap sampling procedure is going to be repeated. This rule is computationally intensive, because in total there are going to be sampled n_blocks-1 x n_boot_reps pairs of sequence files and then MIXCR is used for each pair of files."
+  },
+  {
+    "objectID": "usage.html#running-sattcr-modules",
+    "href": "usage.html#running-sattcr-modules",
+    "title": "Getting started",
+    "section": "Running SatTCR modules",
+    "text": "Running SatTCR modules\nIn the instructions below, the flag -c{k} stands for running the rule with {k} parallel threads.\nQuality control\nsnakemake -c{k} qc\nThe output of this rule are an html report generated with MultiQC and quality profiles generated with the R package dada2 (Callahan et al. 2016). Either one of these analyses will depict quality score summaries at each position of the sequence files.\nTrim sequences\nsnakemake -c{k} trim\nThe output of this rule are the trimmed versions for every raw sequence file.\nClonotype assembly with MIXCR\nsnakemake -c{k} mixcr\nThe output of this rule is a tsv file according to the AIRR format (https://docs.airr-community.org/en/stable/datarep/overview.html) for every set of RNA-seq paired files.\nBlock bootstrap sampling and saturation analysis\nsnakemake -c{k} sampling\nsnakemake -c{k} saturation\nThe first rule generates n_blocks-1 x n_boot_reps pairs of compressed fastq files, and the second rule uses those sequence files to assemble the clonotypes with each pair of generated sequence files.\nGenerate the report\nsnakemake -c{k} report\nThis rule produces an html report compiled by quarto summarizing the results of the analysis."
+  },
+  {
+    "objectID": "canine_tcr.html",
+    "href": "canine_tcr.html",
+    "title": "Analysis of Canine TCR data from Zuleger et al 2024",
+    "section": "",
+    "text": "For this example, we assume that SatTCR is already downloaded, snakemake and docker are already installed in the system, and that the docker images are already pulled, i.e. we assume that the first steps of the Getting started page are already done.\nWe also assume that we are located in the SatTCR directory after cloning the repository:"
+  },
+  {
+    "objectID": "canine_tcr.html#additional-files-to-download",
+    "href": "canine_tcr.html#additional-files-to-download",
+    "title": "Analysis of Canine TCR data from Zuleger et al 2024",
+    "section": "Additional files to download",
+    "text": "Additional files to download\n\nMIXCR’s license: This can be downloaded from their website: https://mixcr.com/mixcr/getting-started/milm/. We rename the file as license_mixcr, and the name is coded in the mixcr/license_file field in the config file.\nIMGT reference file: This can be downloaded from the repseqio repository release: https://github.com/repseqio/library-imgt/releases. In the screenshot below, we can see that the IMGT file could be imgt.202214-2.sv8.json after decompressing it.\n\n\n\n\n\n\nScreenshot of the repseqio repository release page"
+  },
+  {
+    "objectID": "canine_tcr.html#making-the-samples.csv-file",
+    "href": "canine_tcr.html#making-the-samples.csv-file",
+    "title": "Analysis of Canine TCR data from Zuleger et al 2024",
+    "section": "Making the samples.csv file",
+    "text": "Making the samples.csv file\nThe name of this file is coded in the config file samplefile entry. For the moment, we assume that the sequencing files are located in the data folder. For example, in this repository, we have the following files:\nls data\n\ndata/run1/K9013v01-rxn1_S425_L003_R1_001.fastq.gz\ndata/run1/K9013v01-rxn1_S425_L003_R2_001.fastq.gz\ndata/run1/K9013v01-rxn2_S426_L003_R1_001.fastq.gz\ndata/run1/K9013v01-rxn2_S426_L003_R2_001.fastq.gz\nThese are two paired RNA-seq files corresponding to two samples; so the samples.csv looks as:\nsample_name,sample_file\nrun1_bio1_tech1,data/run1/K9013v01-rxn1_S425_L003\nrun1_bio1_tech2,data/run1/K9013v01-rxn2_S426_L003\nThe first column is the name that is going to be used for the respective samples, and the second one is the name of the file until the “_R1” / “_R2” parts. The remaining part of the file names is defined in the suffix entry of the configuration file. In the case of these two files, that is _001.fastq.gz."
+  },
+  {
+    "objectID": "canine_tcr.html#running-the-pipeline",
+    "href": "canine_tcr.html#running-the-pipeline",
+    "title": "Analysis of Canine TCR data from Zuleger et al 2024",
+    "section": "Running the pipeline",
+    "text": "Running the pipeline\n\nQuality control\nThe quality control module of the pipeline does the following:\n\nRuns fastqc for every sequencing file, and gather all the results in a multiqc report.\nUses dada2’s to plot quality profiles.\n\nThe underlying assumption for this step is the that docker images for the fastqc, multiqc and rquarto have been installed already. After this steps are completed, then run with 4 cores:\nsnakemake -c4 qc\nThe quality profiles are saved in the figs directory, and one of them looks like:\n\n\n\n\n\n\n\n\nFigure 1: Quallity profile for the tech1 files\n\n\n\n\n\nEach panel in the plot correspond to one of the sequence files for the sample:\n\nThe x-axis corresponds to the nucleotides in the sequences, labeled as Cycles, and the y-axis correspond to the quality score for each nucleotide in each sequence.\nIn the background of each panel, there is a heatmap indicating the % of nucleotides at the \\(i\\)-th position among all sequences with a given quality score. The black bars at the top means that the majority of the nucleotides have a high score.\nThe green line is the avg. score at each position, where the orange line are the median (full) and 25% / 75% quantiles (dashed). These lines and the grey shades below 30 indicate that there are few sequences that need to be trimmed.\n\nGenerally we could expected:\n\nThe quality scores at the R2 end panel are a bit noisier than the ones in the R1 end panel.\nThe quality scores at the end of the sequences tend to be equal or lower than the ones a the start of the sequences.\n\n\n\nTrim sequences\nThis step assumes that the docker’s trimmomatic image has been already installed. Then, following the previous section, we know now that we need to trim the sequences. The tail at the end of the R2 panel indicates that there are a few sequences with QC score &lt; 20, so we remove the parts after that QC score is reached with the TRAILING:20 option. There could be some remaining small fragments, and we remove the short fragments with length of 100 of less with the MINLEN:100 option.\ntrim:\n  trimmer: [\"TRAILING:20\", \"MINLEN:100\"]\nMore documentation on trimmomatic’s options are in their website. We run this module with:\nsnakemake -c4 trim\n\n\nClonotype assembly\nThe main line to pay attention in the config file is the mixcr/params line. We used:\nrna-seq --species dog -b imgt.202214-2 --rna\nwhich means that our primers look line the rna-seq configuration from the MIXCR’s list of pre-set configurations. The species is dog, and the TCRB V and J gene sequences are obtained from the imgt.202214-2 file (that we already downloaded and decompressed). MIXCR is very flexible, and provides an extensive list of pre-set options.\nThe clonotypes are assembled using the command:\nsnakemake -c4 mixcr\nNote: There are other available species:\n\n\n\n\n\n\nAvailable species for TCR \\(\\beta\\) chain\n\n\n\nHuman, Mouse, Ma’s night monkey, Rhesus Monkey , Rainbow trout, Dog, Ferret, Rabbit, Pig, Cat, Sheep, Camel, Crab-eating macaque, Naked mole-rat, Bovine, Mouse C57BL/6J, Gorilla\n\n\n\n\nSampling of the sequencing files and saturation analysis\nThere are two fields that are important for this section:\nseed: [54232, 65432]\nand\nsaturation:\n  samples: [\"run1_bio1_tech1\", \"run1_bio1_tech2\"]\n  bootstrap_replicates: 10 # 200  \n  # only one of block_size or nblocks is supposed to be Null\n  block_size: Null\n  nblocks: 10\nThis step samples pairs of sequences from the trimmed files corresponding to the tech1 and tech2 samples. The way it works is that for each random seed, it splits the paired sequence file into 10 blocks, in this case each block with 10% of the trimmed sequences, and then samples orderings among the 10 blocks. For example, an ordering could be 5, 4, 1, 2, 3, 6, 7, 8, 9, 10 and this will result with the 10% sequence file being block 5, the 20% sequence file being blocks 5 and 4 together and so on.\nIn general, this steps generated nblocks \\(\\times\\) bootstrap_replicates \\(\\times\\) # of seeds paired-sequence files for each one of the samples that were defined. This means that in our current scenario, we are generating \\(2 \\times 2 \\times 10 \\times 10 = 400\\) pairs of files.\nThis module is run using:\nsnakemake -c4 sampling\nFor this step we suggest to use few seeds, and don’t divide the files into too many blocks. Then, to assembly the clonotypes of these files, we run the saturation module using:\nsnakemake -c4 saturation\n\n\nBuilding the report\nIf the previous steps worked, then this is run using:\nsnakemake -c4 report\nThe n_inter field, is used to determine how many intersections to consider when plotting the # of shared clonotypes among samples.\nThe details of the report are coded in the summary section of the configuration file:\nsummary:\n  min_count: 5    # min. # of times of repeats to consider a clonotype\n  vj_quantile: .15    #  \n  groups: {\n    \"run1\": [\"run1_bio1_tech1\", \"run1_bio1_tech2\", \"run1_bio2_tech1\", \"run1_bio2_tech2\"],\n    \"run2\": [\"run2_bio1_tech1\", \"run2_bio1_tech2\", \"run2_bio2_tech1\", \"run2_bio2_tech2\"],\n    \"run3\": [\"run3_bio1_tech1\", \"run3_bio1_tech2\", \"run3_bio2_tech1\", \"run3_bio2_tech2\"]}\nThe groups part indicate which samples correspond to each group. In this case, the groups correspond to biological replicates, but it may well correspond to conditions or any other characteristics considered in the experiment.\nThe complete report is available in add link. For the saturation analysis, this will generate figures like Figure 2. When the sequencing depth is too low, the growth is going to look approximately linear (like in the run1 and run2 panels), but if the # of sequences is adequate then the growth will show decreasing increments like in the run3 panel.\n\n\n\n\n\n\n\n\nFigure 2: Saturation analysis for canine TCR control samples"
+  },
+  {
+    "objectID": "canine_tcr.html#complete-configuration-file",
+    "href": "canine_tcr.html#complete-configuration-file",
+    "title": "Analysis of Canine TCR data from Zuleger et al 2024",
+    "section": "Complete configuration file:",
+    "text": "Complete configuration file:\nThe complete config.yaml file looks like:\n\n# general configuration files\nsamplefile: \"samples.csv\"\nseed: [54232, 65432]\nrun_mixcr: true\nrun_saturation: true\nrun_report: false\n\n# The repertoire_assembly pipeline assumes that for a sample\n# both end files have names of the form\n# dict[sample] + \"_R1\" + {suffix}\n# dict[sample] + \"_R2\" + {suffix}\nsuffix: \"_001.fastq.gz\"\n\n# docker images\ndocker: \n  run_line: \"docker run -v $(pwd):$(pwd) -w $(pwd) -u $(id -u):$(id -g)\"\n  fastqc: \"staphb/fastqc\"\n  multiqc: \"staphb/multiqc\"\n  trimmomatic: \"staphb/trimmomatic\"\n  rquarto: \"tcr/sat\"\n  mixcr: \"ghcr.io/milaboratory/mixcr/mixcr:latest\"\n\n\n# trimmomatic parameters\ntrim:\n  trimmer: [\"TRAILING:20\", \"MINLEN:100\"]\n\nmixcr:\n  params: \"rna-seq --species dog -b imgt.202214-2 --rna\" # more presets can be seen https://docs.milaboratories.com/mixcr/reference/overview-built-in-presets/\n  # license_file: \"/path/to/license/file\"\n  license_file: \"./license_mixcr\"\n\nreport:\n  n_inter: 17\n  \nsaturation:\n  samples: [\"run1_bio1_tech1\", \"run1_bio1_tech2\",\n  \"run2_bio1_tech1\", \"run2_bio1_tech2\",\n  \"run3_bio1_tech1\", \"run3_bio1_tech2\"]\n  bootstrap_replicates: 10 # 200  \n  # only one of block_size or nblocks is supposed to be Null\n  block_size: Null\n  nblocks: 10\n\nsummary:\n  min_count: 5    # min. # of times of repeats to consider a clonotype\n  vj_quantile: .15    #  \n  groups: {\n    \"run1\": [\"run1_bio1_tech1\", \"run1_bio1_tech2\", \"run1_bio2_tech1\", \"run1_bio2_tech2\"],\n    \"run2\": [\"run2_bio1_tech1\", \"run2_bio1_tech2\", \"run2_bio2_tech1\", \"run2_bio2_tech2\"],\n    \"run3\": [\"run3_bio1_tech1\", \"run3_bio1_tech2\", \"run3_bio2_tech1\", \"run3_bio2_tech2\"]}"
+  },
+  {
+    "objectID": "canine_tcr.html#references",
+    "href": "canine_tcr.html#references",
+    "title": "Analysis of Canine TCR data from Zuleger et al 2024",
+    "section": "References",
+    "text": "References\n\nZuleger CL, Welch Schwartz R, Ong IM, Newton MA, Vail DM, Albertini MR. “Development of a next-generation sequencing protocol for the canine T cell receptor beta chain repertoire”. Veterinary Immunology and Immunopathology (2024)"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "SatTCR pipeline",
+    "section": "",
+    "text": "SatTCR is a Snakemake pipeline for assembling T Cell Receptor (TCR) repertoire data by using MIXCR, and perform a saturation analysis."
+  },
+  {
+    "objectID": "index.html#tcr-profiling",
+    "href": "index.html#tcr-profiling",
+    "title": "SatTCR pipeline",
+    "section": "TCR profiling",
+    "text": "TCR profiling\nProfiling the TCR repertoire using next-generation sequencing (NGS) to quantify adaptive immune responses has become common in human and animal research. TCR counts from NGS data provide a way to quantify T cell response to vaccines, cancer, or infectious diseases for preclinical and clinical health studies."
+  },
+  {
+    "objectID": "index.html#sattcr-modules",
+    "href": "index.html#sattcr-modules",
+    "title": "SatTCR pipeline",
+    "section": "SatTCR modules",
+    "text": "SatTCR modules\nSatTCR is composed by 4 modules described in the image below:\n\nQuality control: QC diagnostics of the sequencing data.\nClonotype assembly: Assembly of the TCR clonotypes using MIXCR\nSaturation analysis:: Sequential bootstrapping of the sequencing data to assembly clonotypes with a fixed # of sequencing reads.\nReport of SatTCR results: The report contains data visualization of statistics summarizing the TCR repertoire assembled with the complete data and sampled version of the sequencing files."
+  },
+  {
+    "objectID": "index.html#references",
+    "href": "index.html#references",
+    "title": "SatTCR pipeline",
+    "section": "References",
+    "text": "References\n\nBolotin DA, Poslavsky S, Mitrophanov I, Shugay M, Mamedov IZ, Putintseva EV, Chudakov DM. _“MiXCR: software for comprehensive adaptive immunity profiling_”. Nature methods (2015)\nBolotin DA, Poslavsky S, Davydov AN, Frenkel FE, Fanchi L, Zolotareva OI, Hemmers S, Putintseva EV, Obraztsova AS, Shugay M, Ataullakhanov RI, Rudensky AY, Schumacher TN, Chudakov DM. “Antigen receptor repertoire profiling from RNA-seq data”. Nature Biotechnology 35, (2017)\nGreiff V, Miho E, Menzel U, Reddy ST. “Bioinformatic and Statistical Analysis of Adaptive Immune Repertoires”. Trend in Immunology (2015)"
+  }
+]

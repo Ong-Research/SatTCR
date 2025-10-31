@@ -1,0 +1,21 @@
+/* css styles */
+body {
+  font-size: 16px; /* Sets the base font size for the document */
+}
+
+nav {
+  font-size: 20px;
+}
+
+
+h1 {
+  font-size: 2.5em; /* Sets font size for H1 headings relative to the base font size */
+}
+
+code {
+  font-size: 0.9em; /* Adjusts font size for inline code */
+}
+
+pre {
+  font-size: 0.8em; /* Adjusts font size for code blocks */
+}
