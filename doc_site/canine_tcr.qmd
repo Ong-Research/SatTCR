@@ -36,10 +36,10 @@ The name of this file is coded in the config file `samplefile` entry. For the mo
 ```bash
 ls data
 
-data/run1/K9013v01-rxn1_S425_L003_R1_001.fastq.gz
-data/run1/K9013v01-rxn1_S425_L003_R2_001.fastq.gz
-data/run1/K9013v01-rxn2_S426_L003_R1_001.fastq.gz
-data/run1/K9013v01-rxn2_S426_L003_R2_001.fastq.gz
+data/K9013v01-rxn1_S425_L003_R1_001.fastq.gz
+data/K9013v01-rxn1_S425_L003_R2_001.fastq.gz
+data/K9013v01-rxn2_S426_L003_R1_001.fastq.gz
+data/K9013v01-rxn2_S426_L003_R2_001.fastq.gz
 ```
 
 These are two paired RNA-seq files corresponding to two samples; so the `samples.csv` looks as:
