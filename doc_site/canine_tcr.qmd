@@ -46,8 +46,8 @@ These are two paired RNA-seq files corresponding to two samples; so the `samples
 
 ```csv
 sample_name,sample_file
-run1_bio1_tech1,data/run1/K9013v01-rxn1_S425_L003
-run1_bio1_tech2,data/run1/K9013v01-rxn2_S426_L003
+run1_bio1_tech1,data/K9013v01-rxn1_S425_L003
+run1_bio1_tech2,data/K9013v01-rxn2_S426_L003
 ```
 
 The first column is the name that is going to be used for the respective samples, and the second one is the name of the file until the "_R1" / "_R2" parts. The remaining part of the file names is defined in the `suffix` entry of the configuration file. In the case of these two files, that is `_001.fastq.gz`. 
