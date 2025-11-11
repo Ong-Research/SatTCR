@@ -269,8 +269,8 @@ window.Quarto = {
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">data/K9013v01-rxn2_S426_L003_R2_001.fastq.gz</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>These are two paired RNA-seq files corresponding to two samples; so the <code>samples.csv</code> looks as:</p>
 <pre class="csv"><code>sample_name,sample_file
-run1_bio1_tech1,data/run1/K9013v01-rxn1_S425_L003
-run1_bio1_tech2,data/run1/K9013v01-rxn2_S426_L003</code></pre>
+run1_bio1_tech1,data/K9013v01-rxn1_S425_L003
+run1_bio1_tech2,data/K9013v01-rxn2_S426_L003</code></pre>
 <p>The first column is the name that is going to be used for the respective samples, and the second one is the name of the file until the “_R1” / “_R2” parts. The remaining part of the file names is defined in the <code>suffix</code> entry of the configuration file. In the case of these two files, that is <code>_001.fastq.gz</code>.</p>
 </section>
 <section id="running-the-pipeline" class="level2">
