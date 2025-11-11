@@ -14,7 +14,7 @@ website:
     left:
       - href: index.qmd
         text: SatTCR
-      - href: usage.qmd
+      - href: getting_started.qmd
         text: Getting started
       # - href: pipeline.qmd
       #   text: Pipeline        

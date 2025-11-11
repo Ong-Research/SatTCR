@@ -3,7 +3,7 @@ title: "Analysis of Canine TCR data from Zuleger et al 2024"
 from: markdown+emoji
 ---
 
-For this example, we assume that SatTCR is already downloaded, `snakemake` and `docker` are already installed in the system, and that the `docker` images are already pulled, i.e. we assume that the first steps of the [Getting started](usage.qmd) page are already done.
+For this example, we assume that SatTCR is already downloaded, `snakemake` and `docker` are already installed in the system, and that the `docker` images are already pulled, i.e. we assume that the first steps of the [Getting started](getting_started.qmd) page are already done.
 
 We also assume that we are located in the `SatTCR` directory after cloning the repository:
 
