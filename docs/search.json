@@ -1,45 +1,31 @@
 [
   {
-    "objectID": "usage.html",
-    "href": "usage.html",
-    "title": "Getting started",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "SatTCR pipeline",
     "section": "",
-    "text": "This page provides a guide on how to install SatTCR, a description of the config file and a description of the modules."
+    "text": "SatTCR is a Snakemake pipeline for assembling T Cell Receptor (TCR) repertoire data by using MIXCR, and perform a saturation analysis."
   },
   {
-    "objectID": "usage.html#downloading-sattcr",
-    "href": "usage.html#downloading-sattcr",
-    "title": "Getting started",
-    "section": "Downloading SatTCR",
-    "text": "Downloading SatTCR\nSatTCR is publicly available on GitHub. SatTCT can be downloaded from the command line using the command:\ngit clone git@github.com:Ong-Research/SatTCR.git"
+    "objectID": "index.html#tcr-profiling",
+    "href": "index.html#tcr-profiling",
+    "title": "SatTCR pipeline",
+    "section": "TCR profiling",
+    "text": "TCR profiling\nProfiling the TCR repertoire using next-generation sequencing (NGS) to quantify adaptive immune responses has become common in human and animal research. TCR counts from NGS data provide a way to quantify T cell response to vaccines, cancer, or infectious diseases for preclinical and clinical health studies."
   },
   {
-    "objectID": "usage.html#installing-prerequisite-software",
-    "href": "usage.html#installing-prerequisite-software",
-    "title": "Getting started",
-    "section": "Installing prerequisite software",
-    "text": "Installing prerequisite software\nThe SatTCR pipeline requires:\n\nSnakemake: https://snakemake.readthedocs.io/en/stable/\nDocker: https://www.docker.com/\n\nIt uses Snakemake to schedule the jobs to run the pipeline, and every job is run in a different container.\nSnakemake can be installed in different ways:\n\nUsing pip:\npip install snakemake\nUsing conda or mamba:\nconda activate {env_name}\nconda install -c bioconda snakemake\nwhere {env_name} is the name a conda environment that was created previously."
+    "objectID": "index.html#sattcr-modules",
+    "href": "index.html#sattcr-modules",
+    "title": "SatTCR pipeline",
+    "section": "SatTCR modules",
+    "text": "SatTCR modules\nSatTCR is composed by 4 modules described in the image below:\n\nQuality control: QC diagnostics of the sequencing data.\nClonotype assembly: Assembly of the TCR clonotypes using MIXCR\nSaturation analysis:: Sequential bootstrapping of the sequencing data to assembly clonotypes with a fixed # of sequencing reads.\nReport of SatTCR results: The report contains data visualization of statistics summarizing the TCR repertoire assembled with the complete data and sampled version of the sequencing files."
   },
   {
-    "objectID": "usage.html#getting-docker-images",
-    "href": "usage.html#getting-docker-images",
-    "title": "Getting started",
-    "section": "Getting Docker images",
-    "text": "Getting Docker images\nWe curated a list of Docker containers that are utilized by SatTCR. Their images can be obtained by using:\ncd SatTCR \n\ndocker pull staphb/fastqc # FastQC image\ndocker pull  staphb/multiqc # MultiQC image\ndocker pull staphb/trimmomatic # Trimmomatic image\ndocker build -t tcr/sat - &lt; Dockerfile # R and Quarto image\ndocker pull ghcr.io/milaboratory/mixcr/mixcr:latest # MIXCR image\nFor MIXCR to work, it is necessary to get a license from https://mixcr.com/mixcr/getting-started/milm/ and save it into a file. The name of this file is required to be specified in the config/config.yaml file in the mixcr key under license_file."
-  },
-  {
-    "objectID": "usage.html#configuring-the-sattcr-pipeline",
-    "href": "usage.html#configuring-the-sattcr-pipeline",
-    "title": "Getting started",
-    "section": "Configuring the SatTCR pipeline",
-    "text": "Configuring the SatTCR pipeline\nDetailed examples on how to run SatTCR are available with the dataset:\n\nZuleger et al 2024\n\n\n1. Create a comma-separated value (csv) with 2 columns:\n\nsample_name : The name of the sample\nsample_file: The prefix of the files until before the _R1 and _R2 parts, e.g. if the pair of RNA-seq files are data/sample1_R1_L001.fastq.gz and data/sample1_R2_L001.fastq.gz, then this column is data/sample1.\n\n\n\n2. Edit the config/config.yaml file. This file is divided by pieces in order to easily configure running the pipeline:\nThe configuation file is separated into the following sections:\nGeneral configuration parameters:\n\nthreads: Max. # of parallel threads used per process.\nsamplefile: Location of the file with the samples.\nseed: Seed number for random number generation and sequence sampling during saturation analysis.\nrun_*: Logical indicators to determine if running a stage of the pipeline\nsuffix: This is regarding to the samplefile. If the pair of RNA-seq files are data/sample1_R1_L001.fastq.gz and data/sample1_R2_L001.fastq.gz. The suffix would be the remaining part after the R1/R2 parts, i.e. _L001.fastq.gz.\n\nDocker configuration parameters:  - run_line: This is the docker command used to run every rule. - fastqc, multiqc, trimmomatic, rquarto and mixcr are the names of the images that were pulled before.\nIn general, it is not necessary to modify these parameters unless a different image name is used or a specific need to configure how docker runs in the user’s system.\nTrimmomatic configuration parameters:\n\ntrimmer: A vector with the trimmomatic configuration to use. More information is available in http://www.usadellab.org/cms/?page=trimmomatic. But the general idea is to remove the low-quality nucleotides at the end of the sequences, or very short sequences.\n\nMIXCR configuration parameters:\n\nparams: The configuration line used to control MIXCR behavior. We used the line below to assemble the clonotypes analyzed used in this manuscript rna-seq –species dog -b imgt.202214-2 –rna. MIXCR provides a comprehensive list of preset configuration in https://mixcr.com/mixcr/reference/overview-built-in-presets/. The imgt.202214-2 library file was downloaded from the repseqio repository release page.; this file contains sequences for many species and details are available in the IMGT website, for example the available species for TCR \\(\\beta\\) chains are:\n\n\n\n\n\n\n\nAvailable species for TCR \\(\\beta\\) chain\n\n\n\nHuman, Mouse, Ma’s night monkey, Rhesus Monkey , Rainbow trout, Dog, Ferret, Rabbit, Pig, Cat, Sheep, Camel, Crab-eating macaque, Naked mole-rat, Bovine, Mouse C57BL/6J, Gorilla\n\n\n\nlicense_file: Location of the file with the license. The pipeline uses this file to run MIXCR in a docker container.\n\nSaturation configuration parameters:\n\nsamples: A vector with the sample keys for which the saturation analysis is going to be processed\nblock_size or nblocks: Either the # of sequences that are going to be sampled by block or the # of blocks of sequences used to split the original sequence files.\nbootstrap_replicates: The number of times that the block bootstrap sampling procedure is going to be repeated. This rule is computationally intensive, because in total there are going to be sampled n_blocks-1 x n_boot_reps pairs of sequence files and then MIXCR is used for each pair of files."
-  },
-  {
-    "objectID": "usage.html#running-sattcr-modules",
-    "href": "usage.html#running-sattcr-modules",
-    "title": "Getting started",
-    "section": "Running SatTCR modules",
-    "text": "Running SatTCR modules\nIn the instructions below, the flag -c{k} stands for running the rule with {k} parallel threads.\nQuality control\nsnakemake -c{k} qc\nThe output of this rule are an html report generated with MultiQC and quality profiles generated with the R package dada2 (Callahan et al. 2016). Either one of these analyses will depict quality score summaries at each position of the sequence files.\nTrim sequences\nsnakemake -c{k} trim\nThe output of this rule are the trimmed versions for every raw sequence file.\nClonotype assembly with MIXCR\nsnakemake -c{k} mixcr\nThe output of this rule is a tsv file according to the AIRR format (https://docs.airr-community.org/en/stable/datarep/overview.html) for every set of RNA-seq paired files.\nBlock bootstrap sampling and saturation analysis\nsnakemake -c{k} sampling\nsnakemake -c{k} saturation\nThe first rule generates n_blocks-1 x n_boot_reps pairs of compressed fastq files, and the second rule uses those sequence files to assemble the clonotypes with each pair of generated sequence files.\nGenerate the report\nsnakemake -c{k} report\nThis rule produces an html report compiled by quarto summarizing the results of the analysis."
+    "objectID": "index.html#references",
+    "href": "index.html#references",
+    "title": "SatTCR pipeline",
+    "section": "References",
+    "text": "References\n\nBolotin DA, Poslavsky S, Mitrophanov I, Shugay M, Mamedov IZ, Putintseva EV, Chudakov DM. _“MiXCR: software for comprehensive adaptive immunity profiling_”. Nature methods (2015)\nBolotin DA, Poslavsky S, Davydov AN, Frenkel FE, Fanchi L, Zolotareva OI, Hemmers S, Putintseva EV, Obraztsova AS, Shugay M, Ataullakhanov RI, Rudensky AY, Schumacher TN, Chudakov DM. “Antigen receptor repertoire profiling from RNA-seq data”. Nature Biotechnology 35, (2017)\nGreiff V, Miho E, Menzel U, Reddy ST. “Bioinformatic and Statistical Analysis of Adaptive Immune Repertoires”. Trend in Immunology (2015)"
   },
   {
     "objectID": "canine_tcr.html",
@@ -84,31 +70,45 @@
     "text": "References\n\nZuleger CL, Welch Schwartz R, Ong IM, Newton MA, Vail DM, Albertini MR. “Development of a next-generation sequencing protocol for the canine T cell receptor beta chain repertoire”. Veterinary Immunology and Immunopathology (2024)"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "SatTCR pipeline",
+    "objectID": "getting_started.html",
+    "href": "getting_started.html",
+    "title": "Getting started",
     "section": "",
-    "text": "SatTCR is a Snakemake pipeline for assembling T Cell Receptor (TCR) repertoire data by using MIXCR, and perform a saturation analysis."
+    "text": "This page provides a guide on how to install SatTCR, a description of the config file and a description of the modules."
   },
   {
-    "objectID": "index.html#tcr-profiling",
-    "href": "index.html#tcr-profiling",
-    "title": "SatTCR pipeline",
-    "section": "TCR profiling",
-    "text": "TCR profiling\nProfiling the TCR repertoire using next-generation sequencing (NGS) to quantify adaptive immune responses has become common in human and animal research. TCR counts from NGS data provide a way to quantify T cell response to vaccines, cancer, or infectious diseases for preclinical and clinical health studies."
+    "objectID": "getting_started.html#downloading-sattcr",
+    "href": "getting_started.html#downloading-sattcr",
+    "title": "Getting started",
+    "section": "Downloading SatTCR",
+    "text": "Downloading SatTCR\nSatTCR is publicly available on GitHub. SatTCT can be downloaded from the command line using the command:\ngit clone git@github.com:Ong-Research/SatTCR.git"
   },
   {
-    "objectID": "index.html#sattcr-modules",
-    "href": "index.html#sattcr-modules",
-    "title": "SatTCR pipeline",
-    "section": "SatTCR modules",
-    "text": "SatTCR modules\nSatTCR is composed by 4 modules described in the image below:\n\nQuality control: QC diagnostics of the sequencing data.\nClonotype assembly: Assembly of the TCR clonotypes using MIXCR\nSaturation analysis:: Sequential bootstrapping of the sequencing data to assembly clonotypes with a fixed # of sequencing reads.\nReport of SatTCR results: The report contains data visualization of statistics summarizing the TCR repertoire assembled with the complete data and sampled version of the sequencing files."
+    "objectID": "getting_started.html#installing-prerequisite-software",
+    "href": "getting_started.html#installing-prerequisite-software",
+    "title": "Getting started",
+    "section": "Installing prerequisite software",
+    "text": "Installing prerequisite software\nThe SatTCR pipeline requires:\n\nSnakemake: https://snakemake.readthedocs.io/en/stable/\nDocker: https://www.docker.com/\n\nIt uses Snakemake to schedule the jobs to run the pipeline, and every job is run in a different container.\nSnakemake can be installed in different ways:\n\nUsing pip:\npip install snakemake\nUsing conda or mamba:\nconda activate {env_name}\nconda install -c bioconda snakemake\nwhere {env_name} is the name a conda environment that was created previously."
   },
   {
-    "objectID": "index.html#references",
-    "href": "index.html#references",
-    "title": "SatTCR pipeline",
-    "section": "References",
-    "text": "References\n\nBolotin DA, Poslavsky S, Mitrophanov I, Shugay M, Mamedov IZ, Putintseva EV, Chudakov DM. _“MiXCR: software for comprehensive adaptive immunity profiling_”. Nature methods (2015)\nBolotin DA, Poslavsky S, Davydov AN, Frenkel FE, Fanchi L, Zolotareva OI, Hemmers S, Putintseva EV, Obraztsova AS, Shugay M, Ataullakhanov RI, Rudensky AY, Schumacher TN, Chudakov DM. “Antigen receptor repertoire profiling from RNA-seq data”. Nature Biotechnology 35, (2017)\nGreiff V, Miho E, Menzel U, Reddy ST. “Bioinformatic and Statistical Analysis of Adaptive Immune Repertoires”. Trend in Immunology (2015)"
+    "objectID": "getting_started.html#getting-docker-images",
+    "href": "getting_started.html#getting-docker-images",
+    "title": "Getting started",
+    "section": "Getting Docker images",
+    "text": "Getting Docker images\nWe curated a list of Docker containers that are utilized by SatTCR. Their images can be obtained by using:\ncd SatTCR \n\ndocker pull staphb/fastqc # FastQC image\ndocker pull  staphb/multiqc # MultiQC image\ndocker pull staphb/trimmomatic # Trimmomatic image\ndocker build -t tcr/sat - &lt; Dockerfile # R and Quarto image\ndocker pull ghcr.io/milaboratory/mixcr/mixcr:latest # MIXCR image\nFor MIXCR to work, it is necessary to get a license from https://mixcr.com/mixcr/getting-started/milm/ and save it into a file. The name of this file is required to be specified in the config/config.yaml file in the mixcr key under license_file."
+  },
+  {
+    "objectID": "getting_started.html#configuring-the-sattcr-pipeline",
+    "href": "getting_started.html#configuring-the-sattcr-pipeline",
+    "title": "Getting started",
+    "section": "Configuring the SatTCR pipeline",
+    "text": "Configuring the SatTCR pipeline\nDetailed examples on how to run SatTCR are available with the dataset:\n\nZuleger et al 2024\n\n\n1. Create a comma-separated value (csv) with 2 columns:\n\nsample_name : The name of the sample\nsample_file: The prefix of the files until before the _R1 and _R2 parts, e.g. if the pair of RNA-seq files are data/sample1_R1_L001.fastq.gz and data/sample1_R2_L001.fastq.gz, then this column is data/sample1.\n\n\n\n2. Edit the config/config.yaml file. This file is divided by pieces in order to easily configure running the pipeline:\nThe configuation file is separated into the following sections:\nGeneral configuration parameters:\n\nthreads: Max. # of parallel threads used per process.\nsamplefile: Location of the file with the samples.\nseed: Seed number for random number generation and sequence sampling during saturation analysis.\nrun_*: Logical indicators to determine if running a stage of the pipeline\nsuffix: This is regarding to the samplefile. If the pair of RNA-seq files are data/sample1_R1_L001.fastq.gz and data/sample1_R2_L001.fastq.gz. The suffix would be the remaining part after the R1/R2 parts, i.e. _L001.fastq.gz.\n\nDocker configuration parameters:  - run_line: This is the docker command used to run every rule. - fastqc, multiqc, trimmomatic, rquarto and mixcr are the names of the images that were pulled before.\nIn general, it is not necessary to modify these parameters unless a different image name is used or a specific need to configure how docker runs in the user’s system.\nTrimmomatic configuration parameters:\n\ntrimmer: A vector with the trimmomatic configuration to use. More information is available in http://www.usadellab.org/cms/?page=trimmomatic. But the general idea is to remove the low-quality nucleotides at the end of the sequences, or very short sequences.\n\nMIXCR configuration parameters:\n\nparams: The configuration line used to control MIXCR behavior. We used the line below to assemble the clonotypes analyzed used in this manuscript rna-seq –species dog -b imgt.202214-2 –rna. MIXCR provides a comprehensive list of preset configuration in https://mixcr.com/mixcr/reference/overview-built-in-presets/. The imgt.202214-2 library file was downloaded from the repseqio repository release page.; this file contains sequences for many species and details are available in the IMGT website, for example the available species for TCR \\(\\beta\\) chains are:\n\n\n\n\n\n\n\nAvailable species for TCR \\(\\beta\\) chain\n\n\n\nHuman, Mouse, Ma’s night monkey, Rhesus Monkey , Rainbow trout, Dog, Ferret, Rabbit, Pig, Cat, Sheep, Camel, Crab-eating macaque, Naked mole-rat, Bovine, Mouse C57BL/6J, Gorilla\n\n\n\nlicense_file: Location of the file with the license. The pipeline uses this file to run MIXCR in a docker container.\n\nSaturation configuration parameters:\n\nsamples: A vector with the sample keys for which the saturation analysis is going to be processed\nblock_size or nblocks: Either the # of sequences that are going to be sampled by block or the # of blocks of sequences used to split the original sequence files.\nbootstrap_replicates: The number of times that the block bootstrap sampling procedure is going to be repeated. This rule is computationally intensive, because in total there are going to be sampled n_blocks-1 x n_boot_reps pairs of sequence files and then MIXCR is used for each pair of files."
+  },
+  {
+    "objectID": "getting_started.html#running-sattcr-modules",
+    "href": "getting_started.html#running-sattcr-modules",
+    "title": "Getting started",
+    "section": "Running SatTCR modules",
+    "text": "Running SatTCR modules\nIn the instructions below, the flag -c{k} stands for running the rule with {k} parallel threads.\nQuality control\nsnakemake -c{k} qc\nThe output of this rule are an html report generated with MultiQC and quality profiles generated with the R package dada2 (Callahan et al. 2016). Either one of these analyses will depict quality score summaries at each position of the sequence files.\nTrim sequences\nsnakemake -c{k} trim\nThe output of this rule are the trimmed versions for every raw sequence file.\nClonotype assembly with MIXCR\nsnakemake -c{k} mixcr\nThe output of this rule is a tsv file according to the AIRR format (https://docs.airr-community.org/en/stable/datarep/overview.html) for every set of RNA-seq paired files.\nBlock bootstrap sampling and saturation analysis\nsnakemake -c{k} sampling\nsnakemake -c{k} saturation\nThe first rule generates n_blocks-1 x n_boot_reps pairs of compressed fastq files, and the second rule uses those sequence files to assemble the clonotypes with each pair of generated sequence files.\nGenerate the report\nsnakemake -c{k} report\nThis rule produces an html report compiled by quarto summarizing the results of the analysis."
   }
 ]
