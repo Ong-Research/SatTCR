@@ -2,7 +2,9 @@
 
 [Snakemake](https://snakemake.readthedocs.io/en/stable/) pipeline for assembling TCR data, and perform a saturation analysis.
 
-# Pipeline
+More details available on:
+
+<https://ong-research.github.io/SatTCR/>
 
 ## Instructions
 
