@@ -18,83 +18,94 @@ Repertoire report generated with [SatTCR](https://github.com/Ong-Research/SatTCR
 ```{r}
 #| label: "setup"
 
-library(magrittr)
 library(tidyverse)
 library(gt)
 library(yaml)
 
-samples <- "../../samples.csv" %>%
+samples <- "../../samples.csv" |>
   vroom::vroom()
 config <- "../../config/config.yaml"
 config <- read_yaml(config)
 
-samples %<>%
+samples <- samples |>
   mutate(
-    aux = glue::glue("../../output/qc/{sample_name}_trimmed.tsv"),
-    aux = map(aux, readr::read_tsv),
-    aux = map(aux, dplyr::select, -sample)) %>%
-  unnest(cols = c(aux)) %>%
-  mutate(
-    diff = original - trimmed,
-    original = scales::comma(original, 1),
-    diff = scales::comma(diff, 1))
+    aux = glue::glue("../../output/qc/{sample_name}_trimmed.tsv"))
+
+if (all(file.exists(samples$aux))) {
+
+  samples <- samples |>
+    mutate(
+      aux = map(aux, readr::read_tsv),
+      aux = map(aux, dplyr::select, -sample)) |>
+    unnest(cols = c(aux)) |>
+    mutate(
+      diff = original - trimmed,
+      original = scales::comma(original, 1),
+      diff = scales::comma(diff, 1))
+
+}
 
 mc <- config[["summary"]][["min_count"]]
 complete_str <- as.character(glue::glue("Complete >= {mc})", mc = mc))
 
-
 # add repertoire summary statistics
-samples %<>%
+samples <- samples |>
   mutate(
-    aux = glue::glue("../../output/clonotypes/mixcr/{sample_name}/{sample_name}_summary.tsv"),
-    aux = map(aux, readr::read_tsv)) %>%
-  unnest(cols = c(aux)) %>%
-  select(sample_name, original, diff, contains("complete")) %>%
-  mutate(
-    nclono_ratio_complete = nclono_complete_mc / nclono_complete)
+    aux = glue::glue("../../output/clonotypes/mixcr/{sample_name}/{sample_name}_summary.tsv"))
+    
+if (all(file.exists(samples$aux))) {
 
-samples %>%
-  gt() %>%
-    cols_label(
-      sample_name = "Sample",
-      original = "Depth",
-      diff = "Trim") %>%
-    tab_footnote(
-      footnote = "# of trimmed sequences",
-      locations = cells_column_labels("diff")) %>%
-    tab_spanner(
-      label = "Sequencing",
-      columns = all_of(c("original", "diff"))) %>%
-    cols_label(
-      nclono_complete = "Complete",
-      nclono_complete_mc = complete_str,
-      nclono_ratio_complete = "Ratio") %>%
-    fmt_integer(starts_with("nclono_complete")) %>%
-    fmt_percent(one_of("nclono_ratio_complete")) %>%
-    fmt_percent(starts_with("shannon")) %>%
-    fmt_percent(starts_with("clonality")) %>%
-    tab_spanner(
-      label = "# clonotypes",
-      columns = starts_with("nclono")) %>%
-    tab_spanner(
-      label = "Shannon div",
-      columns = starts_with("shannon")) %>%
-    cols_label(
-      shannon_complete = "Complete",
-      shannon_complete_mc = complete_str) %>%
-    tab_spanner(
-      label = "Clonality",
-      columns = starts_with("clonality")) %>%
-    cols_label(
-      clonality_complete = "Complete",
-      clonality_complete_mc = complete_str) %>%
-    tab_spanner(
-      label = "D50",
-      columns = starts_with("d50")) %>%
-    cols_label(
-      d50_complete = "Complete",
-      d50_complete_mc = complete_str) %>%
-    fmt_integer(starts_with("d50"))
+  samples <- samples |>
+    mutate(
+      aux = map(aux, readr::read_tsv)) |>
+    unnest(cols = c(aux)) |>
+    select(sample_name, original, diff, contains("complete")) |>
+    mutate(
+      nclono_ratio_complete = nclono_complete_mc / nclono_complete)
+
+  samples |>
+    gt() |>
+      cols_label(
+        sample_name = "Sample",
+        original = "Depth",
+        diff = "Trim") |>
+      tab_footnote(
+        footnote = "# of trimmed sequences",
+        locations = cells_column_labels("diff")) |>
+      tab_spanner(
+        label = "Sequencing",
+        columns = all_of(c("original", "diff"))) |>
+      cols_label(
+        nclono_complete = "Complete",
+        nclono_complete_mc = complete_str,
+        nclono_ratio_complete = "Ratio") |>
+      fmt_integer(starts_with("nclono_complete")) |>
+      fmt_percent(one_of("nclono_ratio_complete")) |>
+      fmt_percent(starts_with("shannon")) |>
+      fmt_percent(starts_with("clonality")) |>
+      tab_spanner(
+        label = "# clonotypes",
+        columns = starts_with("nclono")) |>
+      tab_spanner(
+        label = "Shannon div",
+        columns = starts_with("shannon")) |>
+      cols_label(
+        shannon_complete = "Complete",
+        shannon_complete_mc = complete_str) |>
+      tab_spanner(
+        label = "Clonality",
+        columns = starts_with("clonality")) |>
+      cols_label(
+        clonality_complete = "Complete",
+        clonality_complete_mc = complete_str) |>
+      tab_spanner(
+        label = "D50",
+        columns = starts_with("d50")) |>
+      cols_label(
+        d50_complete = "Complete",
+        d50_complete_mc = complete_str) |>
+      fmt_integer(starts_with("d50"))
+}
 
 ```
 

@@ -31,7 +31,7 @@ library(ggridges)
 library(ggthemes)
 library(yaml)
 
-samples <- "../../samples.csv" %>%
+samples <- "../../samples.csv" |>
   vroom::vroom()
 config <- "../../config/config.yaml"
 config <- read_yaml(config)
@@ -47,35 +47,35 @@ sat_samples <- config[["saturation"]][["samples"]]
 
 if (!is.null(groups)) {
 
-  samples <- map(groups, ~ filter(samples, sample_name %in% .x)) %>%
-    map2(names(groups), ~ mutate(.x, group = .y)) %>%
+  samples <- map(groups, ~ filter(samples, sample_name %in% .x)) |>
+    map2(names(groups), ~ mutate(.x, group = .y)) |>
     bind_rows()
 }
 
-samples %<>%
-  filter(sample_name %in% sat_samples) %>%
+samples <- samples |>
+  filter(sample_name %in% sat_samples) |>
   crossing(seed = config[["seed"]])
 
-samples %<>%
+samples <- samples |>
   mutate(
     sdata = glue::glue(
       "../../output/seq_bootstrap/{seed}/{sample_name}/bootstrap_summary.qs"),
     sdata = map(sdata, qs::qread))
 
-samples %<>%
-  unnest(cols = c(sdata)) %>%
-  group_by(sample_name, seed) %>%
+samples <- samples |>
+  unnest(cols = c(sdata)) |>
+  group_by(sample_name, seed) |>
   mutate(
     sfile = glue::glue(
       "../../output/seq_bootstrap/mixcr/{seed}/{sample_name}/{sample_name}_{id}/{sample_name}_{id}_summary.tsv", id = row_number()),
-     map_dfr(sfile, readr::read_tsv)) %>%
+     map_dfr(sfile, readr::read_tsv)) |>
   select(-sfile, -sample_file)
 
-samples %<>%
+samples <- samples |>
   mutate(
      ofile = glue::glue(
       "../../output/seq_bootstrap/mixcr/{seed}/{sample_name}/{sample_name}_{id}/{sample_name}_{id}_overlap.tsv", id = row_number()),
-    overlap = map(ofile, readr::read_tsv)) %>%
+    overlap = map(ofile, readr::read_tsv)) |>
   select(-ofile)
 
 
@@ -83,16 +83,17 @@ mc <- config[["summary"]][["min_count"]]
 vj_quant <- config[["summary"]][["vj_quantile"]]
 complete_str <- as.character(glue::glue("Complete >= {mc})", mc = mc))
 
-samples %<>% ungroup()
+samples <- samples |>
+  ungroup()
 
 if ("group" %in% names(samples)) {
 
-  samples %<>%
+  samples <- samples |>
     group_by(sample_name, group)
 
 } else {
 
-  samples %<>%
+  samples <- samples |>
     group_by(sample_name)
 
 }
@@ -104,25 +105,27 @@ compute_intersect_perc <- function(overlap, complete = FALSE, min_count = 1) {
   stopifnot(mc %in% min_counts)
   stopifnot(is.logical(complete))
 
-  overlap %<>% filter(min_count == mc)
+  overlap <- overlap |>
+    filter(min_count == mc)
   if (complete) complete <- "complete" else complete <- "all"
 
-  overlap %<>% filter(clones == complete)
+  overlap <- overlap |>
+    filter(clones == complete)
 
   overlap$both / overlap$total1
 
 }
 
-samples %<>%
+samples <- samples |>
   mutate(
     perc_depth = file_depth / max(file_depth),
     ov_perc = map_dbl(overlap, compute_intersect_perc, FALSE, 1),
     ov_perc_mc = map_dbl(overlap, compute_intersect_perc, FALSE, 5),
     ov_perc_complete = map_dbl(overlap, compute_intersect_perc, TRUE, 1),
-    ov_perc_complete_mc = map_dbl(overlap, compute_intersect_perc, TRUE, 5)) %>%
+    ov_perc_complete_mc = map_dbl(overlap, compute_intersect_perc, TRUE, 5)) |>
   ungroup()
 
-samples %<>%
+samples <- samples |>
   select(-seq_blocks, -r1, -r2, -seq_blocks)
 
 ```
@@ -143,12 +146,12 @@ plot_saturation <- function(samples, yvar) {
     group <- NULL
   }
 
-  pdata <- samples %>%
+  pdata <- samples |>
       select(sample_name, group, seed, ends_with("id"), perc_depth,
-        starts_with(yvar)) %>%
+        starts_with(yvar)) |>
       pivot_longer(starts_with(yvar), values_to = yvar, names_to = "category")
 
-  pdata %<>%
+  pdata <- pdata |>
     mutate(
       min_count = if_else(str_detect(category, regex("mc$")), 1, mc),
       complete = if_else(str_detect(category, "complete"), "yes", "no"))
@@ -156,7 +159,7 @@ plot_saturation <- function(samples, yvar) {
 
   yvar_sym <- rlang::sym(yvar)
 
-  plot <-  pdata %>%
+  plot <-  pdata |>
     ggplot(aes(x = perc_depth, y = !! rlang::sym(yvar_sym),
       colour = sample_name, linetype = complete)) +
       geom_smooth(method = "loess", formula = y ~ x, se = FALSE) +

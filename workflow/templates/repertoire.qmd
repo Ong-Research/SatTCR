@@ -23,7 +23,7 @@ library(Polychrome)
 library(ggridges)
 library(yaml)
 
-samples <- "../../samples.csv" %>%
+samples <- "../../samples.csv" |>
   vroom::vroom()
 config <- "../../config/config.yaml"
 config <- read_yaml(config)
@@ -35,12 +35,12 @@ theme_set(theme_bw() +
     strip.background = element_blank(),
     strip.text = element_text(colour = "navyblue", size = 14)))
 
-samples %<>%
+samples <- samples |>
   mutate(
     aux = glue::glue("../../output/qc/{sample_name}_trimmed.tsv"),
     aux = map(aux, readr::read_tsv),
-    aux = map(aux, dplyr::select, -sample)) %>%
-  unnest(cols = c(aux)) %>%
+    aux = map(aux, dplyr::select, -sample)) |>
+  unnest(cols = c(aux)) |>
   mutate(
     diff = original - trimmed,
     original = scales::comma(original, 1),
@@ -54,12 +54,12 @@ complete_str <- as.character(glue::glue("Complete >= {mc})", mc = mc))
 # add repertoire summary statistics
 if (!is.null(groups)) {
 
-  samples <- map(groups, ~ filter(samples, sample_name %in% .x)) %>%
-    map2(names(groups), ~ mutate(.x, group = .y)) %>%
+  samples <- map(groups, ~ filter(samples, sample_name %in% .x)) |>
+    map2(names(groups), ~ mutate(.x, group = .y)) |>
     bind_rows()
 }
 
-samples %<>%
+samples <- samples |>
   mutate(
     aux = glue::glue("../../output/clonotypes/mixcr/{sample_name}/{sample_name}_airr.tsv"),
     clono = map(aux, readr::read_tsv,
@@ -76,20 +76,20 @@ samples %<>%
 
 if ("group" %in% names(samples)) {
 
-  samples %<>%
+  samples <- samples |>
     group_by(sample_name, group)
 
 } else {
 
-  samples %<>%
-    mutate(group = "all") %>%
+  samples <- samples |>
+    mutate(group = "all") |>
     group_by(sample_name, group)
 
 }
 
 
-samples %<>%
-  unnest(cols = c(clono)) %>%
+samples <- samples |>
+  unnest(cols = c(clono)) |>
   rename(count = duplicate_count)
 
 
@@ -108,7 +108,7 @@ samples %<>%
 #| out-width: "100%"
 #| fig-cap: "# of clone distribution per sample"
 
-out_plot <- samples %>%
+out_plot <- samples |>
   ggplot(aes(y = count, x = sample_name)) +
     geom_violin(draw_quantiles = TRUE) +
     scale_y_log10(labels = scales::label_log()) +
@@ -141,21 +141,21 @@ get_upset_pdata <- function(clono, clono_var) {
 
   clono_enq <- syms(clono_var)
 
-  pdata <- clono %>%
-    select(sample_name, count, !!! clono_enq) %>%
-    group_by(sample_name, !!! clono_enq) %>%
-    summarize(count = sum(count), .groups = "drop") %>%
+  pdata <- clono |>
+    select(sample_name, count, !!! clono_enq) |>
+    group_by(sample_name, !!! clono_enq) |>
+    summarize(count = sum(count), .groups = "drop") |>
     pivot_wider(names_from = sample_name, values_from = count,
       values_fill = 0)
 
-  mean_counts <- pdata %>%
-    select(where(is.numeric)) %>%
-    as.matrix() %>%
+  mean_counts <- pdata |>
+    select(where(is.numeric)) |>
+    as.matrix() |>
     apply(1, FUN = function(x)mean(x[x > 0]))
 
-  total_counts <- pdata %>%
-    select(where(is.numeric)) %>%
-    as.matrix() %>%
+  total_counts <- pdata |>
+    select(where(is.numeric)) |>
+    as.matrix() |>
     rowSums()
 
   count_breaks <- sort(c(10^{seq(0, 50, by = 1)}, 5))
@@ -179,10 +179,10 @@ get_upset_pdata <- function(clono, clono_var) {
   lls <- c(lls[-length(lls)], str_c(">", last_ll, sep = " "))
 
 
-  pdata %<>%
+  pdata <- pdata |>
     mutate(
       across(where(is.numeric), list(~ . > 0),
-        .names = "{.col}")) %>%
+        .names = "{.col}")) |>
     mutate(
       mean_counts,
       total_counts,
@@ -200,9 +200,9 @@ upset_wrap <- function(clono, clono_var, df_label, n_inter = 17) {
 
   pdata <- get_upset_pdata(clono, clono_var)
   
-  vars <- pdata %>%
-    select(- one_of(clono_var)) %>%
-    select(- contains("count")) %>%
+  vars <- pdata |>
+    select(- one_of(clono_var)) |>
+    select(- contains("count")) |>
     names()
 
   upset(pdata, vars,
@@ -264,7 +264,7 @@ ninter <- config[["report"]][["n_inter"]]
 unparsed <- map2(groups, group_lb, render_upset, ninter)
 parsed <- knitr::knit_child(text = unlist(unparsed),
   envir = rlang::env(
-    samples = samples %>%
+    samples = samples |>
       filter(count >= mc),
     ninter = ninter))
 
@@ -301,7 +301,7 @@ where:
 diversity_curve <- function(seqs, p, npoints = 100) {
 
   p <- p / sum(p)
-  out <- tibble::tibble(alpha = seq(0, 2, length.out = npoints)) %>%
+  out <- tibble::tibble(alpha = seq(0, 2, length.out = npoints)) |>
     dplyr::mutate(
       div = map_dbl(alpha,
         ~ if (. == 0) {
@@ -319,10 +319,10 @@ diversity_curve <- function(seqs, p, npoints = 100) {
 
 
 
-div_curves <- samples %>%
-    group_by(sample_name) %>%
+div_curves <- samples |>
+    group_by(sample_name) |>
     reframe(
-      diversity_curve(tibble(v_call, j_call, cdr3), count, npoints = 100)) %>%
+      diversity_curve(tibble(v_call, j_call, cdr3), count, npoints = 100)) |>
     mutate(
       clonality = 1 - div)
 
@@ -332,7 +332,7 @@ pal <- createPalette(npals,
     c("#FF0000", "#00FF00", "#0000FF"), range = c(30, 80))
 names(pal) <- unique(div_curves$sample_name)
 
-div_curves %>%
+div_curves |>
   ggplot(aes(x = alpha, y = div)) +
     geom_line(aes(colour = sample_name), linewidth = .75) +
     labs(x = expression(alpha), y = "normalized Renyi curve") +
@@ -356,42 +356,42 @@ vjgene_usage_barplot <- function(clono, clono_var) {
 
   clono_enq <- syms(clono_var)
 
-  pdata <- clono %>%
-    group_by(sample_name, group, !!! clono_enq) %>%
+  pdata <- clono |>
+    group_by(sample_name, group, !!! clono_enq) |>
     summarize(
       count = sum(count), .groups = "drop")
 
-  pdata_v <- pdata %>%
-    group_by(sample_name, group, v_call) %>%
-    summarize(count = sum(count), .groups = "drop") %>%
-    group_by(sample_name, group) %>%
-    mutate(freq = count / sum(count), type = "V") %>%
-    ungroup() %>%
+  pdata_v <- pdata |>
+    group_by(sample_name, group, v_call) |>
+    summarize(count = sum(count), .groups = "drop") |>
+    group_by(sample_name, group) |>
+    mutate(freq = count / sum(count), type = "V") |>
+    ungroup() |>
     rename(gene = v_call)
 
-  pdata_j <- pdata %>%
-    group_by(sample_name, group, j_call) %>%
-    summarize(count = sum(count), .groups = "drop") %>%
-    group_by(sample_name, group) %>%
-    mutate(freq = count / sum(count), type = "J") %>%
-    ungroup() %>%
+  pdata_j <- pdata |>
+    group_by(sample_name, group, j_call) |>
+    summarize(count = sum(count), .groups = "drop") |>
+    group_by(sample_name, group) |>
+    mutate(freq = count / sum(count), type = "J") |>
+    ungroup() |>
     rename(gene = j_call)
 
-  pdata <- bind_rows(pdata_v, pdata_j) %>%
-    group_by(gene) %>%
-    filter(!all(freq <= .01)) %>%
-    ungroup() %>%
+  pdata <- bind_rows(pdata_v, pdata_j) |>
+    group_by(gene) |>
+    filter(!all(freq <= .01)) |>
+    ungroup() |>
     mutate(
       gene = tidytext::reorder_within(gene, freq, type),
       type = factor(type, levels = c("V", "J")))
 
-  pdata %>%
+  pdata |>
     filter(! str_detect(gene, "\\,"))
 }
 
-vj_usage_plot <- samples %>%
-  vjgene_usage_barplot(c("v_call", "j_call", "cdr3")) %>%
-  filter(str_detect(gene, regex("^TR"))) %>%
+vj_usage_plot <- samples |>
+  vjgene_usage_barplot(c("v_call", "j_call", "cdr3")) |>
+  filter(str_detect(gene, regex("^TR"))) |>
   ggplot(aes(y = gene, x =  freq)) +
     geom_boxplot() +
     tidytext::scale_y_reordered() +
@@ -432,15 +432,15 @@ get_vj_matrix <- function(repertoire, vcol = "V", jcol = "J") {
     jcol %in% names(repertoire))
 
   # get match frequency by VJ genes
-  out_mat <- repertoire %>%
-    filter(! str_detect(!!rlang::sym(vcol), ",")) %>%
-    filter(! str_detect(!!rlang::sym(jcol), ",")) %>%
-    group_by(!! rlang::sym(vcol), !! rlang::sym(jcol)) %>%
-    summarize(count = sum(count), .groups = "drop") %>% 
+  out_mat <- repertoire |>
+    filter(! str_detect(!!rlang::sym(vcol), ",")) |>
+    filter(! str_detect(!!rlang::sym(jcol), ",")) |>
+    group_by(!! rlang::sym(vcol), !! rlang::sym(jcol)) |>
+    summarize(count = sum(count), .groups = "drop") |> 
     pivot_wider(names_from = all_of(jcol), values_from = "count",
-      values_fill = 0) %>%
-      as.data.frame() %>%
-      column_to_rownames(vcol) %>%
+      values_fill = 0) |>
+      as.data.frame() |>
+      column_to_rownames(vcol) |>
       as.matrix()
   out_mat
 
@@ -476,18 +476,18 @@ chord_diagram <- function(vj_mat, cols_v = NULL, cols_j = NULL,
 
 }
 
-vj_mat_list <- samples %>%
-  group_split(sample_name) %>%
+vj_mat_list <- samples |>
+  group_split(sample_name) |>
   map(get_vj_matrix, "v_call", "j_call")
 
-common_v <- map(vj_mat_list, rowSums) %>%
-  map(~ .[. > quantile(., vj_quant)]) %>%
-  map(names) %>%
+common_v <- map(vj_mat_list, rowSums) |>
+  map(~ .[. > quantile(., vj_quant)]) |>
+  map(names) |>
   reduce(intersect)
 
-common_j <- map(vj_mat_list, colSums) %>%
-  map(~ .[. > quantile(., vj_quant)]) %>%
-  map(names) %>%
+common_j <- map(vj_mat_list, colSums) |>
+  map(~ .[. > quantile(., vj_quant)]) |>
+  map(names) |>
   reduce(intersect)
 
 vj_mat_list <- map(vj_mat_list, ~ .[common_v, common_j])
@@ -507,7 +507,7 @@ names(pal_v) <- common_v
 pal_j <- Polychrome::alphabet.colors(length(common_j))
 names(pal_j) <- common_j
 
-names(vj_mat_list) <- group_split(samples, sample_name) %>%
+names(vj_mat_list) <- group_split(samples, sample_name) |>
   map_chr( ~ .$sample_name[1])
 
 render_chord <- function(sample) {
@@ -550,11 +550,11 @@ parsed <- knitr::knit_child(text = unlist(unparsed),
 #| out-width: "85%"
 #| fig-cap: "Histograms of CDR3 AA sequences' length"
 
-samples %<>%
+samples <- samples |>
   mutate(cdr3len = nchar(cdr3_aa)) 
   
 
-samples %>%
+samples |>
   ggplot(aes(x = cdr3len, y = sample_name)) +
     geom_density_ridges(stat = "binline", binwidth = 1, scale = 0.95,
       draw_baseline = FALSE) +
