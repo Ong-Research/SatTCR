@@ -34,20 +34,53 @@ knitr::include_graphics("assets/repseqio_page.png")
 The name of this file is coded in the config file `samplefile` entry. For the moment, we assume that the sequencing files are located in the `data` folder. For example, in this repository, we have the following files:
 
 ```bash
-ls data
+tree data
 
-data/K9013v01-rxn1_S425_L003_R1_001.fastq.gz
-data/K9013v01-rxn1_S425_L003_R2_001.fastq.gz
-data/K9013v01-rxn2_S426_L003_R1_001.fastq.gz
-data/K9013v01-rxn2_S426_L003_R2_001.fastq.gz
+├── run1
+│   ├── K9013rcc-rxn3_S423_L003_R1_001.fastq.gz
+│   ├── K9013rcc-rxn3_S423_L003_R2_001.fastq.gz
+│   ├── K9013rcc-rxn4_S424_L003_R1_001.fastq.gz
+│   ├── K9013rcc-rxn4_S424_L003_R2_001.fastq.gz
+│   ├── K9013v01-rxn1_S425_L003_R1_001.fastq.gz
+│   ├── K9013v01-rxn1_S425_L003_R2_001.fastq.gz
+│   ├── K9013v01-rxn2_S426_L003_R1_001.fastq.gz
+│   └── K9013v01-rxn2_S426_L003_R2_001.fastq.gz
+├── run2
+│   ├── K9013rcc-rxn3_S162_L001_R1_001.fastq.gz
+│   ├── K9013rcc-rxn3_S162_L001_R2_001.fastq.gz
+│   ├── K9013rcc-rxn4_S163_L001_R1_001.fastq.gz
+│   ├── K9013rcc-rxn4_S163_L001_R2_001.fastq.gz
+│   ├── K9013v01-rxn1_S164_L001_R1_001.fastq.gz
+│   ├── K9013v01-rxn1_S164_L001_R2_001.fastq.gz
+│   ├── K9013v01-rxn2_S165_L001_R1_001.fastq.gz
+│   └── K9013v01-rxn2_S165_L001_R2_001.fastq.gz
+└── run3
+    ├── K9013rcc-rxn3_S200_L001_R1_001.fastq.gz
+    ├── K9013rcc-rxn3_S200_L001_R2_001.fastq.gz
+    ├── K9013rcc-rxn4_S201_L001_R1_001.fastq.gz
+    ├── K9013rcc-rxn4_S201_L001_R2_001.fastq.gz
+    ├── K9013v01-rxn1_S202_L001_R1_001.fastq.gz
+    ├── K9013v01-rxn1_S202_L001_R2_001.fastq.gz
+    ├── K9013v01-rxn2_S203_L001_R1_001.fastq.gz
+    └── K9013v01-rxn2_S203_L001_R2_001.fastq.gz
 ```
 
 These are two paired RNA-seq files corresponding to two samples; so the `samples.csv` looks as:
 
 ```csv
 sample_name,sample_file
-run1_bio1_tech1,data/K9013v01-rxn1_S425_L003
-run1_bio1_tech2,data/K9013v01-rxn2_S426_L003
+run1_bio1_tech1,data/run1/K9013v01-rxn1_S425_L003
+run1_bio1_tech2,data/run1/K9013v01-rxn2_S426_L003
+run1_bio2_tech1,data/run1/K9013rcc-rxn3_S423_L003
+run1_bio2_tech2,data/run1/K9013rcc-rxn4_S424_L003
+run2_bio1_tech1,data/run2/K9013v01-rxn1_S164_L001
+run2_bio1_tech2,data/run2/K9013v01-rxn2_S165_L001
+run2_bio2_tech1,data/run2/K9013rcc-rxn3_S162_L001
+run2_bio2_tech2,data/run2/K9013rcc-rxn4_S163_L001
+run3_bio1_tech1,data/run3/K9013v01-rxn1_S202_L001
+run3_bio1_tech2,data/run3/K9013v01-rxn2_S203_L001
+run3_bio2_tech1,data/run3/K9013rcc-rxn3_S200_L001
+run3_bio2_tech2,data/run3/K9013rcc-rxn4_S201_L001
 ```
 
 The first column is the name that is going to be used for the respective samples, and the second one is the name of the file until the "_R1" / "_R2" parts. The remaining part of the file names is defined in the `suffix` entry of the configuration file. In the case of these two files, that is `_001.fastq.gz`. 
@@ -68,7 +101,13 @@ The underlying assumption for this step is the that `docker images` for the `fas
 snakemake -c4 qc
 ```
 
-The quality profiles are saved in the `figs` directory, and one of them looks like:
+Using the rule:
+
+```bash
+snakemake -c4 qc_report
+```
+
+will generate the QC page of the complete report. Alternatively, the quality profiles are saved in the `figs` directory, and one of them looks like:
 
 ```{r}
 #| label: "fig-example-qc-profile"
@@ -93,6 +132,7 @@ Generally we could expected:
 - The quality scores at the R2 end panel are a bit noisier than the ones in the R1 end panel.
 
 - The quality scores at the end of the sequences tend to be equal or lower than the ones a the start of the sequences.
+
 
 
 ### Trim sequences
@@ -127,15 +167,13 @@ The clonotypes are assembled using the command:
 snakemake -c4 mixcr
 ```
 
-**Note:** There are other available species:
+Using the rule:
 
-::: {.callout-important}
+```bash
+snakemake -c4 repertoire_report
+```
 
-## Available species for TCR $\beta$ chain
-
-Human, Mouse, Ma's night monkey, Rhesus Monkey , Rainbow trout, Dog, Ferret, Rabbit, Pig, Cat, Sheep, Camel, Crab-eating macaque, Naked mole-rat, Bovine, Mouse C57BL/6J, Gorilla
-
-:::
+will generate the report until section, i.e. everything except the saturation analysis.
 
 ### Sampling of the sequencing files and saturation analysis
 
@@ -196,7 +234,7 @@ summary:
 
 The `groups` part indicate which samples correspond to each group. In this case, the groups correspond to biological replicates, but it may well correspond to conditions or any other characteristics considered in the experiment. 
 
-The complete report is available in **add link**. For the saturation analysis, this will generate figures like @fig-saturation. When the sequencing depth is too low, the growth is going to look approximately linear (like in the `run1` and `run2` panels), but if the # of sequences is adequate then the growth will show decreasing increments like in the `run3` panel.
+The complete report is available in [here](cases/canine_tcr/index.html). For the saturation analysis, this will generate figures like @fig-saturation. When the sequencing depth is too low, the growth is going to look approximately linear (like in the `run1` and `run2` panels), but if the # of sequences is adequate then the growth will show decreasing increments like in the `run3` panel.
 
 
 ```{r}

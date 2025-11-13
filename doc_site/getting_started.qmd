@@ -10,8 +10,10 @@ This page provides a guide on how to install [SatTCR](https://github.com/Ong-Res
 [SatTCR](https://github.com/Ong-Research/SatTCR) is publicly available on [GitHub](www.github.com). SatTCT can be downloaded from the command line using the command:
 
 ```sh
-git clone git@github.com:Ong-Research/SatTCR.git
+git clone git@github.com:Ong-Research/SatTCR.git {repo_name}
 ```
+
+where '{repo_name}' is the desired name for the working directory.
 
 ## Installing prerequisite software 
 
@@ -44,12 +46,12 @@ Snakemake can be installed in [different ways](https://snakemake.readthedocs.io/
 We curated a list of [Docker](https://www.docker.com/) containers that are utilized by SatTCR. Their images can be obtained by using:
 
 ```bash
-cd SatTCR 
+cd {repo_name} 
 
 docker pull staphb/fastqc # FastQC image
-docker pull  staphb/multiqc # MultiQC image
+docker pull staphb/multiqc # MultiQC image
 docker pull staphb/trimmomatic # Trimmomatic image
-docker build -t tcr/sat - < Dockerfile # R and Quarto image
+docker build -t tcr/sattcr - < Dockerfile # R and Quarto image
 docker pull ghcr.io/milaboratory/mixcr/mixcr:latest # MIXCR image
 ```
 

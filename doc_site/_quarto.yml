@@ -5,7 +5,9 @@ project:
   output-dir: "docs"
   resources: 
     - ./cases/canine_tcr
+    - ./cases/mini_canine_tcr
     - ./cases/_files/canine_tcr
+    - ./cases/_files/mini_canine_tcr
     - ./assets
 
 website:
@@ -20,12 +22,16 @@ website:
       #   text: Pipeline        
       - text: Examples
         menu:
+          - text: Minimal Canine TCR
+            href: mini_canine_tcr.qmd
           - text: Canine TCR
             href: canine_tcr.qmd
           # - text: Human melanoma TCR
           #   href: human_melanoma_tcr.qmd        
       - text: Pre-compiled reports
         menu:
+          - text: Minimal Canine TCR
+            href: cases/mini_canine_tcr/index.html
           - text: Canine TCR 
             href: cases/canine_tcr/index.html
           # - text: Human melanoma TCR

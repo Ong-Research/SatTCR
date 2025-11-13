@@ -22,7 +22,11 @@ SatTCR is composed by 4 modules described in the image below:
 
 - **Report of SatTCR results:** The report contains data visualization of statistics summarizing the TCR repertoire assembled with the complete data and sampled version of the sequencing files.
 
-![](graphical_abstract.png)
+## What to look in the SatTCR's report?
+
+A [SatTCR](https://github.com/Ong-Research/SatTCR) provides multiple analysis. The key points to pay attention are:
+ 
+![](Diagram.png)
 
 <!-- 
 ## SatTCR usage
