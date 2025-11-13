@@ -1,0 +1,132 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Saturation TCR analysis report",
+    "section": "",
+    "text": "Analysis statistics\nSample\n\nSequencing\n\n\n# clonotypes\n\n\nShannon div\n\n\nClonality\n\n\nD50\n\n\n\nDepth\nTrim1\nComplete\nComplete &gt;= 5)\nRatio\nComplete\nComplete &gt;= 5)\nComplete\nComplete &gt;= 5)\nComplete\nComplete &gt;= 5)\n\n\n\n\nsample1\n364,450\n1\n13,210\n7,101\n53.75%\n86.75%\n87.35%\n13.25%\n12.65%\n1,049\n655\n\n\nsample2\n470,981\n0\n14,982\n8,984\n59.97%\n86.62%\n87.25%\n13.38%\n12.75%\n1,155\n802\n\n\n\n1 # of trimmed sequences",
+    "crumbs": [
+      "Analysis statistics"
+    ]
+  },
+  {
+    "objectID": "index.html#appendix",
+    "href": "index.html#appendix",
+    "title": "Saturation TCR analysis report",
+    "section": "Appendix",
+    "text": "Appendix\n\n\n\n\n\n\nExpand for Session Info\n\n\n\n\n\n\n\n─ Session info ───────────────────────────────────────────────────────────────\n setting  value\n version  R version 4.5.1 (2025-06-13)\n os       Ubuntu 20.04.6 LTS\n system   x86_64, linux-gnu\n ui       X11\n language (EN)\n collate  en_US.UTF-8\n ctype    en_US.UTF-8\n tz       UTC\n date     2025-11-12\n pandoc   2.5 @ /usr/bin/ (via rmarkdown)\n quarto   1.4.549\n\n─ Packages ───────────────────────────────────────────────────────────────────\n package     * version date (UTC) lib source\n dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.5.1)\n forcats     * 1.0.0   2023-01-29 [2] RSPM (R 4.2.0)\n ggplot2     * 3.4.4   2023-10-12 [1] CRAN (R 4.5.1)\n gt          * 1.0.0   2025-04-05 [2] RSPM (R 4.4.0)\n lubridate   * 1.9.4   2024-12-08 [2] RSPM (R 4.4.0)\n purrr       * 1.0.4   2025-02-05 [2] RSPM (R 4.4.0)\n readr       * 2.1.5   2024-01-10 [2] RSPM (R 4.3.0)\n sessioninfo * 1.2.3   2025-02-05 [2] RSPM (R 4.4.0)\n stringr     * 1.6.0   2025-11-04 [1] CRAN (R 4.5.1)\n tibble      * 3.3.0   2025-06-08 [2] RSPM (R 4.5.0)\n tidyr       * 1.3.1   2024-01-24 [2] RSPM (R 4.3.0)\n tidyverse   * 2.0.0   2023-02-22 [2] RSPM (R 4.2.0)\n yaml        * 2.3.10  2024-07-26 [2] RSPM (R 4.4.0)\n\n [1] /usr/local/lib/R/site-library\n [2] /usr/lib/R/site-library\n [3] /usr/lib/R/library\n * ── Packages attached to the search path.\n\n──────────────────────────────────────────────────────────────────────────────",
+    "crumbs": [
+      "Analysis statistics"
+    ]
+  },
+  {
+    "objectID": "qc.html",
+    "href": "qc.html",
+    "title": "Quality control",
+    "section": "",
+    "text": "MultiQC report",
+    "crumbs": [
+      "Quality control"
+    ]
+  },
+  {
+    "objectID": "qc.html#quality-profiles",
+    "href": "qc.html#quality-profiles",
+    "title": "Quality control",
+    "section": "Quality profiles",
+    "text": "Quality profiles\n\nsample1sample2\n\n\n\n\n\n\n\n\n\n\nFigure 1: Quality profiles for sample1 ends\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 2: Quality profiles for sample2 ends",
+    "crumbs": [
+      "Quality control"
+    ]
+  },
+  {
+    "objectID": "qc.html#appendix",
+    "href": "qc.html#appendix",
+    "title": "Quality control",
+    "section": "Appendix",
+    "text": "Appendix\n\n\n\n\n\n\nExpand for Session Info\n\n\n\n\n\n\n\n─ Session info ───────────────────────────────────────────────────────────────\n setting  value\n version  R version 4.5.1 (2025-06-13)\n os       Ubuntu 20.04.6 LTS\n system   x86_64, linux-gnu\n ui       X11\n language (EN)\n collate  en_US.UTF-8\n ctype    en_US.UTF-8\n tz       UTC\n date     2025-11-12\n pandoc   2.5 @ /usr/bin/ (via rmarkdown)\n quarto   1.4.549\n\n─ Packages ───────────────────────────────────────────────────────────────────\n package     * version date (UTC) lib source\n dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.5.1)\n forcats     * 1.0.0   2023-01-29 [2] RSPM (R 4.2.0)\n ggplot2     * 3.4.4   2023-10-12 [1] CRAN (R 4.5.1)\n lubridate   * 1.9.4   2024-12-08 [2] RSPM (R 4.4.0)\n magrittr    * 2.0.4   2025-09-12 [1] CRAN (R 4.5.1)\n purrr       * 1.0.4   2025-02-05 [2] RSPM (R 4.4.0)\n readr       * 2.1.5   2024-01-10 [2] RSPM (R 4.3.0)\n sessioninfo * 1.2.3   2025-02-05 [2] RSPM (R 4.4.0)\n stringr     * 1.6.0   2025-11-04 [1] CRAN (R 4.5.1)\n tibble      * 3.3.0   2025-06-08 [2] RSPM (R 4.5.0)\n tidyr       * 1.3.1   2024-01-24 [2] RSPM (R 4.3.0)\n tidyverse   * 2.0.0   2023-02-22 [2] RSPM (R 4.2.0)\n\n [1] /usr/local/lib/R/site-library\n [2] /usr/lib/R/site-library\n [3] /usr/lib/R/library\n * ── Packages attached to the search path.\n\n──────────────────────────────────────────────────────────────────────────────",
+    "crumbs": [
+      "Quality control"
+    ]
+  },
+  {
+    "objectID": "repertoire.html",
+    "href": "repertoire.html",
+    "title": "Repertoire analysis",
+    "section": "",
+    "text": "Count distribution\nFigure 1: # of clone distribution per sample",
+    "crumbs": [
+      "Repertoire analysis"
+    ]
+  },
+  {
+    "objectID": "repertoire.html#shared-clonotypes-per-group",
+    "href": "repertoire.html#shared-clonotypes-per-group",
+    "title": "Repertoire analysis",
+    "section": "Shared clonotypes per group",
+    "text": "Shared clonotypes per group\n\n\n\n\n\n\nNote\n\n\n\n\n\nThe figures below have clonotypes repeated \\(\\geq\\) 5 times\n\n\n\n\ngroup1\n\n\n\n\n\n\n\n\n\n\nFigure 2: UpSet plot for group1 samples.",
+    "crumbs": [
+      "Repertoire analysis"
+    ]
+  },
+  {
+    "objectID": "repertoire.html#diversity-analysis",
+    "href": "repertoire.html#diversity-analysis",
+    "title": "Repertoire analysis",
+    "section": "Diversity analysis",
+    "text": "Diversity analysis\n\n\n\n\n\n\nDiversity definition\n\n\n\n\n\nThe diversity is generalized to the Renyi entropy defined as:\n\\[\nH(\\alpha) = \\frac{1}{1 - \\alpha} \\log \\left( \\sum_{i=1}^n p_i^\\alpha  \\right)\n\\]\nwhere:\n\n\\(n\\) is the total number of unique clonotypes\n\\(p_i\\) is the clonotype frequency for clonotype \\(i\\)\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 3: Renyi entropy curves",
+    "crumbs": [
+      "Repertoire analysis"
+    ]
+  },
+  {
+    "objectID": "repertoire.html#vj-gene-usage",
+    "href": "repertoire.html#vj-gene-usage",
+    "title": "Repertoire analysis",
+    "section": "VJ gene usage",
+    "text": "VJ gene usage\n\n\n\n\n\n\n\n\nFigure 4: Gene frequency usage per group\n\n\n\n\n\n\nVJ genes paired usage\n\n\n\n\n\n\nNote\n\n\n\n\n\nThe figures use the clonotypes annotated by unique V and J genes, and ignoring the genes that portray less than 15% of the total number of annotated clonotypes\n\n\n\n\nsample1sample2\n\n\n\n\n\n\n\n\n\n\nFigure 5: Chord diagram for sample1 sample\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 6: Chord diagram for sample2 sample",
+    "crumbs": [
+      "Repertoire analysis"
+    ]
+  },
+  {
+    "objectID": "repertoire.html#cdr3-sequence-length-analysis",
+    "href": "repertoire.html#cdr3-sequence-length-analysis",
+    "title": "Repertoire analysis",
+    "section": "CDR3 sequence length analysis",
+    "text": "CDR3 sequence length analysis\n\n\n\n\n\n\n\n\nFigure 7: Histograms of CDR3 AA sequences’ length",
+    "crumbs": [
+      "Repertoire analysis"
+    ]
+  },
+  {
+    "objectID": "repertoire.html#appendix",
+    "href": "repertoire.html#appendix",
+    "title": "Repertoire analysis",
+    "section": "Appendix",
+    "text": "Appendix\n\n\n\n\n\n\nExpand for Session Info\n\n\n\n\n\n\n\n─ Session info ───────────────────────────────────────────────────────────────\n setting  value\n version  R version 4.5.1 (2025-06-13)\n os       Ubuntu 20.04.6 LTS\n system   x86_64, linux-gnu\n ui       X11\n language (EN)\n collate  en_US.UTF-8\n ctype    en_US.UTF-8\n tz       UTC\n date     2025-11-12\n pandoc   2.5 @ /usr/bin/ (via rmarkdown)\n quarto   1.4.549\n\n─ Packages ───────────────────────────────────────────────────────────────────\n package      * version date (UTC) lib source\n circlize     * 0.4.16  2024-02-20 [2] RSPM (R 4.3.0)\n ComplexUpset * 1.3.3   2021-12-11 [2] RSPM (R 4.2.0)\n dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.5.1)\n forcats      * 1.0.0   2023-01-29 [2] RSPM (R 4.2.0)\n ggplot2      * 3.4.4   2023-10-12 [1] CRAN (R 4.5.1)\n ggridges     * 0.5.6   2024-01-23 [2] RSPM (R 4.3.0)\n lubridate    * 1.9.4   2024-12-08 [2] RSPM (R 4.4.0)\n magrittr     * 2.0.4   2025-09-12 [1] CRAN (R 4.5.1)\n Polychrome   * 1.5.4   2025-04-06 [2] RSPM (R 4.4.0)\n purrr        * 1.0.4   2025-02-05 [2] RSPM (R 4.4.0)\n readr        * 2.1.5   2024-01-10 [2] RSPM (R 4.3.0)\n sessioninfo  * 1.2.3   2025-02-05 [2] RSPM (R 4.4.0)\n stringr      * 1.6.0   2025-11-04 [1] CRAN (R 4.5.1)\n tibble       * 3.3.0   2025-06-08 [2] RSPM (R 4.5.0)\n tidyr        * 1.3.1   2024-01-24 [2] RSPM (R 4.3.0)\n tidyverse    * 2.0.0   2023-02-22 [2] RSPM (R 4.2.0)\n yaml         * 2.3.10  2024-07-26 [2] RSPM (R 4.4.0)\n\n [1] /usr/local/lib/R/site-library\n [2] /usr/lib/R/site-library\n [3] /usr/lib/R/library\n * ── Packages attached to the search path.\n\n──────────────────────────────────────────────────────────────────────────────",
+    "crumbs": [
+      "Repertoire analysis"
+    ]
+  },
+  {
+    "objectID": "saturation.html",
+    "href": "saturation.html",
+    "title": "Saturation analysis",
+    "section": "",
+    "text": "Appendix",
+    "crumbs": [
+      "Saturation analysis"
+    ]
+  },
+  {
+    "objectID": "saturation.html#appendix",
+    "href": "saturation.html#appendix",
+    "title": "Saturation analysis",
+    "section": "",
+    "text": "Expand for Session Info\n\n\n\n\n\n\n\n─ Session info ───────────────────────────────────────────────────────────────\n setting  value\n version  R version 4.5.1 (2025-06-13)\n os       Ubuntu 20.04.6 LTS\n system   x86_64, linux-gnu\n ui       X11\n language (EN)\n collate  en_US.UTF-8\n ctype    en_US.UTF-8\n tz       UTC\n date     2025-11-12\n pandoc   2.5 @ /usr/bin/ (via rmarkdown)\n quarto   1.4.549\n\n─ Packages ───────────────────────────────────────────────────────────────────\n package      * version date (UTC) lib source\n circlize     * 0.4.16  2024-02-20 [2] RSPM (R 4.3.0)\n ComplexUpset * 1.3.3   2021-12-11 [2] RSPM (R 4.2.0)\n dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.5.1)\n forcats      * 1.0.0   2023-01-29 [2] RSPM (R 4.2.0)\n ggplot2      * 3.4.4   2023-10-12 [1] CRAN (R 4.5.1)\n ggridges     * 0.5.6   2024-01-23 [2] RSPM (R 4.3.0)\n ggthemes     * 5.1.0   2024-02-10 [2] RSPM (R 4.3.0)\n lubridate    * 1.9.4   2024-12-08 [2] RSPM (R 4.4.0)\n magrittr     * 2.0.4   2025-09-12 [1] CRAN (R 4.5.1)\n Polychrome   * 1.5.4   2025-04-06 [2] RSPM (R 4.4.0)\n purrr        * 1.0.4   2025-02-05 [2] RSPM (R 4.4.0)\n readr        * 2.1.5   2024-01-10 [2] RSPM (R 4.3.0)\n sessioninfo  * 1.2.3   2025-02-05 [2] RSPM (R 4.4.0)\n stringr      * 1.6.0   2025-11-04 [1] CRAN (R 4.5.1)\n tibble       * 3.3.0   2025-06-08 [2] RSPM (R 4.5.0)\n tidyr        * 1.3.1   2024-01-24 [2] RSPM (R 4.3.0)\n tidyverse    * 2.0.0   2023-02-22 [2] RSPM (R 4.2.0)\n yaml         * 2.3.10  2024-07-26 [2] RSPM (R 4.4.0)\n\n [1] /usr/local/lib/R/site-library\n [2] /usr/lib/R/site-library\n [3] /usr/lib/R/library\n * ── Packages attached to the search path.\n\n──────────────────────────────────────────────────────────────────────────────",
+    "crumbs": [
+      "Saturation analysis"
+    ]
+  }
+]

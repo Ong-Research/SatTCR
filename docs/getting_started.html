@@ -162,6 +162,10 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-examples">    
         <li>
+    <a class="dropdown-item" href="./mini_canine_tcr.html">
+ <span class="dropdown-text">Minimal Canine TCR</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="./canine_tcr.html">
  <span class="dropdown-text">Canine TCR</span></a>
   </li>  
@@ -172,6 +176,10 @@ window.Quarto = {
  <span class="menu-text">Pre-compiled reports</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-pre-compiled-reports">    
+        <li>
+    <a class="dropdown-item" href="./cases/mini_canine_tcr/index.html">
+ <span class="dropdown-text">Minimal Canine TCR</span></a>
+  </li>  
         <li>
     <a class="dropdown-item" href="./cases/canine_tcr/index.html">
  <span class="dropdown-text">Canine TCR</span></a>
@@ -238,7 +246,8 @@ window.Quarto = {
 <section id="downloading-sattcr" class="level2">
 <h2 class="anchored" data-anchor-id="downloading-sattcr">Downloading SatTCR</h2>
 <p><a href="https://github.com/Ong-Research/SatTCR">SatTCR</a> is publicly available on <a href="www.github.com">GitHub</a>. SatTCT can be downloaded from the command line using the command:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:Ong-Research/SatTCR.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:Ong-Research/SatTCR.git {repo_name}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>where ‘{repo_name}’ is the desired name for the working directory.</p>
 </section>
 <section id="installing-prerequisite-software" class="level2">
 <h2 class="anchored" data-anchor-id="installing-prerequisite-software">Installing prerequisite software</h2>
@@ -261,12 +270,12 @@ window.Quarto = {
 <section id="getting-docker-images" class="level2">
 <h2 class="anchored" data-anchor-id="getting-docker-images">Getting Docker images</h2>
 <p>We curated a list of <a href="https://www.docker.com/">Docker</a> containers that are utilized by SatTCR. Their images can be obtained by using:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> SatTCR </span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> {repo_name} </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull staphb/fastqc <span class="co"># FastQC image</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull  staphb/multiqc <span class="co"># MultiQC image</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull staphb/multiqc <span class="co"># MultiQC image</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull staphb/trimmomatic <span class="co"># Trimmomatic image</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> tcr/sat <span class="at">-</span> <span class="op">&lt;</span> Dockerfile <span class="co"># R and Quarto image</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> tcr/sattcr <span class="at">-</span> <span class="op">&lt;</span> Dockerfile <span class="co"># R and Quarto image</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull ghcr.io/milaboratory/mixcr/mixcr:latest <span class="co"># MIXCR image</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For MIXCR to work, it is necessary to get a license from <a href="https://mixcr.com/mixcr/getting-started/milm/" class="uri">https://mixcr.com/mixcr/getting-started/milm/</a> and save it into a file. The name of this file is required to be specified in the <code>config/config.yaml</code> file in the <code>mixcr</code> key under <code>license_file</code>.</p>
 </section>
