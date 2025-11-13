@@ -156,3 +156,18 @@ snakemake -c{k} report
 ```
 
 This rule produces an html report compiled by `quarto` summarizing the results of the analysis.
+
+**Generate partial reports**
+
+- To generate a report only with the quality control part:
+
+```bash
+snakemake -c{k} qc_report
+```
+- To generate a report with the quality control and the repertoire parts, i.e. everything except the saturation analysis:
+
+```bash
+snakemake -c{k} repertoire_report
+```
+
+These rules generate a partial html report compiled by `quarto`.
