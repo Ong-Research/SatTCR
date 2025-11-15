@@ -1,0 +1,132 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Saturation TCR analysis report",
+    "section": "",
+    "text": "Analysis statistics\nSample\n\nSequencing\n\n\n# clonotypes\n\n\nShannon div\n\n\nClonality\n\n\nD50\n\n\n\nDepth\nTrim1\nComplete\nComplete &gt;= 5)\nRatio\nComplete\nComplete &gt;= 5)\nComplete\nComplete &gt;= 5)\nComplete\nComplete &gt;= 5)\n\n\n\n\nA532_Tu\n61,547\n21,427\n1,839\n1,074\n58.40%\n84.58%\n88.43%\n15.42%\n11.57%\n128\n115\n\n\nA571_MT\n62,490\n20,595\n179\n78\n43.58%\n54.58%\n64.87%\n45.42%\n35.13%\n4\n4\n\n\nA571_T0\n69,951\n23,122\n9,266\n1,715\n18.51%\n81.39%\n77.94%\n18.61%\n22.06%\n505\n37\n\n\nA571_WT\n71,782\n24,816\n2,789\n1,373\n49.23%\n75.22%\n77.89%\n24.78%\n22.11%\n54\n41\n\n\nA584_MT\n71,544\n23,141\n178\n44\n24.72%\n46.82%\n63.22%\n53.18%\n36.78%\n3\n3\n\n\nA584_T0\n58,586\n21,345\n4,973\n1,792\n36.03%\n81.89%\n81.88%\n18.11%\n18.12%\n324\n106\n\n\nA584_WT\n64,229\n23,499\n4,458\n2,070\n46.43%\n91.08%\n94.53%\n8.92%\n5.47%\n483\n366\n\n\nA590B_MT\n62,754\n19,493\n181\n78\n43.09%\n41.63%\n48.92%\n58.37%\n51.08%\n2\n2\n\n\nA590B_WT\n63,345\n22,124\n2,642\n932\n35.28%\n63.98%\n65.08%\n36.02%\n34.92%\n10\n8\n\n\nA590_T0\n63,408\n22,218\n7,258\n1,994\n27.47%\n84.98%\n83.77%\n15.02%\n16.23%\n645\n152\n\n\nA611B_MT\n48,551\n15,640\n93\n46\n49.46%\n12.86%\n14.46%\n87.14%\n85.54%\n1\n1\n\n\nA611_WT\n64,883\n21,471\n2,067\n1,011\n48.91%\n68.51%\n70.98%\n31.49%\n29.02%\n16\n12\n\n\nA611_T0\n73,712\n26,138\n5,802\n2,256\n38.88%\n80.83%\n80.77%\n19.17%\n19.23%\n362\n120\n\n\nA641B_MT\n58,797\n19,321\n162\n87\n53.70%\n66.65%\n75.44%\n33.35%\n24.56%\n7\n7\n\n\nA641B_WT\n62,302\n20,249\n2,180\n1,270\n58.26%\n86.28%\n90.03%\n13.72%\n9.97%\n153\n137\n\n\nA641_T0\n67,128\n23,312\n4,565\n1,903\n41.69%\n79.66%\n81.00%\n20.34%\n19.00%\n238\n116\n\n\n\n1 # of trimmed sequences",
+    "crumbs": [
+      "Analysis statistics"
+    ]
+  },
+  {
+    "objectID": "index.html#appendix",
+    "href": "index.html#appendix",
+    "title": "Saturation TCR analysis report",
+    "section": "Appendix",
+    "text": "Appendix\n\n\n\n\n\n\nExpand for Session Info\n\n\n\n\n\n\n\n─ Session info ───────────────────────────────────────────────────────────────\n setting  value\n version  R version 4.5.1 (2025-06-13)\n os       Ubuntu 20.04.6 LTS\n system   x86_64, linux-gnu\n ui       X11\n language (EN)\n collate  en_US.UTF-8\n ctype    en_US.UTF-8\n tz       UTC\n date     2025-11-15\n pandoc   2.5 @ /usr/bin/ (via rmarkdown)\n quarto   1.4.549\n\n─ Packages ───────────────────────────────────────────────────────────────────\n package     * version date (UTC) lib source\n dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.5.1)\n forcats     * 1.0.0   2023-01-29 [2] RSPM (R 4.2.0)\n ggplot2     * 3.4.4   2023-10-12 [1] CRAN (R 4.5.1)\n gt          * 1.0.0   2025-04-05 [2] RSPM (R 4.4.0)\n lubridate   * 1.9.4   2024-12-08 [2] RSPM (R 4.4.0)\n purrr       * 1.0.4   2025-02-05 [2] RSPM (R 4.4.0)\n readr       * 2.1.5   2024-01-10 [2] RSPM (R 4.3.0)\n sessioninfo * 1.2.3   2025-02-05 [2] RSPM (R 4.4.0)\n stringr     * 1.6.0   2025-11-04 [1] CRAN (R 4.5.1)\n tibble      * 3.3.0   2025-06-08 [2] RSPM (R 4.5.0)\n tidyr       * 1.3.1   2024-01-24 [2] RSPM (R 4.3.0)\n tidyverse   * 2.0.0   2023-02-22 [2] RSPM (R 4.2.0)\n yaml        * 2.3.10  2024-07-26 [2] RSPM (R 4.4.0)\n\n [1] /usr/local/lib/R/site-library\n [2] /usr/lib/R/site-library\n [3] /usr/lib/R/library\n * ── Packages attached to the search path.\n\n──────────────────────────────────────────────────────────────────────────────",
+    "crumbs": [
+      "Analysis statistics"
+    ]
+  },
+  {
+    "objectID": "qc.html",
+    "href": "qc.html",
+    "title": "Quality control",
+    "section": "",
+    "text": "MultiQC report",
+    "crumbs": [
+      "Quality control"
+    ]
+  },
+  {
+    "objectID": "qc.html#quality-profiles",
+    "href": "qc.html#quality-profiles",
+    "title": "Quality control",
+    "section": "Quality profiles",
+    "text": "Quality profiles\n\nA532_TuA571_MTA571_T0A571_WTA584_MTA584_T0A584_WTA590B_MTA590B_WTA590_T0A611B_MTA611_WTA611_T0A641B_MTA641B_WTA641_T0\n\n\n\n\n\n\n\n\n\n\nFigure 1: Quality profiles for A532_Tu ends\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 2: Quality profiles for A571_MT ends\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 3: Quality profiles for A571_T0 ends\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 4: Quality profiles for A571_WT ends\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 5: Quality profiles for A584_MT ends\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 6: Quality profiles for A584_T0 ends\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 7: Quality profiles for A584_WT ends\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 8: Quality profiles for A590B_MT ends\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 9: Quality profiles for A590B_WT ends\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 10: Quality profiles for A590_T0 ends\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 11: Quality profiles for A611B_MT ends\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 12: Quality profiles for A611_WT ends\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 13: Quality profiles for A611_T0 ends\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 14: Quality profiles for A641B_MT ends\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 15: Quality profiles for A641B_WT ends\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 16: Quality profiles for A641_T0 ends",
+    "crumbs": [
+      "Quality control"
+    ]
+  },
+  {
+    "objectID": "qc.html#appendix",
+    "href": "qc.html#appendix",
+    "title": "Quality control",
+    "section": "Appendix",
+    "text": "Appendix\n\n\n\n\n\n\nExpand for Session Info\n\n\n\n\n\n\n\n─ Session info ───────────────────────────────────────────────────────────────\n setting  value\n version  R version 4.5.1 (2025-06-13)\n os       Ubuntu 20.04.6 LTS\n system   x86_64, linux-gnu\n ui       X11\n language (EN)\n collate  en_US.UTF-8\n ctype    en_US.UTF-8\n tz       UTC\n date     2025-11-15\n pandoc   2.5 @ /usr/bin/ (via rmarkdown)\n quarto   1.4.549\n\n─ Packages ───────────────────────────────────────────────────────────────────\n package     * version date (UTC) lib source\n dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.5.1)\n forcats     * 1.0.0   2023-01-29 [2] RSPM (R 4.2.0)\n ggplot2     * 3.4.4   2023-10-12 [1] CRAN (R 4.5.1)\n lubridate   * 1.9.4   2024-12-08 [2] RSPM (R 4.4.0)\n magrittr    * 2.0.4   2025-09-12 [1] CRAN (R 4.5.1)\n purrr       * 1.0.4   2025-02-05 [2] RSPM (R 4.4.0)\n readr       * 2.1.5   2024-01-10 [2] RSPM (R 4.3.0)\n sessioninfo * 1.2.3   2025-02-05 [2] RSPM (R 4.4.0)\n stringr     * 1.6.0   2025-11-04 [1] CRAN (R 4.5.1)\n tibble      * 3.3.0   2025-06-08 [2] RSPM (R 4.5.0)\n tidyr       * 1.3.1   2024-01-24 [2] RSPM (R 4.3.0)\n tidyverse   * 2.0.0   2023-02-22 [2] RSPM (R 4.2.0)\n\n [1] /usr/local/lib/R/site-library\n [2] /usr/lib/R/site-library\n [3] /usr/lib/R/library\n * ── Packages attached to the search path.\n\n──────────────────────────────────────────────────────────────────────────────",
+    "crumbs": [
+      "Quality control"
+    ]
+  },
+  {
+    "objectID": "repertoire.html",
+    "href": "repertoire.html",
+    "title": "Repertoire analysis",
+    "section": "",
+    "text": "Count distribution\nFigure 1: # of clone distribution per sample",
+    "crumbs": [
+      "Repertoire analysis"
+    ]
+  },
+  {
+    "objectID": "repertoire.html#shared-clonotypes-per-group",
+    "href": "repertoire.html#shared-clonotypes-per-group",
+    "title": "Repertoire analysis",
+    "section": "Shared clonotypes per group",
+    "text": "Shared clonotypes per group\n\n\n\n\n\n\nNote\n\n\n\n\n\nThe figures below have clonotypes repeated \\(\\geq\\) 5 times\n\n\n\n\nall\n\n\n\n\n\n\n\n\n\n\nFigure 2: UpSet plot for all samples.",
+    "crumbs": [
+      "Repertoire analysis"
+    ]
+  },
+  {
+    "objectID": "repertoire.html#diversity-analysis",
+    "href": "repertoire.html#diversity-analysis",
+    "title": "Repertoire analysis",
+    "section": "Diversity analysis",
+    "text": "Diversity analysis\n\n\n\n\n\n\nDiversity definition\n\n\n\n\n\nThe diversity is generalized to the Renyi entropy defined as:\n\\[\nH(\\alpha) = \\frac{1}{1 - \\alpha} \\log \\left( \\sum_{i=1}^n p_i^\\alpha  \\right)\n\\]\nwhere:\n\n\\(n\\) is the total number of unique clonotypes\n\\(p_i\\) is the clonotype frequency for clonotype \\(i\\)\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 3: Renyi entropy curves",
+    "crumbs": [
+      "Repertoire analysis"
+    ]
+  },
+  {
+    "objectID": "repertoire.html#vj-gene-usage",
+    "href": "repertoire.html#vj-gene-usage",
+    "title": "Repertoire analysis",
+    "section": "VJ gene usage",
+    "text": "VJ gene usage\n\n\n\n\n\n\n\n\nFigure 4: Gene frequency usage per group\n\n\n\n\n\n\nVJ genes paired usage\n\n\n\n\n\n\nNote\n\n\n\n\n\nThe figures use the clonotypes annotated by unique V and J genes, and ignoring the genes that portray less than 15% of the total number of annotated clonotypes\n\n\n\n\nA532_TuA571_MTA571_T0A571_WTA584_MTA584_T0A584_WTA590B_MTA590B_WTA590_T0A611B_MTA611_T0A611_WTA641B_MTA641B_WTA641_T0\n\n\n\n\n\n\n\n\n\n\nFigure 5: Chord diagram for A532_Tu sample\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 6: Chord diagram for A571_MT sample\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 7: Chord diagram for A571_T0 sample\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 8: Chord diagram for A571_WT sample\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 9: Chord diagram for A584_MT sample\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 10: Chord diagram for A584_T0 sample\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 11: Chord diagram for A584_WT sample\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 12: Chord diagram for A590B_MT sample\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 13: Chord diagram for A590B_WT sample\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 14: Chord diagram for A590_T0 sample\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 15: Chord diagram for A611B_MT sample\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 16: Chord diagram for A611_T0 sample\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 17: Chord diagram for A611_WT sample\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 18: Chord diagram for A641B_MT sample\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 19: Chord diagram for A641B_WT sample\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 20: Chord diagram for A641_T0 sample",
+    "crumbs": [
+      "Repertoire analysis"
+    ]
+  },
+  {
+    "objectID": "repertoire.html#cdr3-sequence-length-analysis",
+    "href": "repertoire.html#cdr3-sequence-length-analysis",
+    "title": "Repertoire analysis",
+    "section": "CDR3 sequence length analysis",
+    "text": "CDR3 sequence length analysis\n\n\n\n\n\n\n\n\nFigure 21: Histograms of CDR3 AA sequences’ length",
+    "crumbs": [
+      "Repertoire analysis"
+    ]
+  },
+  {
+    "objectID": "repertoire.html#appendix",
+    "href": "repertoire.html#appendix",
+    "title": "Repertoire analysis",
+    "section": "Appendix",
+    "text": "Appendix\n\n\n\n\n\n\nExpand for Session Info\n\n\n\n\n\n\n\n─ Session info ───────────────────────────────────────────────────────────────\n setting  value\n version  R version 4.5.1 (2025-06-13)\n os       Ubuntu 20.04.6 LTS\n system   x86_64, linux-gnu\n ui       X11\n language (EN)\n collate  en_US.UTF-8\n ctype    en_US.UTF-8\n tz       UTC\n date     2025-11-15\n pandoc   2.5 @ /usr/bin/ (via rmarkdown)\n quarto   1.4.549\n\n─ Packages ───────────────────────────────────────────────────────────────────\n package      * version date (UTC) lib source\n circlize     * 0.4.16  2024-02-20 [2] RSPM (R 4.3.0)\n ComplexUpset * 1.3.3   2021-12-11 [2] RSPM (R 4.2.0)\n dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.5.1)\n forcats      * 1.0.0   2023-01-29 [2] RSPM (R 4.2.0)\n ggplot2      * 3.4.4   2023-10-12 [1] CRAN (R 4.5.1)\n ggridges     * 0.5.6   2024-01-23 [2] RSPM (R 4.3.0)\n lubridate    * 1.9.4   2024-12-08 [2] RSPM (R 4.4.0)\n magrittr     * 2.0.4   2025-09-12 [1] CRAN (R 4.5.1)\n Polychrome   * 1.5.4   2025-04-06 [2] RSPM (R 4.4.0)\n purrr        * 1.0.4   2025-02-05 [2] RSPM (R 4.4.0)\n readr        * 2.1.5   2024-01-10 [2] RSPM (R 4.3.0)\n sessioninfo  * 1.2.3   2025-02-05 [2] RSPM (R 4.4.0)\n stringr      * 1.6.0   2025-11-04 [1] CRAN (R 4.5.1)\n tibble       * 3.3.0   2025-06-08 [2] RSPM (R 4.5.0)\n tidyr        * 1.3.1   2024-01-24 [2] RSPM (R 4.3.0)\n tidyverse    * 2.0.0   2023-02-22 [2] RSPM (R 4.2.0)\n yaml         * 2.3.10  2024-07-26 [2] RSPM (R 4.4.0)\n\n [1] /usr/local/lib/R/site-library\n [2] /usr/lib/R/site-library\n [3] /usr/lib/R/library\n * ── Packages attached to the search path.\n\n──────────────────────────────────────────────────────────────────────────────",
+    "crumbs": [
+      "Repertoire analysis"
+    ]
+  },
+  {
+    "objectID": "saturation.html",
+    "href": "saturation.html",
+    "title": "Saturation analysis",
+    "section": "",
+    "text": "Appendix",
+    "crumbs": [
+      "Saturation analysis"
+    ]
+  },
+  {
+    "objectID": "saturation.html#appendix",
+    "href": "saturation.html#appendix",
+    "title": "Saturation analysis",
+    "section": "",
+    "text": "Expand for Session Info\n\n\n\n\n\n\n\n─ Session info ───────────────────────────────────────────────────────────────\n setting  value\n version  R version 4.5.1 (2025-06-13)\n os       Ubuntu 20.04.6 LTS\n system   x86_64, linux-gnu\n ui       X11\n language (EN)\n collate  en_US.UTF-8\n ctype    en_US.UTF-8\n tz       UTC\n date     2025-11-15\n pandoc   2.5 @ /usr/bin/ (via rmarkdown)\n quarto   1.4.549\n\n─ Packages ───────────────────────────────────────────────────────────────────\n package      * version date (UTC) lib source\n circlize     * 0.4.16  2024-02-20 [2] RSPM (R 4.3.0)\n ComplexUpset * 1.3.3   2021-12-11 [2] RSPM (R 4.2.0)\n dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.5.1)\n forcats      * 1.0.0   2023-01-29 [2] RSPM (R 4.2.0)\n ggplot2      * 3.4.4   2023-10-12 [1] CRAN (R 4.5.1)\n ggridges     * 0.5.6   2024-01-23 [2] RSPM (R 4.3.0)\n ggthemes     * 5.1.0   2024-02-10 [2] RSPM (R 4.3.0)\n lubridate    * 1.9.4   2024-12-08 [2] RSPM (R 4.4.0)\n magrittr     * 2.0.4   2025-09-12 [1] CRAN (R 4.5.1)\n Polychrome   * 1.5.4   2025-04-06 [2] RSPM (R 4.4.0)\n purrr        * 1.0.4   2025-02-05 [2] RSPM (R 4.4.0)\n readr        * 2.1.5   2024-01-10 [2] RSPM (R 4.3.0)\n sessioninfo  * 1.2.3   2025-02-05 [2] RSPM (R 4.4.0)\n stringr      * 1.6.0   2025-11-04 [1] CRAN (R 4.5.1)\n tibble       * 3.3.0   2025-06-08 [2] RSPM (R 4.5.0)\n tidyr        * 1.3.1   2024-01-24 [2] RSPM (R 4.3.0)\n tidyverse    * 2.0.0   2023-02-22 [2] RSPM (R 4.2.0)\n yaml         * 2.3.10  2024-07-26 [2] RSPM (R 4.4.0)\n\n [1] /usr/local/lib/R/site-library\n [2] /usr/lib/R/site-library\n [3] /usr/lib/R/library\n * ── Packages attached to the search path.\n\n──────────────────────────────────────────────────────────────────────────────",
+    "crumbs": [
+      "Saturation analysis"
+    ]
+  }
+]
