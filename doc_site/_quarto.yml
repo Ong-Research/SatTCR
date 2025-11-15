@@ -6,6 +6,7 @@ project:
   resources: 
     - ./cases/canine_tcr
     - ./cases/mini_canine_tcr
+    - ./cases/zuleger_2020
     - ./cases/_files/canine_tcr
     - ./cases/_files/mini_canine_tcr
     - ./assets
@@ -34,8 +35,8 @@ website:
             href: cases/mini_canine_tcr/index.html
           - text: Canine TCR 
             href: cases/canine_tcr/index.html
-          # - text: Human melanoma TCR
-          #   href: cases/human_melanoma_tcr/index.html
+          - text: Human melanoma TCR
+            href: cases/zuleger_2020/index.html
       # - href: news.qmd
       #   text: News
     right:
