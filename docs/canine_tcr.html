@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -67,14 +67,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-d21829db2b5042f4ae05c2fb504ec7fd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-68246aeb09d860de593681c9ed219f64.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -117,7 +118,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -247,8 +248,8 @@ window.Quarto = {
 
 <p>For this example, we assume that SatTCR is already downloaded, <code>snakemake</code> and <code>docker</code> are already installed in the system, and that the <code>docker</code> images are already pulled, i.e.&nbsp;we assume that the first steps of the <a href="./getting_started.html">Getting started</a> page are already done.</p>
 <p>We also assume that we are located in the <code>SatTCR</code> directory after cloning the repository:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:Ong-Research/SatTCR</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> SatTCR</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:Ong-Research/SatTCR</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> SatTCR</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <section id="additional-files-to-download" class="level2">
 <h2 class="anchored" data-anchor-id="additional-files-to-download">Additional files to download</h2>
 <ol type="1">
@@ -269,7 +270,7 @@ window.Quarto = {
 <section id="making-the-samples.csv-file" class="level2">
 <h2 class="anchored" data-anchor-id="making-the-samples.csv-file">Making the <code>samples.csv</code> file</h2>
 <p>The name of this file is coded in the config file <code>samplefile</code> entry. For the moment, we assume that the sequencing files are located in the <code>data</code> folder. For example, in this repository, we have the following files:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tree</span> data</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tree</span> data</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> run1</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── K9013rcc-rxn3_S423_L003_R1_001.fastq.gz</span>
@@ -297,7 +298,7 @@ window.Quarto = {
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="ex">├──</span> K9013v01-rxn1_S202_L001_R1_001.fastq.gz</span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="ex">├──</span> K9013v01-rxn1_S202_L001_R2_001.fastq.gz</span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="ex">├──</span> K9013v01-rxn2_S203_L001_R1_001.fastq.gz</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="ex">└──</span> K9013v01-rxn2_S203_L001_R2_001.fastq.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="ex">└──</span> K9013v01-rxn2_S203_L001_R2_001.fastq.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>These are two paired RNA-seq files corresponding to two samples; so the <code>samples.csv</code> looks as:</p>
 <pre class="csv"><code>sample_name,sample_file
 run1_bio1_tech1,data/run1/K9013v01-rxn1_S425_L003
@@ -324,9 +325,9 @@ run3_bio2_tech2,data/run3/K9013rcc-rxn4_S201_L001</code></pre>
 <li><p>Uses <code>dada2</code>’s to plot quality profiles.</p></li>
 </ol>
 <p>The underlying assumption for this step is the that <code>docker images</code> for the <code>fastqc</code>, <code>multiqc</code> and <code>rquarto</code> have been installed already. After this steps are completed, then run with 4 cores:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-c4</span> qc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-c4</span> qc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Using the rule:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-c4</span> qc_report</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-c4</span> qc_report</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>will generate the QC page of the complete report. Alternatively, the quality profiles are saved in the <code>figs</code> directory, and one of them looks like:</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -357,53 +358,53 @@ Figure&nbsp;1: Quallity profile for the tech1 files
 <section id="trim-sequences" class="level3">
 <h3 class="anchored" data-anchor-id="trim-sequences">Trim sequences</h3>
 <p>This step assumes that the docker’s <code>trimmomatic</code> image has been already installed. Then, following the previous section, we know now that we need to trim the sequences. The tail at the end of the R2 panel indicates that there are a few sequences with QC score &lt; 20, so we remove the parts after that QC score is reached with the <code>TRAILING:20</code> option. There could be some remaining small fragments, and we remove the short fragments with length of 100 of less with the <code>MINLEN:100</code> option.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">trim</span><span class="kw">:</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">trimmer</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">"TRAILING:20"</span><span class="kw">,</span><span class="at"> </span><span class="st">"MINLEN:100"</span><span class="kw">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">trim</span><span class="kw">:</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">trimmer</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">"TRAILING:20"</span><span class="kw">,</span><span class="at"> </span><span class="st">"MINLEN:100"</span><span class="kw">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>More documentation on trimmomatic’s options are in <a href="http://www.usadellab.org/cms/?page=trimmomatic">their website</a>. We run this module with:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-c4</span> trim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-c4</span> trim</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="clonotype-assembly" class="level3">
 <h3 class="anchored" data-anchor-id="clonotype-assembly">Clonotype assembly</h3>
 <p>The main line to pay attention in the config file is the <code>mixcr/params</code> line. We used:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">rna-seq --species dog -b imgt.202214-2 --rna</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">rna-seq --species dog -b imgt.202214-2 --rna</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>which means that our primers look line the <code>rna-seq</code> configuration from the MIXCR’s list of pre-set configurations. The species is <code>dog</code>, and the TCRB V and J gene sequences are obtained from the <code>imgt.202214-2</code> file (that we already downloaded and decompressed). MIXCR is very flexible, and <a href="https://mixcr.com/mixcr/reference/overview-mixins-list/">provides an extensive list of pre-set options</a>.</p>
 <p>The clonotypes are assembled using the command:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-c4</span> mixcr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-c4</span> mixcr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Using the rule:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-c4</span> repertoire_report</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-c4</span> repertoire_report</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>will generate the report until section, i.e.&nbsp;everything except the saturation analysis.</p>
 </section>
 <section id="sampling-of-the-sequencing-files-and-saturation-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="sampling-of-the-sequencing-files-and-saturation-analysis">Sampling of the sequencing files and saturation analysis</h3>
 <p>There are two fields that are important for this section:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seed</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="dv">54232</span><span class="kw">,</span><span class="at"> </span><span class="dv">65432</span><span class="kw">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seed</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="dv">54232</span><span class="kw">,</span><span class="at"> </span><span class="dv">65432</span><span class="kw">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>and</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saturation</span><span class="kw">:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saturation</span><span class="kw">:</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">samples</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">"run1_bio1_tech1"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run1_bio1_tech2"</span><span class="kw">]</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">bootstrap_replicates</span><span class="kw">:</span><span class="at"> </span><span class="dv">10</span><span class="co"> # 200  </span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">  # only one of block_size or nblocks is supposed to be Null</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">block_size</span><span class="kw">:</span><span class="at"> </span><span class="ch">Null</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">nblocks</span><span class="kw">:</span><span class="at"> </span><span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">nblocks</span><span class="kw">:</span><span class="at"> </span><span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This step samples pairs of sequences from the trimmed files corresponding to the <code>tech1</code> and <code>tech2</code> samples. The way it works is that for each random seed, it splits the paired sequence file into 10 blocks, in this case each block with 10% of the trimmed sequences, and then samples orderings among the 10 blocks. For example, an ordering could be <code>5, 4, 1, 2, 3, 6, 7, 8, 9, 10</code> and this will result with the 10% sequence file being block <code>5</code>, the 20% sequence file being blocks <code>5</code> and <code>4</code> together and so on.</p>
 <p>In general, this steps generated <code>nblocks</code> <span class="math inline">\(\times\)</span> <code>bootstrap_replicates</code> <span class="math inline">\(\times\)</span> <code># of seeds</code> paired-sequence files for each one of the <code>samples</code> that were defined. This means that in our current scenario, we are generating <span class="math inline">\(2 \times 2 \times 10 \times 10 = 400\)</span> pairs of files.</p>
 <p>This module is run using:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-c4</span> sampling</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-c4</span> sampling</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For this step we suggest to use few seeds, and don’t divide the files into too many blocks. Then, to assembly the clonotypes of these files, we run the saturation module using:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-c4</span> saturation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-c4</span> saturation</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="building-the-report" class="level3">
 <h3 class="anchored" data-anchor-id="building-the-report">Building the report</h3>
 <p>If the previous steps worked, then this is run using:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-c4</span> report</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-c4</span> report</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The <code>n_inter</code> field, is used to determine how many intersections to consider when plotting the # of shared clonotypes among samples.</p>
 <p>The details of the report are coded in the <code>summary</code> section of the configuration file:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span><span class="kw">:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span><span class="kw">:</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">min_count</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span><span class="co">    # min. # of times of repeats to consider a clonotype</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">vj_quantile</span><span class="kw">:</span><span class="at"> </span><span class="fl">.15</span><span class="co">    #  </span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">groups</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">"run1"</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">"run1_bio1_tech1"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run1_bio1_tech2"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run1_bio2_tech1"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run1_bio2_tech2"</span><span class="kw">],</span></span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">"run2"</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">"run2_bio1_tech1"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run2_bio1_tech2"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run2_bio2_tech1"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run2_bio2_tech2"</span><span class="kw">],</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">"run3"</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">"run3_bio1_tech1"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run3_bio1_tech2"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run3_bio2_tech1"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run3_bio2_tech2"</span><span class="kw">]}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">"run3"</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">"run3_bio1_tech1"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run3_bio1_tech2"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run3_bio2_tech1"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run3_bio2_tech2"</span><span class="kw">]}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The <code>groups</code> part indicate which samples correspond to each group. In this case, the groups correspond to biological replicates, but it may well correspond to conditions or any other characteristics considered in the experiment.</p>
 <p>The complete report is available in <a href="cases/canine_tcr/index.html">here</a>. For the saturation analysis, this will generate figures like <a href="#fig-saturation" class="quarto-xref">Figure&nbsp;2</a>. When the sequencing depth is too low, the growth is going to look approximately linear (like in the <code>run1</code> and <code>run2</code> panels), but if the # of sequences is adequate then the growth will show decreasing increments like in the <code>run3</code> panel.</p>
 <div class="cell">
@@ -425,7 +426,7 @@ Figure&nbsp;2: Saturation analysis for canine TCR control samples
 <section id="complete-configuration-file" class="level2">
 <h2 class="anchored" data-anchor-id="complete-configuration-file">Complete configuration file:</h2>
 <p>The complete <code>config.yaml</code> file looks like:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># general configuration files</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">samplefile</span><span class="kw">:</span><span class="at"> </span><span class="st">"samples.csv"</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">seed</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="dv">54232</span><span class="kw">,</span><span class="at"> </span><span class="dv">65432</span><span class="kw">]</span></span>
@@ -476,7 +477,7 @@ Figure&nbsp;2: Saturation analysis for canine TCR control samples
 <span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">groups</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span></span>
 <span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">"run1"</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">"run1_bio1_tech1"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run1_bio1_tech2"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run1_bio2_tech1"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run1_bio2_tech2"</span><span class="kw">],</span></span>
 <span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">"run2"</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">"run2_bio1_tech1"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run2_bio1_tech2"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run2_bio2_tech1"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run2_bio2_tech2"</span><span class="kw">],</span></span>
-<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">"run3"</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">"run3_bio1_tech1"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run3_bio1_tech2"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run3_bio2_tech1"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run3_bio2_tech2"</span><span class="kw">]}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">"run3"</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">"run3_bio1_tech1"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run3_bio1_tech2"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run3_bio2_tech1"</span><span class="kw">,</span><span class="at"> </span><span class="st">"run3_bio2_tech2"</span><span class="kw">]}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
@@ -539,13 +540,14 @@ Figure&nbsp;2: Saturation analysis for canine TCR control samples
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
